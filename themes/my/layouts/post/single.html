@@ -1,3 +1,4 @@
+{{"<!-- SOURCE: themes/my/layouts/post/single.html //-->" | safeHTML}}
 {{ partial "header.html" . }}
 
 <div class="header">
@@ -9,13 +10,13 @@
   {{ partial "post_meta.html" . }}
 
   {{ .Content }}
-  
+
   {{ partial "share.html" . }}
 
   {{ partial "prev_next_post.html" . }}
-  
+
   {{ partial "commento.html" . }}
-  
+
   {{ partial "disqus.html" . }}
 
   {{ partial "telegram.html" . }}

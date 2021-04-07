@@ -1,10 +1,9 @@
-{{"<!-- SOURCE: themes/my/layouts/post/post.html //-->" | safeHTML}}
+{{"<!-- SOURCE: layouts/de.html //-->" | safeHTML}}
 {{ partial "header.html" . }}
-
 <div class="header">
-  <h1>{{ .Title }}</h1>
+  <h1>Deutsche Beiträge</h1>
+  <p>Schau auch nach den <a href="/en/">englischen Beiträgen</a>.</p>
 </div>
-
 <div class="content">
   {{ range .Data.Pages.GroupByDate "2006" }}
   <h2>{{ .Key }}</h2>
@@ -15,5 +14,4 @@
   </ul>
   {{ end }}
 </div>
-
 {{ partial "footer.html" . }}

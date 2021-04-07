@@ -11,6 +11,7 @@ pygmentsstyle = "colorful"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 googleAnalytics = ""
+canonifyurls = true
 
 [indexes]
 tag = "tags"
@@ -18,40 +19,51 @@ topic = "topics"
 
 [params]
 subtitle = ""
-
-
-# Use homepage.md instead of a list of posts
-homepage = false
 keywords = ["Linux","Emacs","Amateurfunk","Elektronik"]
-#favicon = true
-#mainSections = ["post"]
-dateFormat = "02.01.2006"
+favicon = true
+dateFormat = "2006-01-02"
 
-# Navigation
-# [[menu.main]]
-# name = "English"
-# url = "/en"
-# weight = 1
 
-# [[menu.main]]
-# name = "Deutsch"
-# url = "/de"
-# weight = 2
 
-# [[menu.main]]
-# name = "Tags"
-# url = "/tags"
-# weight = 3
+[[menu.main]]
+name = "Home"
+url = "/"
+pre = "<i class='fa fa-home fa-fw'></i>"
+identifier = "home"
+weight = 1
 
-# [[menu.main]]
-# name = "Topics"
-# url = "/topics"
-# weight = 4
+[[menu.main]]
+name = "Articles"
+url = "/en/"
+pre = "<i class='fa fa-list fa-fw'></i>"
+weight = 2
 
-# [[menu.main]]
-# name = "Impressum"
-# url = "/impressum"
-# weight = 5
+[[menu.main]]
+name = "Beiträge"
+url = "/de/"
+pre = "<i class='fa fa-list fa-fw'></i>"
+weight = 3
+
+[[menu.main]]
+name = "Topics"
+url = "/topics/"
+pre = "<i class='fa fa-folder fa-fw'></i>"
+identifier = "topics"
+weight = 4
+
+[[menu.main]]
+name = "Tags"
+url = "/tags/"
+pre = "<i class='fa fa-tags fa-fw'></i>"
+identifier = "tags"
+weight = 5
+
+[[menu.main]]
+name = "Impressum"
+url = "/impressum/"
+pre = "<i class='fa fa-phone fa-fw'></i>"
+identifier = "impressum"
+weight = 6
 
 # Social Menu
 #[[params.social]]

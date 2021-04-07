@@ -1,14 +1,15 @@
+{{"<!-- SOURCE: themes/my/layouts/_default/section.html //-->" | safeHTML}}
 {{ define "main" }}
   <main>
       {{ .Content }}
           <ul class="contents">
-          {{ range .Paginator.Pages }}
+          {{- range .Paginator.Pages -}}
               <li>{{.Title}}
                   <div>
                     {{ partial "summary.html" . }}
                   </div>
               </li>
-          {{ end }}
+          {{- end -}}
           </ul>
       {{ partial "pagination.html" . }}
   </main>
