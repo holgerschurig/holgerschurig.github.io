@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>org-mode on Holger Schurig's Computer Calisthenics &amp; Orthodontia</title><link>http://holgerschurig.github.io/tags/org-mode/</link><description>Recent content in org-mode on holgerschurig.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 12 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://holgerschurig.github.io/tags/org-mode/index.xml" rel="self" type="application/rss+xml"/><item><title>Efficiently untangling Elisp from .org files</title><link>http://holgerschurig.github.io/en/emacs-efficiently-untangling-elisp/</link><pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate><guid>http://holgerschurig.github.io/en/emacs-efficiently-untangling-elisp/</guid><description>
-Many people keep their Emacs config in and org-mode file because it’s easier to manage.
-However, we need to extract the Elisp parts out of …</description></item><item><title>Blog from Org-Mode to Hugo</title><link>http://holgerschurig.github.io/en/emacs-blog-from-org-to-hugo/</link><pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate><guid>http://holgerschurig.github.io/en/emacs-blog-from-org-to-hugo/</guid><description>
-I use the static web-site generator Hugo to create my home page. I also use Emacs as my main editor. Hugo is good with Markdown. Emacs is …</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>org-mode on Holger Schurig's Computer Calisthenics &amp; Orthodontia</title><link>http://holgerschurig.github.io/tags/org-mode/</link><description>Recent content in org-mode on Holger Schurig's Computer Calisthenics &amp; Orthodontia</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 12 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://holgerschurig.github.io/tags/org-mode/index.xml" rel="self" type="application/rss+xml"/><item><title>Efficiently untangling Elisp from .org files</title><link>http://holgerschurig.github.io/en/emacs-efficiently-untangling-elisp/</link><pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate><guid>http://holgerschurig.github.io/en/emacs-efficiently-untangling-elisp/</guid><description>&lt;p>Many people keep their Emacs config in and org-mode file because it’s
+easier to manage.&lt;/p>
+&lt;p>However, we need to extract the Elisp parts out of the org file and
+evaluate them somehow. org-mode has a built-in command for this:
+&lt;code>(org-babel-load-file &amp;quot;config.org&amp;quot;)&lt;/code>. However, this is an org-mode
+command, and org-mode is huge. So your init.el needs to load a good
+amount of org-mode just to get the elisp out of it.
+But to be able to do this you’d
+need to load a good amount of the org-mode file.&lt;/p>
+&lt;p>I wanted to have something better. Something that is flexible and
+gives me a quicker startup time.&lt;/p></description></item><item><title>Blog from Org-Mode to Hugo</title><link>http://holgerschurig.github.io/en/emacs-blog-from-org-to-hugo/</link><pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate><guid>http://holgerschurig.github.io/en/emacs-blog-from-org-to-hugo/</guid><description>&lt;p>I use the static web-site generator &lt;a href="https://gohugo.io/">Hugo&lt;/a> to create my home page. I
+also use &lt;a href="https://www.gnu.org/software/emacs/">Emacs&lt;/a> as my main editor. Hugo is good with &lt;a href="https://help.github.com/categories/writing-on-github/">Markdown&lt;/a>. Emacs is
+good at Markdown, too. But much better with &lt;a href="http://orgmode.org/">Org-Mode&lt;/a>.&lt;/p>
+&lt;p>If you want …&lt;/p>
+&lt;ul>
+&lt;li>export one &lt;code>.org&lt;/code> file as one web page, look at Giles Paterson
+&lt;a href="https://vurt.co.uk/post/blogging-with-emacs-and-hugo/">solution&lt;/a>&lt;/li>
+&lt;li>export just a subtree of an org-file (e.g. from your org-based Emacs
+configuration), then look here.&lt;/li>
+&lt;/ul></description></item></channel></rss>
