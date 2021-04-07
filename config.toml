@@ -23,11 +23,9 @@ subtitle = ""
 # Use homepage.md instead of a list of posts
 homepage = false
 keywords = ["Linux","Emacs","Amateurfunk","Elektronik"]
-math = true
 #favicon = true
 #mainSections = ["post"]
 dateFormat = "02.01.2006"
-highlightjs = "androidstudio"
 
 # Navigation
 # [[menu.main]]
