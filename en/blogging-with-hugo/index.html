@@ -1,0 +1,45 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="Blogging with Hugo"><meta name=keywords content="Hugo,Blogging"><meta name=description content="Describes how I make this blog and about the used theme."><meta property="og:title" content="Blogging with Hugo"><meta property="og:description" content="Describes how I make this blog and about the used theme."><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/blogging-with-hugo/"><meta property="article:section" content="en"><meta property="article:published_time" content="2016-04-01T00:00:00+00:00"><meta property="article:modified_time" content="2016-04-01T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Blogging with Hugo"><meta name=twitter:description content="Describes how I make this blog and about the used theme."><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>Blogging with Hugo | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>01</span>
+<span class=rest>Apr 2016</span></div></div><div class=matter><h1 class=title>Blogging with Hugo</h1></div></div><div class=markdown><p>I wrote my home page with various tools &mldr;</p><h2 id=pure-html>Pure HTML</h2><p>At the beginning, I used HTML and <code>.shtml</code> include files</p><p>Apache was told to process html include files, and I had the boilerplate and bottom in such
+files and included them from the per-page HTML files.</p><h2 id=webber>Webber</h2><p>Later I switched to Webber. That was a python written open-source software that I published
+on gitorious.org. The original gitorious is now down, but you find the git tree still at
+<a href=https://gitorious.org/webber/webber,>https://gitorious.org/webber/webber,</a> where an archive team resurrected the public git trees.</p><p>Webber has support for building &ldquo;bread crumps&rdquo; and menus at will. It
+also had support for plugins. And it also was quite slow and almost
+only used by myself.</p><h2 id=pelican>Pelican</h2><p>Much better maintained, and because of the plugins more powerful is, of course, the python
+based <a href=http://docs.getpelican.com/ target=_blank>Pelican</a> static web site generator. I used for some time,
+but only a few pages. Because then I detected &mldr;</p><h2 id=hugo>Hugo</h2><p>Hugo is blazingly fast, probably because it isn&rsquo;t written in some
+interpreted, garbage collected language.</p><p>However, compared to plugin-based static website generators it is more
+limited. Some things, that should be easy, are more complex. Some
+things are even impossible. And it&rsquo;s templating engine is nowhere near
+as nice as <a href=http://jinja.pocoo.org/docs/dev/ target=_blank>Jinja2</a>, which is used
+by both Pelican and Webber.</p><p>Equations in templates are especially annoying &mldr; and surprising. For
+example, you don&rsquo;t write</p><pre><code>{{if &quot;/de/&quot; in .URLPath.URL}}
+</code></pre><p>but you have to write:</p><pre><code>{{if in &quot;/de/&quot; .URLPath.URL}}
+</code></pre><p>It&rsquo;s a bit like Forth, just upside down. But then not really Forth,
+because there are parenthesis there, too.</p><p>And still Hugo seems to suit my needs.</p><h1 id=structure>Structure</h1><p>I use my own
+<a href="https://bitbucket.org/holgerschurig/hpg/src/b51e2a347bf841a9d36ed94940d9d5e60b8e6296/themes/my/?at=master" target=_blank>theme</a>,
+which is based on Hugo&rsquo;s
+<a href=http://themes.gohugo.io/theme/blackburn/tags/hugo target=_blank>Blackburn</a> theme.</p><p>I simplified the
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/layouts/partials/sidemenu.html?at=master&fileviewer=file-view-default" target=_blank>sidemenu.html</a>
+partial, massages the CSS a bit and simplified things. Blackburn&rsquo;s side-menu.css
+mixes styling of the side-menu with styling of the block contents. I removed all of this and concentrated
+the styling of my contents into
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/themes/my/static/css/my.css?at=master&fileviewer=file-view-default" target=_blank>themes/my/static/css/my.css</a></p><p>I went with the taxonomies &ldquo;Topics&rdquo; and &ldquo;Tags&rdquo; instead of &ldquo;Categories&rdquo;
+and &ldquo;Tags&rdquo;, just for aesthetics.</p><p>However, I want to have a bilingual site. So I decided to use two
+<a href=https://gohugo.io/content/types/ target=_blank>Hugo Types</a>. One is named &ldquo;de&rdquo; for
+german texts, the other one &ldquo;en&rdquo;. Each type got it&rsquo;s own index page, see
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/layouts/indexes/de.html?at=master&fileviewer=file-view-default" target=_blank>layouts/indexes/de.html</a>
+and
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/layouts/indexes/en.html?at=master&fileviewer=file-view-default" target=_blank>layouts/indexes/en.html</a>. And I wrote a main
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/layouts/index.html?at=master&fileviewer=file-view-default" target=_blank>layouts/index.html</a> file
+that will show the newest 4 articles from each type.</p><h2 id=writing>Writing</h2><p>I write blog pages either with <a href=https://www.gnu.org/software/emacs/ target=_blank>Emacs</a>´ <a href=http://jblevins.org/projects/markdown-mode/ target=_blank>markdown-mode</a>. Or I
+<a href=../../en/emacs-blog-from-org-to-hugo/>publish single subtrees</a> directly from my Emacs' configuration,
+which happens to be stored in an <a href=http://orgmode.org/ target=_blank>Org-Mode</a> file.</p><h2 id=hosting>Hosting</h2><p>Together with my DSL account I have a home page at 1&1 internet. They provide me
+FTP access. I use <a href=../../en/blogging-with-sitecopy/>sitecopy</a> to update
+those pages.</p><h1 id=hugo-tricks>Hugo tricks</h1><h2 id=html-comments>HTML comments</h2><p>Hugo normally eats all comments, but this code in a (full or partial)
+template will render a HTML comment:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>{{&#34;&lt;!-- SOURCE: index.html //--&gt;&#34; | safeHTML}}
+</code></pre></div><h2 id=setting-language-code>Setting language code</h2><p>I couldn&rsquo;t simply access the language code in my
+<a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/themes/my/layouts/partials/header.html?at=master&fileviewer=file-view-default" target=_blank>themes/my/layouts/partials/header.html</a>
+partial. This generated error on pages like tags index.</p><p>And so reverted to parsing the URL and only switch the language code
+to german if the path says so:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>&lt;html lang=&#34;{{if in &#34;/de/&#34; .URLPath.URL}}de{{else}}en{{end}}&#34;&gt;
+</code></pre></div></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/blogging/>blogging</a>
+<a href=../../tags/hugo/>hugo</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/linux/>linux</a></p></div><div class=clearit></div></div></div></main></body></html>

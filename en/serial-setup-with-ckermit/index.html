@@ -1,0 +1,63 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="Serial setup with C-Kermit"><meta name=keywords content="Kermit,Miniterm,Putty,Serial"><meta property="og:title" content="Serial setup with C-Kermit"><meta property="og:description" content="When you work with embedded devices (e.g. SabreLite, Arduino,
+Raspberry Pi) you often need to work over a serial port, e.g. to
+customize the Barebox or U-Boot boot loader.
+On Linux, people often use &ldquo;minicom&rdquo; for this. Other options are
+&ldquo;Putty&rdquo; (yes, it&rsquo;s not a Windows-only program, try &ldquo;apt-get install putty&#34;) or even the ancient C-Kermit.
+Surprisingly I found that Kermit suits my work-flow the best, when
+properly configured."><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/serial-setup-with-ckermit/"><meta property="article:section" content="en"><meta property="article:published_time" content="2016-04-01T00:00:00+00:00"><meta property="article:modified_time" content="2016-04-01T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Serial setup with C-Kermit"><meta name=twitter:description content="When you work with embedded devices (e.g. SabreLite, Arduino,
+Raspberry Pi) you often need to work over a serial port, e.g. to
+customize the Barebox or U-Boot boot loader.
+On Linux, people often use &ldquo;minicom&rdquo; for this. Other options are
+&ldquo;Putty&rdquo; (yes, it&rsquo;s not a Windows-only program, try &ldquo;apt-get install putty&#34;) or even the ancient C-Kermit.
+Surprisingly I found that Kermit suits my work-flow the best, when
+properly configured."><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>Serial setup with C-Kermit | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>01</span>
+<span class=rest>Apr 2016</span></div></div><div class=matter><h1 class=title>Serial setup with C-Kermit</h1></div></div><div class=markdown><p>When you work with embedded devices (e.g. SabreLite, <a href=../../tags/arduino/>Arduino</a>,
+<a href=../../tags/raspi/>Raspberry Pi</a>) you often need to work over a serial port, e.g. to
+customize the Barebox or U-Boot boot loader.</p><p>On Linux, people often use &ldquo;<em>minicom</em>&rdquo; for this. Other options are
+&ldquo;<em>Putty</em>&rdquo; (yes, it&rsquo;s not a Windows-only program, try &ldquo;<code>apt-get install putty</code>") or even the ancient <a href=http://www.kermitproject.org target=_blank>C-Kermit</a>.
+Surprisingly I found that Kermit suits my work-flow the best, when
+properly configured.</p><p>The reason: Kermit doesn&rsquo;t come into my way. No menu, no
+interpretation of escape codes (so urxvt does that), no nothing.</p><h2 id=installation>Installation</h2><p>On Debian, installation is as easy as:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>apt-get install ckermit
+</code></pre></div><h2 id=configuration>Configuration</h2><p>Place this into <code>~/.kermrm</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>set line /dev/ttyS0
+set baud 115200
+set handshake none
+set flow-control none
+set carrier-watch off
+set escape-character ^X
+log session ~/.kermlog
+connect
+
+</code></pre></div><ul><li>set serial port (if you don&rsquo;t have a real RS232, use <code>/dev/ttyUSB0</code>
+instead)</li><li>set baud rate. We have the year 2016, so there&rsquo;s no need to run
+anything slower than 115200 baud nowadays. Even Windows 7 (or newer)
+can nowadays use this baud rate.</li><li>turn all handshaking off. Embedded devices often only use 3 wires
+(<code>RXD</code>, <code>TXD</code> and <code>GND</code>) for their communications anyway.</li><li>for the same reason, turn of carrier detection</li><li>allow &ldquo;<code>Ctrl-X</code>&rdquo; as an escape character</li><li>write a log of the whole transaction to <code>~/.kermlog</code></li><li>and connect</li></ul><h2 id=keyboard-control>Keyboard control</h2><p>When I want to disconnect, I type &ldquo;<code>Ctrl-X q</code>&rdquo; (q like quit).</p><p>If i ever want to get to Kermit command prompt (which I almost never
+do), then &ldquo;<code>Ctrl-X c</code>&rdquo; does the trick.</p><h2 id=example>Example</h2><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>schurig@desktop:~$ kermit
+Connecting to /dev/ttyS0, speed 115200
+ Escape character: Ctrl-X (ASCII 24, CAN): enabled
+Type the escape character followed by C to get back,
+or followed by ? to see other options.
+Session Log: /home/schurig/.kermlog, text (0) 
+----------------------------------------------------
+Barebox: version 2015.12.0, git 2016-03.1-84-g18146e8
+info: FPGA v35
+info: CPU board v5
+info: Front board v8
+info: MIL connector board v1
+info: Expansion board v0
+info: strap-id forces DVB2A/BUCK2 for LCD
+info: PIC .10:  boot v0.0, application v0.6
+
+Interrupt boot with any command:  3
+
+Helpful commands:
+
+	help  and  help &lt;COMMAND&gt;
+	boot sdcard
+	boot emmc
+
+barebox:/
+</code></pre></div></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/kermit/>kermit</a>
+<a href=../../tags/miniterm/>miniterm</a>
+<a href=../../tags/putty/>putty</a>
+<a href=../../tags/serial/>serial</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/linux/>linux</a></p></div><div class=clearit></div></div></div></main></body></html>

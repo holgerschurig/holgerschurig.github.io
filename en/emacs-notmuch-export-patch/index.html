@@ -1,0 +1,53 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="Export patches from Emacs' Notmuch"><meta name=keywords content="Emacs,notmuch"><meta property="og:title" content="Export patches from Emacs' Notmuch"><meta property="og:description" content="I’m reading several linux-kernel related mailing lists. They are full of proposed patches. And from time to time a few of them look interesting. So I wanted to have an easy (and fast) solution of exporting those patches: with a keystroke, and without the need of specifying patch names.
+Format of a patch email If you ever contributed a patch to Linux, you’d know that your patch must follow some formatting rules, or it might be ignored."><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/emacs-notmuch-export-patch/"><meta property="article:section" content="en"><meta property="article:published_time" content="2017-01-15T00:00:00+00:00"><meta property="article:modified_time" content="2017-01-15T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Export patches from Emacs' Notmuch"><meta name=twitter:description content="I’m reading several linux-kernel related mailing lists. They are full of proposed patches. And from time to time a few of them look interesting. So I wanted to have an easy (and fast) solution of exporting those patches: with a keystroke, and without the need of specifying patch names.
+Format of a patch email If you ever contributed a patch to Linux, you’d know that your patch must follow some formatting rules, or it might be ignored."><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>Export patches from Emacs' Notmuch | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>15</span>
+<span class=rest>Jan 2017</span></div></div><div class=matter><h1 class=title>Export patches from Emacs' Notmuch</h1></div></div><div class=markdown><p>I’m reading several linux-kernel related mailing lists. They are full
+of proposed patches. And from time to time a few of them look
+interesting. So I wanted to have an easy (and fast) solution of
+exporting those patches: with a keystroke, and without the need
+of specifying patch names.</p><h1 id=format-of-a-patch-email>Format of a patch email</h1><p>If you ever contributed a patch to <strong>Linux</strong>, you’d know that your patch
+must follow some formatting rules, or it might be ignored. Some of those
+rules are import for my purpose:</p><ul><li>if a patch isn’t self, consistent, it should have some 1/4 (1 of 4)
+marking in the subject</li><li>patches must have a [PATCH …] tag at the start of the subject.</li><li>patches must be directly in the e-mail text, not in an attachment.
+This effectively means that I don’t have to deal with MIME parts.</li></ul><p>Here are two examples of such email subjects:</p><pre><code>[PATCH] mmc: host: use pr_err for sdhci_dumpregs
+[PATCH 3/9] clocksource/drivers/rockchip_timer: Convert init function to return error
+</code></pre><h1 id=implementation>Implementation</h1><p>Let’s define some local variables:</p><pre><code>(defun my-notmuch-export-patch ()
+  (interactive)
+  (let* ((from (notmuch-show-get-from))
+         (date (notmuch-show-get-date))
+         (subject (notmuch-show-get-subject))
+         (id (notmuch-show-get-message-id))
+         (filename subject)
+         (patchnum))
+</code></pre><p>The first step is to extract the patch number:</p><pre><code>(when (string-match &quot;\\[PATCH.+?0*\\([0-9]+\\)/[0-9]+\\]&quot; filename)
+  (setq patchnum (string-to-number (match-string 1 filename))))
+</code></pre><p>We now do the following steps with the raw subject:</p><ul><li>remove the optional [PATCH …] prefix</li><li>replace everything that are not letters/digits with a dash</li><li>convert consecutive dashes into one dash</li><li>make sure we don’t have a dash at the start</li><li>make sure we don’t have a dash at the end</li></ul><p>So let’s do this:</p><pre><code>(setq filename (replace-regexp-in-string &quot;\\[PATCH.*\\]&quot; &quot;&quot; filename))
+(setq filename (replace-regexp-in-string &quot;\[^a-zA-Z0-9]&quot; &quot;-&quot; filename))
+(setq filename (replace-regexp-in-string &quot;\\-+&quot; &quot;-&quot; filename))
+(setq filename (replace-regexp-in-string &quot;^-&quot; &quot;&quot; filename))
+(setq filename (replace-regexp-in-string &quot;-$&quot; &quot;&quot; filename))
+</code></pre><p>Prepend the patchnum to the future filename:</p><pre><code>(when patchnum
+  (setq filename (concat (format &quot;%04d&quot; patchnum) &quot;-&quot; filename)))
+</code></pre><p>And prepend a directory as well:</p><pre><code>(setq filename (concat &quot;/tmp/&quot; filename &quot;.patch&quot;))
+</code></pre><p>And now we need write things out.</p><p>First we create a temporary buffer and insert some of message properties
+as a header.</p><p>Then we need to get the actual patch. In a non-MIME-encoded e-mail,
+the text is the (sic!) MIME part 1. We call the notmuch binary to give
+us back this text and insert it into the buffer as well. Note: the <code>t</code>
+as the 3rd argument to <code>(call-process</code> makes the output of the notmuch
+command end in the current buffer.</p><p>Finally I write this buffer to a file and kill the buffer.
+buffer.</p><pre><code>(save-excursion
+  (let ((buf (generate-new-buffer (concat &quot;*notmuch-export-patch-&quot; id &quot;*&quot;))))
+    (with-current-buffer buf
+      (insert (format &quot;Subject: %s\n&quot; subject))
+      (insert (format &quot;From: %s\n&quot; from))
+      (insert (format &quot;Date: %s\n&quot; date))
+      (insert (format &quot;Message-Id: %s\n\n&quot; (substring id 3)))
+      (let ((coding-system-for-read 'no-conversion))
+        (call-process notmuch-command nil t nil &quot;show&quot; &quot;--part:1&quot; id))
+      (write-file filename))
+    (kill-buffer buf)))))
+</code></pre><p>Done!</p><h1 id=keybinding>Keybinding</h1><p>And the last step is to bind this to some keys. As the function works
+both in tree-view and in message-show mode, I bind it to both places.</p><pre><code>(define-key notmuch-show-mode-map &quot;x&quot; #'my-notmuch-export-patch)
+(define-key notmuch-tree-mode-map &quot;x&quot; #'my-notmuch-export-patch)
+</code></pre></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/emacs/>emacs</a>
+<a href=../../tags/notmuch/>notmuch</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/emacs/>emacs</a></p></div><div class=clearit></div></div></div></main></body></html>

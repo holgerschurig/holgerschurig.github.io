@@ -1,0 +1,178 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="notmuch: polling mail with mbsync"><meta name=keywords content="notmuch,mbsync"><meta property="og:title" content="notmuch: polling mail with mbsync"><meta property="og:description" content="In this blog post I describe how I configured mbsync 1.3.0 and
+notmuch 0.22 so that they get my mail out of GMail&rsquo;s IMAP service."><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/notmuch-polling-with-mbsync/"><meta property="article:section" content="en"><meta property="article:published_time" content="2016-05-02T00:00:00+00:00"><meta property="article:modified_time" content="2016-05-02T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="notmuch: polling mail with mbsync"><meta name=twitter:description content="In this blog post I describe how I configured mbsync 1.3.0 and
+notmuch 0.22 so that they get my mail out of GMail&rsquo;s IMAP service."><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>notmuch: polling mail with mbsync | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>02</span>
+<span class=rest>May 2016</span></div></div><div class=matter><h1 class=title>notmuch: polling mail with mbsync</h1></div></div><div class=markdown><p>In this blog post I describe how I configured <code>mbsync</code> 1.3.0 and
+<code>notmuch</code> 0.22 so that they get my mail out of GMail&rsquo;s IMAP service.</p><h2 id=systemd-units>Systemd units</h2><p>I want to have systemd poll mail for me every our. As I disabled
+per-user systemd services, I wrote the following two unit files for
+the system systemd:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># /etc/systemd/system/mbsync.timer
+
+[Unit]
+Description=Mailbox synchronization timer
+
+[Timer]
+OnCalendar=*-*-* 00/1:00:00
+Persistent=true
+Unit=mbsync.service
+
+[Install]
+WantedBy=timers.target
+</code></pre></div><p>and</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># /etc/systemd/system/mbsync.service 
+
+[Unit]
+Description=Mailbox synchronization service
+
+[Service]
+Type=oneshot
+ExecStart=/home/schurig/bin/pollmail.sh
+User=schurig
+</code></pre></div><h2 id=propagate-mail-deletions>Propagate mail deletions</h2><p>My Emacs notmuch client tags mails to be deleted with <code>+deleted</code>. And
+this here deletes them for real. This is based on the
+<a href=https://notmuchmail.org/excluding/ target=_blank>Excluding</a> entry of the notmuch
+wiki:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>propagate_deletions<span style=color:#333>()</span>
+<span style=color:#333>{</span>
+	<span style=color:#007020>local</span> <span style=color:#963>COUNT</span><span style=color:#333>=</span><span style=background-color:#fff0f0>`</span>notmuch count tag:deleted<span style=background-color:#fff0f0>`</span>
+	<span style=color:#007020>test</span> <span style=background-color:#fff0f0>&#34;</span><span style=color:#963>$COUNT</span><span style=background-color:#fff0f0>&#34;</span> <span style=color:#333>=</span> <span style=color:#60e;font-weight:700>0</span> <span style=color:#333>&amp;&amp;</span> <span style=color:#080;font-weight:700>return</span>
+	<span style=color:#007020>echo</span> <span style=background-color:#fff0f0>&#34;- deleting </span><span style=color:#963>$COUNT</span><span style=background-color:#fff0f0> messages ...&#34;</span>
+	notmuch search --format<span style=color:#333>=</span>text0 --output<span style=color:#333>=</span>files tag:deleted | xargs -0 --no-run-if-empty rm
+<span style=color:#333>}</span>
+</code></pre></div><h2 id=get-new-mail>Get new mail</h2><p>I used <code>offlineimap</code> for some time, but now I switched to <code>mbsync</code>
+1.3.0 for it. I like it slighly better.</p><p>Because I don&rsquo;t want to only get new mails, but also &ldquo;mangle&rdquo; the mail
+in defined ways, I wrote a <code>~/bin/pollmail.sh</code> helper script.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>sync_mail<span style=color:#333>()</span>
+<span style=color:#333>{</span>
+	<span style=color:#007020>local</span> CHANNELS
+
+	<span style=color:#080;font-weight:700>if</span> <span style=color:#333>[</span> -z <span style=background-color:#fff0f0>&#34;</span><span style=color:#963>$*</span><span style=background-color:#fff0f0>&#34;</span> <span style=color:#333>]</span>; <span style=color:#080;font-weight:700>then</span>
+		<span style=color:#963>CHANNELS</span><span style=color:#333>=</span><span style=background-color:#fff0f0>`</span>awk <span style=background-color:#fff0f0>&#39;/^Channel/ { print $2; }&#39;</span> .mbsyncrc<span style=background-color:#fff0f0>`</span>
+	<span style=color:#080;font-weight:700>else</span>
+		<span style=color:#963>CHANNELS</span><span style=color:#333>=</span><span style=background-color:#fff0f0>&#34;</span><span style=color:#963>$*</span><span style=background-color:#fff0f0>&#34;</span>
+	<span style=color:#080;font-weight:700>fi</span>
+
+	<span style=color:#080;font-weight:700>for</span> i in <span style=color:#963>$CHANNELS</span>; <span style=color:#080;font-weight:700>do</span>
+		<span style=color:#007020>echo</span> <span style=background-color:#fff0f0>&#34;- syncing mail in </span><span style=color:#963>$i</span><span style=background-color:#fff0f0>&#34;</span>
+		mbsync <span style=color:#963>$i</span>
+	<span style=color:#080;font-weight:700>done</span>
+<span style=color:#333>}</span>
+</code></pre></div><p>There&rsquo;s a reason why I use the <code>mbsync &lt;channel></code> calling variant over
+<code>mbsync &lt;group></code>. When mbsync takes a long time for syncing, I
+wouldn&rsquo;t (in the group-version) not see where it uses up it&rsquo;s time.
+But when iterating over the channels like above there is an echo for
+each processed channel in the systemd journal.</p><h2 id=ignoring-uninteresting-mail>Ignoring uninteresting mail</h2><p>I&rsquo;ve written an extra blog entry about <a href=../../en/notmuch-mark-uninteresting>this</a>.</p><h2 id=binding-it-all-together>Binding it all together</h2><p>The final part is the <code>getops</code>-based mini-logic of the script. It behaves like this:</p><ul><li>when I run it without any command line arguments it does all: delete mail, get
+new mail, import mail into notmuch, mark uninteresting</li><li>calling it with <code>-d</code> only delete mails and then stops</li><li>callit it with <code>-u</code> only marks uninteresing mail and then stops. I use this
+when I add new uninteresting terms.</li></ul><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=color:#963>DO_STOP</span><span style=color:#333>=</span><span style=color:#007020>false</span>
+<span style=color:#080;font-weight:700>while</span> <span style=color:#007020>getopts</span> <span style=background-color:#fff0f0>&#34;sud&#34;</span> opt; <span style=color:#080;font-weight:700>do</span>
+	<span style=color:#080;font-weight:700>case</span> <span style=color:#963>$opt</span> in
+		d<span style=color:#333>)</span>
+			<span style=color:#963>DO_STOP</span><span style=color:#333>=</span><span style=color:#007020>true</span>
+			propagate_deletions
+			;;
+		u<span style=color:#333>)</span>
+			<span style=color:#963>DO_STOP</span><span style=color:#333>=</span><span style=color:#007020>true</span>
+			mark_uninteresting
+			;;
+		<span style=color:#666;background-color:#fff0f0;font-weight:700>\?</span><span style=color:#333>)</span>
+			<span style=color:#007020>echo</span> <span style=background-color:#fff0f0>&#34;Invalid option: -</span><span style=color:#963>$OPTARG</span><span style=background-color:#fff0f0>&#34;</span> &gt;&amp;<span style=color:#60e;font-weight:700>2</span>
+			;;
+	<span style=color:#080;font-weight:700>esac</span>
+<span style=color:#080;font-weight:700>done</span>
+<span style=color:#007020>test</span> <span style=background-color:#fff0f0>&#34;</span><span style=color:#963>$DO_STOP</span><span style=background-color:#fff0f0>&#34;</span> <span style=color:#333>==</span> <span style=color:#007020>true</span> <span style=color:#333>&amp;&amp;</span> <span style=color:#007020>exit</span> <span style=color:#60e;font-weight:700>0</span>
+
+<span style=color:#007020>shift</span> <span style=color:#080;font-weight:700>$((</span>OPTIND-1<span style=color:#080;font-weight:700>))</span>
+
+
+propagate_deletions
+sync_mail <span style=background-color:#fff0f0>&#34;</span><span style=color:#963>$*</span><span style=background-color:#fff0f0>&#34;</span>
+<span style=color:#007020>echo</span> <span style=background-color:#fff0f0>&#34;- loading new mails into notmuch&#34;</span>
+notmuch new
+mark_uninteresting
+</code></pre></div><h2 id=mbsyncrc>.mbsyncrc</h2><p>This all works together with the following <code>~/.mbsyncrc</code> file:</p><h2 id=storing-state>Storing state</h2><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+SyncState *
+</code></pre></div><p>This makes <code>mbsync</code> store it&rsquo;s metadata in <code>.mail/*/.mbsyncstate</code>. We can in turn make notmuch
+ignore this by adding this to <code>~/.notmuch-config</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.notmuch-config
+
+[new]
+ignore=.uidvalidity;.mbsyncstate
+</code></pre></div><p>Storing state in the subdirectory is nice because you can then simply
+run <code>rm -rf ~/.mail/powertop</code> to get rid of the powertop mails
+including their state.</p><h2 id=speed-not-reliability>Speed, not reliability</h2><p>As GMail is nice to save all of my e-mails in their data-centers, I don&rsquo;t need
+ultra reliability here. I always can re-create the mails if in need.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+Fsync no
+</code></pre></div><h2 id=default-settings-for-all-channels>Default settings for all channels</h2><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+CopyArrivalDate yes
+Create Slave
+Sync All
+Expunge Both
+</code></pre></div><ul><li><code>CopyArrivalDate</code> is an attempt to keep the time-stamp based sorting intact</li><li><code>Create</code> makes sure that mbsync will automatically create
+<code>~/.mail/$channelname</code> if not already present</li><li><code>Sync</code> makes sure that all IMAP attributes will be synchronized</li><li><code>Expunge</code> makes sure that removed local files in the Maildir folder
+will be removed from IMAP as well &mldr; and vica verca</li></ul><h2 id=imap-account>IMAP account</h2><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+IMAPAccount gmail
+	Host imap.gmail.com
+	User holgerschurig@gmail.com
+	PassCmd &#34;awk -F &#39;\&#34;&#39; &#39;/imap/ { print $2 }&#39; ~/.authinfo&#34;
+	SSLType IMAPS
+	CertificateFile /etc/ssl/certs/ca-certificates.crt
+</code></pre></div><p>The above line works because I have an <code>~/.authinfo</code> file that roughly looks like this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># ~/.authinfo
+
+machine imap.gmail.com login holgerschurig@gmail.com password &#34;secret&#34; port imaps
+machine smtp.gmail.com login holgerschurig@gmail.com password &#34;secret&#34; port 587
+</code></pre></div><p>That&rsquo;s a remnant from the times where I used GNUS for e-mail. But as it&rsquo;s still there,
+let&rsquo;s re-use it.</p><h2 id=mail-stores>Mail stores</h2><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+MaildirStore local
+	Subfolders Verbatim
+	Path /home/schurig/.mail/
+	Inbox /home/schurig/.mail/INBOX
+	Trash /home/schurig/.mail/trash
+
+IMAPStore remote
+	Account gmail
+</code></pre></div><h2 id=channels>Channels</h2><p>One channel, &ldquo;trash&rdquo;, needs special treatment. Because this because Google Mail
+exposes localized names into their IMAP folder names. I need to rename this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+Channel trash
+	Master :remote:&#34;[Google Mail]/Papierkorb&#34;
+	Slave  :local:trash
+</code></pre></div><p>All the other channels are straightforward:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback># snippet from ~/.mbsyncrc
+
+Channel inbox
+	Master :remote:INBOX
+	Slave  :local:INBOX
+
+Channel ath9k-devel
+	Master :remote:ath9k-devel
+	Slave  :local:ath9k-devel
+
+Channel barebox
+	Master :remote:barebox
+	Slave  :local:barebox
+
+Channel darc-sdr
+	Master :remote:darc-sdr
+	Slave  :local:darc-sdr
+
+Channel elecraft
+	Master :remote:elecraft
+	Slave  :local:elecraft
+
+Channel linux-can
+	Master :remote:linux-can
+	Slave  :local:linux-can
+
+Channel linux-arm-kernel
+	Master :remote:linux-arm-kernel
+	Slave  :local:linux-arm-kernel
+
+Channel linux-mmc
+	Master :remote:linux-mmc
+	Slave  :local:linux-mmc
+
+Channel powertop
+	Master :remote:powertop
+	Slave  :local:powertop
+</code></pre></div><h2 id=group-section>Group section</h2><p>Note that we don&rsquo;t need any <code>Group gmail</code> section. We could have, but
+as <code>~/bin/pollmail.sh</code> iterates over the Channels anyway, there&rsquo;s no
+need for one.</p></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/mbsync/>mbsync</a>
+<a href=../../tags/notmuch/>notmuch</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/linux/>linux</a></p></div><div class=clearit></div></div></div></main></body></html>

@@ -1,0 +1,138 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="Blog from Org-Mode to Hugo"><meta name=keywords content="Emacs,Hugo,org-mode"><meta property="og:title" content="Blog from Org-Mode to Hugo"><meta property="og:description" content="I use the static web-site generator Hugo to create my home page. I
+also use Emacs as my main editor. Hugo is good with Markdown. Emacs is
+good at Markdown, too. But much better with Org-Mode.
+If you want …
+
+export one .org file as one web page, look at Giles Paterson
+solution
+export just a subtree of an org-file (e.g. from your org-based Emacs
+configuration), then look here.
+"><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/emacs-blog-from-org-to-hugo/"><meta property="article:section" content="en"><meta property="article:published_time" content="2016-03-31T00:00:00+00:00"><meta property="article:modified_time" content="2016-03-31T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Blog from Org-Mode to Hugo"><meta name=twitter:description content="I use the static web-site generator Hugo to create my home page. I
+also use Emacs as my main editor. Hugo is good with Markdown. Emacs is
+good at Markdown, too. But much better with Org-Mode.
+If you want …
+
+export one .org file as one web page, look at Giles Paterson
+solution
+export just a subtree of an org-file (e.g. from your org-based Emacs
+configuration), then look here.
+"><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>Blog from Org-Mode to Hugo | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>31</span>
+<span class=rest>Mar 2016</span></div></div><div class=matter><h1 class=title>Blog from Org-Mode to Hugo</h1></div></div><div class=markdown><p>I use the static web-site generator <a href=https://gohugo.io/ target=_blank>Hugo</a> to create my home page. I
+also use <a href=https://www.gnu.org/software/emacs/ target=_blank>Emacs</a> as my main editor. Hugo is good with <a href=https://help.github.com/categories/writing-on-github/ target=_blank>Markdown</a>. Emacs is
+good at Markdown, too. But much better with <a href=http://orgmode.org/ target=_blank>Org-Mode</a>.</p><p>If you want …</p><ul><li>export one <code>.org</code> file as one web page, look at Giles Paterson
+<a href=https://vurt.co.uk/post/blogging-with-emacs-and-hugo/ target=_blank>solution</a></li><li>export just a subtree of an org-file (e.g. from your org-based Emacs
+configuration), then look here.</li></ul><p>I wanted a nice way to publish single sub-trees of an org-file to
+Hugo. So I wrote my own “publish this specific subtree” export. The
+interactive function is simply called <code>hugo</code>, and I bind it to some
+key combination, in my case to <code>Alt-g h</code>, g like go, and h like go. So
+I type “go hugo”, more or less.</p><h1 id=usage>Usage</h1><p>One question is how we store Hugo-specific information. So far I only
+care for the title, tags, topics and, of course, the file name. As I
+don’t want to have one-file per blog post, but instead use subtrees of
+my org-file, I need to store this information into org’s property
+drawers.</p><p>But writing them by hand is tedious. So I added code that ensures that
+all needed properties exists. Before I started blogging this article,
+my org-mode buffer looked like this:</p><p><figure><img src=./start.png alt=img></figure></p><p>Then I called the <code>(hugo)</code> function and my buffer looked like this:</p><p><figure><img src=./started.png alt=img></figure></p><p>The cursor is positioned at the first empty field.</p><p>(Note that I later changed the code below from <code>HUGO_CATEGORIES</code> to
+<code>HUGO_TOPICS</code>, because that’s how I now have defined my taxonomy in
+Hugo.)</p><p>Note that the title and date fields are pre-filled.
+You can of course change them. Only when everything is filled in …</p><p><figure><img src=./ready.png alt=img></figure></p><p>… does the export to Hugo create the markdown file with the properly
+formatted TOML front matter.</p><h1 id=implementation>Implementation</h1><p>Let’s start simple. First we define where our contents should be stored:</p><pre><code>;; This is GPLv2. If you still don't know the details, read
+;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+
+(defvar hugo-content-dir &quot;~/www.hugo/content/&quot;
+  &quot;Path to Hugo's content directory&quot;)
+</code></pre><p>The next two functions care that all needed property drawers exist:</p><pre><code>;; This is GPLv2. If you still don't know the details, read
+;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+
+(defun hugo-ensure-property (property)
+  &quot;Make sure that a property exists. If not, it will be created.
+
+Returns the property name if the property has been created,
+otherwise nil.&quot;
+  (if (org-entry-get nil property)
+      nil
+    (progn (org-entry-put nil property &quot;&quot;)
+           property)))
+
+(defun hugo-ensure-properties ()
+  &quot;This ensures that several properties exists. If not, these
+properties will be created in an empty form. In this case, the
+drawer will also be opened and the cursor will be positioned
+at the first element that needs to be filled.
+
+Returns list of properties that still must be filled in&quot;
+  (require 'dash)
+  (let ((current-time (format-time-string (org-time-stamp-format t t) (org-current-time)))
+        first)
+    (save-excursion
+      (unless (org-entry-get nil &quot;TITLE&quot;)
+        (org-entry-put nil &quot;TITLE&quot; (nth 4 (org-heading-components))))
+      (setq first (--first it (mapcar #'hugo-ensure-property '(&quot;HUGO_TAGS&quot; &quot;HUGO_TOPICS&quot; &quot;HUGO_FILE&quot;))))
+      (unless (org-entry-get nil &quot;HUGO_DATE&quot;)
+        (org-entry-put nil &quot;HUGO_DATE&quot; current-time)))
+    (when first
+      (goto-char (org-entry-beginning-position))
+      ;; The following opens the drawer
+      (forward-line 1)
+      (beginning-of-line 1)
+      (when (looking-at org-drawer-regexp)
+        (org-flag-drawer nil))
+      ;; And now move to the drawer property
+      (search-forward (concat &quot;:&quot; first &quot;:&quot;))
+      (end-of-line))
+    first))
+</code></pre><p>And this is the main function. It simply gathers all information from org-mode,
+formats it correctly, and writes it out.</p><p>In case you have the <code>ox-gfm.el</code> elisp package is available, the
+export will use “Github Flavored Markdown”. Otherwise, the normal
+markdown export backend will be use. The benefit of =’gfm= is that
+code blocks can be highlighted.</p><pre><code>;; This is GPLv2. If you still don't know the details, read
+;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+
+(defun hugo ()
+  (interactive)
+  (unless (hugo-ensure-properties)
+    (let* ((title    (concat &quot;title = \&quot;&quot; (org-entry-get nil &quot;TITLE&quot;) &quot;\&quot;\n&quot;))
+           (date     (concat &quot;date = \&quot;&quot; (format-time-string &quot;%Y-%m-%d&quot; (apply 'encode-time (org-parse-time-string (org-entry-get nil &quot;HUGO_DATE&quot;))) t) &quot;\&quot;\n&quot;))
+           (topics   (concat &quot;topics = [ \&quot;&quot; (mapconcat 'identity (split-string (org-entry-get nil &quot;HUGO_TOPICS&quot;) &quot;\\( *, *\\)&quot; t) &quot;\&quot;, \&quot;&quot;) &quot;\&quot; ]\n&quot;))
+           (tags     (concat &quot;tags = [ \&quot;&quot; (mapconcat 'identity (split-string (org-entry-get nil &quot;HUGO_TAGS&quot;) &quot;\\( *, *\\)&quot; t) &quot;\&quot;, \&quot;&quot;) &quot;\&quot; ]\n&quot;))
+           (fm (concat &quot;+++\n&quot;
+                       title
+                       date
+                       tags
+                       topics
+                       &quot;+++\n\n&quot;))
+           (file     (org-entry-get nil &quot;HUGO_FILE&quot;))
+           (coding-system-for-write buffer-file-coding-system)
+           (backend  'md)
+           (blog))
+      ;; try to load org-mode/contrib/lisp/ox-gfm.el and use it as backend
+      (if (require 'ox-gfm nil t)
+          (setq backend 'gfm)
+        (require 'ox-md))
+      (setq blog (org-export-as backend t))
+      ;; Normalize save file path
+      (unless (string-match &quot;^[/~]&quot; file)
+        (setq file (concat hugo-content-dir file))
+      (unless (string-match &quot;\\.md$&quot; file)
+        (setq file (concat file &quot;.md&quot;)))
+      ;; save markdown
+      (with-temp-buffer
+        (insert fm)
+        (insert blog)
+        (untabify (point-min) (point-max))
+        (write-file file)
+        (message &quot;Exported to %s&quot; file))
+      ))))
+</code></pre><p>And finally I set my preferred key-binding with <code>(bind-key)</code>. I like
+this method over over the standard keybinding methods because it works
+together with <code>(describe-personal-keybindings)</code>. And because I’m
+already a <a href=https://github.com/jwiegley/use-package target=_blank>use-package</a> user
+it’s already loaded anyway :-)</p><pre><code>(bind-key &quot;M-g h&quot; #'hugo)
+</code></pre><h1 id=images>Images</h1><p>In this blog post are 3 pictures. My current code does <strong>not</strong> copy them to
+Hugo’s contents directory, and I don’t really plan this. I don’t want to
+maintain images as part of my Emacs configuration. Instead, I added text like
+this into my org-mode buffer and do the rest in my Hugo setup:</p><pre><code>[[./ready.png]]
+</code></pre><h1 id=separate-description-teaser-from-main-content>Separate description (teaser) from main content</h1><p>In Hugo, you can separate your normal content from he teaser at the
+top with a “&lt;!–more–>” marker. Generate this HTML with
+“#+HTML: &lt;!–more–>” in a line by itself.</p></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/emacs/>emacs</a>
+<a href=../../tags/hugo/>hugo</a>
+<a href=../../tags/org-mode/>org-mode</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/emacs/>emacs</a></p></div><div class=clearit></div></div></div></main></body></html>

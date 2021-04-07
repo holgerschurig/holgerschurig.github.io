@@ -1,0 +1,54 @@
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.82.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:title" content="Let Hugo ignore Emacs lockfiles"><meta name=keywords content="Hugo,Emacs,Blogging"><meta property="og:title" content="Let Hugo ignore Emacs lockfiles"><meta property="og:description" content="When you run
+hugo server
+
+the static web-site generator Hugo creates a local
+server that you can use to fine-tune your pages. Hugo sits and watches
+your content and layout directory for any changes. Whenever a file changes,
+it re-renders the pages and even tells your browser to live-relead the pages.
+Very nice.
+Except that it doesn&rsquo;t work with Emacs. But there&rsquo;s a cure."><meta property="og:type" content="article"><meta property="og:url" content="http://holgerschurig.github.io/en/let-hugo-ignore-emacs-lockfiles/"><meta property="article:section" content="en"><meta property="article:published_time" content="2016-04-01T00:00:00+00:00"><meta property="article:modified_time" content="2016-04-01T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Let Hugo ignore Emacs lockfiles"><meta name=twitter:description content="When you run
+hugo server
+
+the static web-site generator Hugo creates a local
+server that you can use to fine-tune your pages. Hugo sits and watches
+your content and layout directory for any changes. Whenever a file changes,
+it re-renders the pages and even tells your browser to live-relead the pages.
+Very nice.
+Except that it doesn&rsquo;t work with Emacs. But there&rsquo;s a cure."><link rel=icon type=image/png href=../../favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=../../favicon-16x16.png sizes=16x16><link rel=stylesheet type=text/css media=screen href=../../css/normalize.css><link rel=stylesheet type=text/css media=screen href=../../css/main.css><link rel=stylesheet type=text/css media=screen href=../../css/all.css><link rel=stylesheet href=../../css/katex.min.css crossorigin=anonymous><script defer src=../../js/katex.min.js integrity=sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz crossorigin=anonymous></script><script defer src=../../js/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body)></script><title>Let Hugo ignore Emacs lockfiles | Holger Schurig's Computer Calisthenics & Orthodontia</title></head><body><header><div id=avatar><a href=http://holgerschurig.github.io/><img src=../../img/vitae.jpg alt="Holger Schurig's Computer Calisthenics & Orthodontia"></a></div><div id=titletext><h2 id=title><a href=http://holgerschurig.github.io/>Holger Schurig's Computer Calisthenics & Orthodontia</a></h2></div><div id=title-description><p id=subtitle></p><div id=social><nav><ul><li><a href=../../index.xml><i title=RSS class="icons fas fa-rss"></i></a></li></ul></nav></div></div><div id=mainmenu><nav><ul><li><a href=../../en>English</a></li><li><a href=../../de>Deutsch</a></li><li><a href=../../tags>Tags</a></li><li><a href=../../topics>Topics</a></li><li><a href=../../impressum>Impressum</a></li></ul></nav></div></header><main><div class=post><div class=author></div><div class=post-header><div class=meta><div class=date><span class=day>01</span>
+<span class=rest>Apr 2016</span></div></div><div class=matter><h1 class=title>Let Hugo ignore Emacs lockfiles</h1></div></div><div class=markdown><p>When you run</p><pre><code>hugo server
+</code></pre><p>the static web-site generator <a href=http://gohugo.io target=_blank>Hugo</a> creates a local
+server that you can use to fine-tune your pages. Hugo sits and watches
+your content and layout directory for any changes. Whenever a file changes,
+it re-renders the pages and even tells your browser to live-relead the pages.</p><p>Very nice.</p><p>Except that it doesn&rsquo;t work with Emacs. But there&rsquo;s a cure.</p><h2 id=the-problem>The problem</h2><p>The problem is that Emacs creates lockfiles and Hugo triggers detects
+those lockfiles, but get&rsquo;s confused. Here is such a lockfile:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>schurig@desktop:~/www.hugo/content/en$ ll
+total <span style=color:#60e;font-weight:700>24</span>
+-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig  <span style=color:#60e;font-weight:700>988</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 bash-aliases.md
+-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>1759</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 blogging-with-sitecopy.md
+drwxr-xr-x <span style=color:#60e;font-weight:700>2</span> schurig schurig <span style=color:#60e;font-weight:700>4096</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-blog-from-org-to-hugo/
+-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>6503</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-blog-from-org-to-hugo.md
+-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>3593</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-init-tangle.md
+lrwxrwxrwx <span style=color:#60e;font-weight:700>1</span> schurig schurig   <span style=color:#60e;font-weight:700>21</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:58 .#let-hugo-ignore-emacs-lockfiles.md -&gt; schurig@desktop.28219
+</code></pre></div><p>(Note: <code>ll</code> is described in <a href=../../en/bash-aliases/>bash aliases</a>).</p><h2 id=the-cure>The cure</h2><p>Setting <code>ignoreFiles</code> in <code>config.toml</code> won&rsquo;t help. The file system watcher doesn&rsquo;t care
+about the <code>ignoreFile</code> setting.</p><p>I finally fixed this with a patch to Hugo:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=color:navy;font-weight:700>diff --git a/commands/hugo.go b/commands/hugo.go
+</span><span style=color:navy;font-weight:700>index 131879c..1ed9823 100644
+</span><span style=color:navy;font-weight:700></span><span style=color:#a00000>--- a/commands/hugo.go
+</span><span style=color:#a00000></span><span style=color:#00a000>+++ b/commands/hugo.go
+</span><span style=color:#00a000></span><span style=color:purple;font-weight:700>@@ -732,12 +732,14 @@ func NewWatcher(port int) error {
+</span><span style=color:purple;font-weight:700></span> 
+ 				for _, ev := range evs {
+ 					ext := filepath.Ext(ev.Name)
+<span style=color:#00a000>+					base := filepath.Base(ev.Name)
+</span><span style=color:#00a000></span> 					istemp := strings.HasSuffix(ext, &#34;~&#34;) ||
+ 						(ext == &#34;.swp&#34;) ||
+ 						(ext == &#34;.swx&#34;) ||
+ 						(ext == &#34;.tmp&#34;) ||
+ 						(ext == &#34;.DS_Store&#34;) ||
+ 						filepath.Base(ev.Name) == &#34;4913&#34; ||
+<span style=color:#00a000>+						strings.HasPrefix(base, &#34;.#&#34;) || // Emacs lock files
+</span><span style=color:#00a000></span> 						strings.HasPrefix(ext, &#34;.goutputstream&#34;) ||
+ 						strings.HasSuffix(ext, &#34;jb_old___&#34;) ||
+ 						strings.HasSuffix(ext, &#34;jb_bak___&#34;)
+
+</code></pre></div></div><div class=tags><div class=taxosfloating_left><p>Tags</p></div><div class=termsfloating_right><p><a href=../../tags/blogging/>blogging</a>
+<a href=../../tags/emacs/>emacs</a>
+<a href=../../tags/hugo/>hugo</a></p></div><div class=clearit></div><div class=tags><div class=taxosfloating_left><p>Topics</p></div><div class=termsfloating_right><p><a href=../../topics/emacs/>emacs</a></p></div><div class=clearit></div></div></div></main></body></html>
