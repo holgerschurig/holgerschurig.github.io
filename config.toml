@@ -2,89 +2,58 @@ baseURL = "http://holgerschurig.github.io/"
 languageCode = "en-us"
 title = "Holger Schurig's Computer Calisthenics & Orthodontia"
 author = "Holger Schurig"
-theme = "vitae"
+theme = "my"
 paginate = 12
 enableRobotsTXT = true
 pluralizelisttitles = false
 relativeurls = true
-#copyright = "© Copyright notice | [Vitae](https://github.com/dataCobra/hugo-vitae) theme for [Hugo](https://gohugo.io)"
-
 pygmentsstyle = "colorful"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
-
 googleAnalytics = ""
 
-[taxonomies]
+[indexes]
 tag = "tags"
 topic = "topics"
-#series = "series"
 
 [params]
-# Use homepage.md instead of a list of posts
-homepage = false
-
-# Add meta keywords in head part (Site Keywords or Tags of Page)
-keywords = ["Linux","Emacs","Amateurfunk","Elektronik"]
-
-# Add meta description in head part
-#description = "TODO Description."
-
-# Add pagetitle to homepage <title> tag
-#pagetitle = "TODO pagetitle"
-
-# Add a subtitle to your website
 subtitle = ""
 
-# Activate to show authors on pages if available
-#listAuthor = true
 
-# Add math typesetting with KaTeX (Global with this Param)
+# Use homepage.md instead of a list of posts
+homepage = false
+keywords = ["Linux","Emacs","Amateurfunk","Elektronik"]
 math = true
-
-# Optional 80x80 avatar image.
-avatar = "/img/vitae.jpg"
-
-# Optional favicons for website
-favicon = true
-
-# Add list of sections that should show up on the homepage
-mainSections = ["post"]
-
-# Add list of Sections/Types that should no be considered by RSS
-#nofeedSections = ["post"]
-
-# Deactivate Taxonomies for specific page types
-#disableTaxoTypes = [""]
-
-# Custom CSS applied to default styles. (Path could be "static/css/")
-#customCSS = "css/custom.css"
+#favicon = true
+#mainSections = ["post"]
+dateFormat = "02.01.2006"
+highlightjs = "androidstudio"
 
 # Navigation
-[[menu.main]]
-name = "English"
-url = "/en"
-weight = 1
+# [[menu.main]]
+# name = "English"
+# url = "/en"
+# weight = 1
 
-[[menu.main]]
-name = "Deutsch"
-url = "/de"
-weight = 2
+# [[menu.main]]
+# name = "Deutsch"
+# url = "/de"
+# weight = 2
 
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 3
+# [[menu.main]]
+# name = "Tags"
+# url = "/tags"
+# weight = 3
 
-[[menu.main]]
-name = "Topics"
-url = "/topics"
-weight = 4
+# [[menu.main]]
+# name = "Topics"
+# url = "/topics"
+# weight = 4
 
-[[menu.main]]
-name = "Impressum"
-url = "/impressum"
-weight = 5
+# [[menu.main]]
+# name = "Impressum"
+# url = "/impressum"
+# weight = 5
 
 # Social Menu
 #[[params.social]]
@@ -97,7 +66,7 @@ weight = 5
 #icon = "fas fa-envelope"
 #cmd = "mailto:example@example.com"
 
-[[params.social]]
-name = "RSS"
-icon = "fas fa-rss"
-url = "/index.xml"
+# [[params.social]]
+# name = "RSS"
+# icon = "fas fa-rss"
+# url = "/index.xml"
