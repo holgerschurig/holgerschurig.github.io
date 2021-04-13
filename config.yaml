@@ -12,7 +12,6 @@ relativeurls: true
 pygmentsstyle: "colorful"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
-googleAnalytics: ""
 canonifyurls: true
 
 indexes:
