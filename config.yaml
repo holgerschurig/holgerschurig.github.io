@@ -1,0 +1,57 @@
+# https://gohugo.io/getting-started/configuration/
+
+baseURL: "https://holgerschurig.github.io/"
+languageCode: "en-us"
+title: "Holger Schurig's Computer Calisthenics & Orthodontia"
+author: "Holger Schurig"
+theme: "my"
+paginate: 12
+enableRobotsTXT: true
+pluralizelisttitles: false
+relativeurls: true
+pygmentsstyle: "colorful"
+pygmentscodefences: true
+pygmentscodefencesguesssyntax: true
+googleAnalytics: ""
+canonifyurls: true
+
+indexes:
+  tag: "tags"
+  topic: "topics"
+
+params:
+  subtitle: ""
+  keywords: ["Linux","Emacs","Amateurfunk","Elektronik"]
+  favicon: true
+  dateFormat: "2006-01-02"
+
+menu:
+  main:
+  - name: "Home"
+    url: "/"
+    pre: "<i class='fa fa-home fa-fw'></i>"
+    identifier: "home"
+    weight: 1
+  - name: "Articles"
+    url: "/en/"
+    pre: "<i class='fa fa-list fa-fw'></i>"
+    weight: 2
+  - name: "Beiträge"
+    url: "/de/"
+    pre: "<i class='fa fa-list fa-fw'></i>"
+    weight: 3
+  - name: "Topics"
+    url: "/topics/"
+    pre: "<i class='fa fa-folder fa-fw'></i>"
+    identifier: "topics"
+    weight: 4
+  - name: "Tags"
+    url: "/tags/"
+    pre: "<i class='fa fa-tags fa-fw'></i>"
+    identifier: "tags"
+    weight: 5
+  - name: "Impressum"
+    url: "/impressum/"
+    pre: "<i class='fa fa-phone fa-fw'></i>"
+    identifier: "impressum"
+    weight: 6
