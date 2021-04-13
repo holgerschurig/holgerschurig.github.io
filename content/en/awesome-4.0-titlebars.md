@@ -71,7 +71,7 @@ clientkey({ modkey, "Control" }, "t",
    {description = "Toggle title bar", group = "Clients"})
 ```
 
-(See my blog post about [keybindings]({{< ref "en/awesome-4.0-bindings.md" >}}) to learn
+(See my blog post about [keybindings]({{< relref "en/awesome-4.0-bindings.md" >}}) to learn
 about the `clientkey()` function.)
 
 

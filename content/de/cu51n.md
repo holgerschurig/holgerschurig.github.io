@@ -59,7 +59,7 @@ Frequenzen und Periodendauern messen.
 Ich habe ihn mal an den Eichgeber meines Oszis angeschlossen, aber
 nichts passiert.
 
-Dann habe ich ihn mal den RF-Generator des [HP8920A]({{< ref
+Dann habe ich ihn mal den RF-Generator des [HP8920A]({{< relref
 "hp8920a.md" >}}) angeschlossen. Und siehe da, die 0.2 Volt des
 Oszi-Eichgebers waren für das alte Gerät einfach zu wenig (obwohl es
 einen 1 / 0.1 Volt Eingangswahlschalter hat). Aber ab 0.5 bekam ich

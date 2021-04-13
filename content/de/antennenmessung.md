@@ -18,10 +18,10 @@ Laborbucheintrag: wie man mit einem Spektrum-Analyzer eine Antenne ausmisst.
 
 ## Material
 
- 1. [HP8920A]({{< ref "hp8920a.md" >}})
+ 1. [HP8920A]({{< relref "hp8920a.md" >}})
  2. Mobilantenne "Maldol EX-104". Diese Antenne habe ich von DH6GRM
     geliehen bekommen
- 4. [BX-066]({{< ref "bx066.md" >}}) von Funkamateur/Box73
+ 4. [BX-066]({{< relref "bx066.md" >}}) von Funkamateur/Box73
  3. diverse Konverter von N- auf BNC, um die Antenne ans Reflektometer
     anzuschließen
  5. ein kurzes RG58 C/U Kabel mit BNC-Steckern
