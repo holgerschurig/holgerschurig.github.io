@@ -9,7 +9,9 @@ Holger Schurig,
 Friedhofsweg 4,
 D-61206 Wöllstadt
 
-Amateurfunk-Rufzeichen: DH4HS
+holgerschurig bei golf-mike-alpha-india-lima-dot-charly-oscar-mike (nach dem internationalem Buchstabieralphabet)
+
+Amateurfunk-Rufzeichen: DH3HS
 
 ## Haftungsausschluß ???
 
@@ -23,6 +25,9 @@ zuwiderlaufende Inhalte befunden.
 Es besteht daher für mich keinerlei Notwendigkeit, mich zum
 gegenwärtigen Zeitpunkt davon in irgendeiner Weise zu distanzieren.
 
-Falls der gegenteilige Zustand jedoch wider erwarten einmal eintreten
-sollte, möge man mich bitte darüber in Kenntnis setzen, damit ich nach
-Überprüfung entsprechende Links ggf. entfernen kann.
+Falls der gegenteilige Zustand jedoch wider erwarten einmal eintreten sollte,
+möge man mich bitte darüber in Kenntnis setzen, damit ich nach Überprüfung
+entsprechende Links ggf. entfernen kann. Und jeder mit nur ein wenig gesundem
+Menschenverstand im Kopf wird dann verstehen, das ich mich von geänderten
+Fremdinhalten selbstverständlich distanziere :-)
+
