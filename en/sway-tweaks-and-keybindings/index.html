@@ -1,0 +1,104 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>Sway: tweaks and (un)usual keybindings &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Sway: tweaks and (un)usual keybindings</h1><h2></h2></div><div class=content><p>When I started to configure Sway, I found a lot of configurations online, but
+mostly were exactly the same. I too based my configuration on the <a href=https://github.com/swaywm/sway/blob/master/config.in>given
+example</a>, but disgressed
+quite a bit.</p><h2 id=no-mod>No $mod</h2><p>I can&rsquo;t see ever that I would use some other key for Sway functions than the <code>Logo</code> key of
+my keyboard. So why have a variable and tenthousend (tm) times <code>$mod</code> in the config when
+I can directly write <code>Mod4</code> everywhere?</p><h2 id=no-hjkl-and-unneeded-introduction>No hjkl and unneeded introduction</h2><p>All the Sway configurations used something like</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>set $left h
+</span></span><span style=display:flex><span>set $down j
+</span></span><span style=display:flex><span>set $up k
+</span></span><span style=display:flex><span>set $right l
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>    bindsym $mod+$left focus left
+</span></span><span style=display:flex><span>    bindsym $mod+$down focus down
+</span></span><span style=display:flex><span>    bindsym $mod+$up focus up
+</span></span><span style=display:flex><span>    bindsym $mod+$right focus right
+</span></span></code></pre></div><p>That way 4 perfectly usable character keys were used for functions that are
+equally suited for cursor key. I removed that, and reused some of the
+Logo+<code>&lt;character></code> combinations.</p><h2 id=no-weird-indentation>No weird indentation</h2><p>Did you notice that above the <code>set</code> is not indented, but the <code>bindsym</code> is? I
+have no clue why. The indentation doesn&rsquo;t transport any hierarchy. Be done with
+it!</p><h2 id=using-run-or-raise>Using run-or-raise</h2><p>Sway doesn&rsquo;t implement this, but I wrote a Python program for that. See my
+<a href=../sway-run-or-raise/>extra post</a> for details.</p><h2 id=using-types-for-input>Using types for input</h2><p>The example config still uses named entities for input configuration. Here is
+line from the example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input &#34;2:14:SynPS/2_Synaptics_TouchPad&#34; {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>But &mldr; if you want to configure your keyboard layout (e.g. to German) and you don&rsquo;t
+know the exact name? You need to know first that you can run <code>swaymsg -t get_inputs</code>. Then
+select the proper one and use it.</p><p>But it can be done easier, by using types:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input type:touchpad {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>See <code>man 5 sway-input</code> for the available types. As the time of this writing,
+it&rsquo;s touchpad, pointer, keyboard, touch, tablet_tool, tablet_pad and switch.</p><p>And with that, my keyboard setup looks this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input type:keyboard {
+</span></span><span style=display:flex><span>    xkb_model   &#34;pc101&#34;
+</span></span><span style=display:flex><span>    xkb_layout  &#34;de(nodeadkeys)&#34;
+</span></span><span style=display:flex><span>    repeat_delay 300
+</span></span><span style=display:flex><span>    repeat_rate  20
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>and will stay this even when my current &ldquo;LITE-ON Technology USB NetVista Full
+Width Keyboard.&rdquo; breaks.</p><h2 id=remove-mouse-cursor-when-typing>Remove mouse cursor when typing</h2><p>That would need an extra program on X11, but with Sway it&rsquo;s built in:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input type:mouse {
+</span></span><span style=display:flex><span>    dwt true
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=background-color>Background color</h2><p>A lot of people load background images. I use however specifically a tiling window manager to maximize
+my screen estate. I even auto-start <a href=../sway-default-layout/>emacs and alacritty</a> automatically when
+starting Sway. So I can do with a simply black screen:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>output * {
+</span></span><span style=display:flex><span>    background #000000 solid_color
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=no-title-bars-except-when-needed>No title bars except when needed</h2><p>Normally, I know exactly my clients. So I can do without the title:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>default_border pixel 1
+</span></span></code></pre></div><p>But .. sometimes I need then. So I can toggle the title an and off. Sadly, Logo+<code>t</code> is already
+used for the tabbed layout, so I used Logo+<code>b</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+b border normal
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+b border pixel 1
+</span></span></code></pre></div><p>But, if I use Sway&rsquo;s &ldquo;mark client&rdquo; feature to swap to windows, I want the title bar pop up. This is
+because Sway writes <code>[Mark]</code> into the marked client&rsquo;s title. Therefore, Logo+<code>m</code> first marks the client
+and then turns its border (and therefore title) on:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+m mark --add --toggle Mark, border normal
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+m swap container with mark Mark
+</span></span></code></pre></div><p>There is currently no automation to un-do this visible title automatically, I do
+that manually. Maybe I can automate this with &ldquo;criteria&rdquo; trickery.</p><h2 id=a-waybar-that-isnt-one>A waybar that isn&rsquo;t one</h2><p>Almost all monitors these days are very wide, but not so tall. However, almost
+all bars are horizontal oriented. I know that I can configure waybar also
+vertically. I even tried that, but I didn&rsquo;t like the look of it.</p><p>And so I made a bar that isn&rsquo;t one: it&rsquo;s a overlay. Normally, I just see the
+date/time in the lower left window. Should I go into a specific mode (currently
+I only have the &ldquo;resize&rdquo; mode), then I&rsquo;ll see that on the right side.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bar {
+</span></span><span style=display:flex><span>    position bottom
+</span></span><span style=display:flex><span>    status_command while date +&#39;%d.%m.%y %H:%M:%S&#39;; do sleep 1; done
+</span></span><span style=display:flex><span>    mode overlay
+</span></span><span style=display:flex><span>    workspace_buttons no
+</span></span><span style=display:flex><span>    font pango:Sans 11
+</span></span><span style=display:flex><span>    colors {
+</span></span><span style=display:flex><span>        statusline #ffffff
+</span></span><span style=display:flex><span>        background #ffffff10
+</span></span><span style=display:flex><span>        inactive_workspace #32323200 #32323200 #5c5c5c
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=run-programs-via-menu>Run programs via menu</h2><p>For some reasons, the example configurations had this on Logo+<code>d</code>. Why <code>d</code>? Remnant from <code>dmenu</code>?
+I put it on Logo+<code>r</code>. <code>r</code> like <code>run</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+r exec wofi --show=run --lines=25 --prompt=&#34;&#34;
+</span></span></code></pre></div><h2 id=application-startup-keys>Application startup keys</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+Return exec alacritty
+</span></span><span style=display:flex><span>bindsym Mod4+e exec ~/.config/sway/run-or-raise Emacs emacs
+</span></span><span style=display:flex><span>bindsym Mod4+w exec ~/.config/sway/run-or-raise Firefox firefox
+</span></span></code></pre></div><p>The Logo+<code>Return</code> way to start a terminal I kept. It&rsquo;s something of a common thing, even
+AwesomeWM had this by default.</p><p>But I added two start/focus keys for Emacs and Firefox. I wrote details of this in an <a href=../sway-run-or-raise/>extra post</a>.</p><h2 id=dangerous--unusual-things-via-shift>Dangerous / unusual things via Shift</h2><p>I already introduced above some Logo+Shift+&mldr; keybinding. And I omitted the boring ones,
+like moving a client to different workspace.</p><p>But mostly the Mod4+Shift+&mldr; are for &ldquo;dangerous&rdquo; or &ldquo;unusual&rdquo; things:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+Shift+d layout default
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+q exec swaymsg exit    # kill Sway
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+k kill                 # kill client
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+r reload
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+s layout stacking
+</span></span><span style=display:flex><span>bindsym Mod4+Shift+t layout tabbed
+</span></span></code></pre></div><p>Three characters (<code>d</code>, <code>s</code> and <code>t</code>) are to switch the layouts. Which I seldom
+do, and that therefore might confuse me.</p><p>Killing a client is certainly dangerous, so I have it on Logo+Shift+<code>k</code>.</p><p>Even more dangerous is killing whole of Sway, it&rsquo;s on Logo+Shift+<code>q</code>. Maybe I
+should put in on Ctrl+Alt+Backspace, for some old X11 feeling?</p><p>Reloading without running <code>sway --validate</code> first can also be dangerous. Okay,
+only annoying. AwesomeWM was much worse here. Still, I bound that to Logo+Shift+<code>q</code>.</p><h2 id=outro>Outro</h2><p>All of the above is visible in my <a href=https://github.com/holgerschurig/dotfiles/blob/master/sway/.config/sway/config>~/.config/sway/config</a>
+file.</p><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<time>2022-12-13</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=../../topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/sway>sway</a>
+<a class=rss type=application/rss+xml href=../../tags/sway/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/wayland>wayland</a>
+<a class=rss type=application/rss+xml href=../../tags/wayland/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/dotfiles>dotfiles</a>
+<a class=rss type=application/rss+xml href=../../tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script>
+<script src=../../js/math-code.js></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
