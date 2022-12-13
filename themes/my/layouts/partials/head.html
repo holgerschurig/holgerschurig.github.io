@@ -35,10 +35,7 @@
   <link rel="stylesheet" href="/css/all.min.css">
 
   <!-- RSS -->
-  {{ if .OutputFormats.Get "RSS" }}
-  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}"
-    href='{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}' />
-  {{ end }}
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="/index.xml" />
 
   {{ with .Site.Params.highlightjs }}
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/{{ . }}.min.css">
