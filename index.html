@@ -11,7 +11,29 @@
 &nbsp;/
 <a class=post-taxonomy-tag href=./tags/hydra>Hydra</a>
 <a class=rss type=application/rss+xml href=./tags/hydra/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>Mastodon has a lot of commands. You can access most of them directly via keybindings, just use
-<code>M-x describe-mode</code> or the <code>h</code> or <code>?</code> keys. Some more are described on the project website, <a href=https://codeberg.org/martianh/mastodon.el>https://codeberg.org/martianh/mastodon.el</a> in the README.org</p><p>But, if you don&rsquo;t use Mastodon that regularly, maybe a Hydra can help you?</p></p><footer><a href=./en/emacs-mastodon-hydra/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/awesome-4.0-titlebars/>AwesomeWM: about title bars and toggling them</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<code>M-x describe-mode</code> or the <code>h</code> or <code>?</code> keys. Some more are described on the project website, <a href=https://codeberg.org/martianh/mastodon.el>https://codeberg.org/martianh/mastodon.el</a> in the README.org</p><p>But, if you don&rsquo;t use Mastodon that regularly, maybe a Hydra can help you?</p></p><footer><a href=./en/emacs-mastodon-hydra/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/sway-run-or-raise/>Sway: Application startup via run-or-raise</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<time>2022-12-13</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=./topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=./topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=./tags/sway>sway</a>
+<a class=rss type=application/rss+xml href=./tags/sway/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=./tags/dotfiles>dotfiles</a>
+<a class=rss type=application/rss+xml href=./tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>In my Sway configuration I have two lines that start an application in a specific way:
+bindsym Mod4+e exec ~/.config/sway/run-or-raise Emacs emacs bindsym Mod4+w exec ~/.config/sway/run-or-raise Firefox firefox What does this do?
+First, the &ldquo;exec&rdquo; clause calls a python script, run-or-raise.
+This python scripts wants two arguments. The first one is a container name. It uses swaymsg -t get_tree to get all outputs, work spaces and containers. And then it looks for any container (that is: application, Wayland client) that matches the name.</p><footer><a href=./en/sway-run-or-raise/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/sway-default-layout/>Sway: default initial layout</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<time>2022-12-13</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=./topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=./topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=./tags/sway>sway</a>
+<a class=rss type=application/rss+xml href=./tags/sway/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=./tags/dotfiles>dotfiles</a>
+<a class=rss type=application/rss+xml href=./tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>When I start Sway, I&rsquo;d like to have Emacs on the left side of workspace 1, and a terminal (here Alacritty) on the right side, Unfortunately, this ~/.config/sway/config except won&rsquo;t work:
+exec emacs exac alacritty Because alacritty starts much faster than Emacs. So I&rsquo;d get the terminal on the right side of the screen. And Emacs on the left. Not good.
+Instead, I do this:
+exec emacs for_window [class="^Emacs$"] exec sh -c 'pgrep -x alacritty >/dev/null || alacritty' for_window [app_id="^emacs$"] exec sh -c 'pgrep -x alacritty >/dev/null || alacritty' That is, I start Emacs.</p><footer><a href=./en/sway-default-layout/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/awesome-4.0-titlebars/>AwesomeWM: about title bars and toggling them</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2017-01-22</time></div><div><i class="fa fa-folder fa-fw"></i>
 <a class=post-taxonomy-topic href=./topics/linux>Linux</a>
 <a class=rss type=application/rss+xml href=./topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
@@ -21,29 +43,7 @@
 <a class=post-taxonomy-tag href=./tags/dotfiles>dotfiles</a>
 <a class=rss type=application/rss+xml href=./tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>The default <code>rc.lua</code> from Awesome 4.0 turns title bars on. Here I show
 how you can turn them off, and also how I enable them only for
-floating clients.</p></p><footer><a href=./en/awesome-4.0-titlebars/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/awesome-4.0-bindings/>AwesomeWM: Alternative bindings setup</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
-<time>2017-01-22</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=./topics/linux>Linux</a>
-<a class=rss type=application/rss+xml href=./topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=./tags/awesome>awesome</a>
-<a class=rss type=application/rss+xml href=./tags/awesome/index.xml><span class="fa fa-rss">RSS</span></a>
-&nbsp;/
-<a class=post-taxonomy-tag href=./tags/dotfiles>dotfiles</a>
-<a class=rss type=application/rss+xml href=./tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>The default <code>rc.lua</code> from the Awesome window manager uses a lot of
-<code>globalkeys = awful.util.table.join(...)</code> code.</p><p>I disliked this because &mldr;</p><ul><li>in Lua, the last field of a table cannot have a comma. So often when
-I moved an entry around, I ended up with a pointless syntax error
-because of a missing or trailing comma</li><li>adding elements by joining seems somewhat complex</li><li>adding logic, e.g. only adding a keybinding under specific
-circumstances is suddenly more difficult</li></ul><p>So let&rsquo;s change this &mldr;</p></p><footer><a href=./en/awesome-4.0-bindings/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=./en/awesome-4.0-tags-and-layouts/>AwesomeWM: Tags and Layout setup</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
-<time>2017-01-22</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=./topics/linux>Linux</a>
-<a class=rss type=application/rss+xml href=./topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=./tags/awesome>awesome</a>
-<a class=rss type=application/rss+xml href=./tags/awesome/index.xml><span class="fa fa-rss">RSS</span></a>
-&nbsp;/
-<a class=post-taxonomy-tag href=./tags/dotfiles>dotfiles</a>
-<a class=rss type=application/rss+xml href=./tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>In this post I show a nice method to define tags and associated
-layouts, where the tag names change dynamically when the layout
-changes.</p></p><footer><a href=./en/awesome-4.0-tags-and-layouts/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><p>See all <a href=./en/>english</a> articles.</p></div><div class=pure-u-md-2-24></div><div class="pure-u-1 pure-u-md-11-24"><p>Die letzten 4 deutschen Beiträge:</p><article><header><h2><a href=./de/raspi-atmega/>ATmega328 von Raspberry aus programmieren</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+floating clients.</p></p><footer><a href=./en/awesome-4.0-titlebars/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><p>See all <a href=./en/>english</a> articles.</p></div><div class=pure-u-md-2-24></div><div class="pure-u-1 pure-u-md-11-24"><p>Die letzten 4 deutschen Beiträge:</p><article><header><h2><a href=./de/raspi-atmega/>ATmega328 von Raspberry aus programmieren</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2016-03-28</time></div><div><i class="fa fa-folder fa-fw"></i>
 <a class=post-taxonomy-topic href=./topics/elektronik>Elektronik</a>
 <a class=rss type=application/rss+xml href=./topics/elektronik/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
