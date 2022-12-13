@@ -9,7 +9,6 @@ paginate: 12
 enableRobotsTXT: true
 pluralizelisttitles: false
 relativeurls: true
-pygmentsstyle: "colorful"
 pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
 canonifyurls: true
