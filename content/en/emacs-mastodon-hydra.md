@@ -6,7 +6,7 @@ topics = [ "Emacs" ]
 +++
 
 Mastodon has a lot of commands. You can access most of them directly via keybindings, just use
-`M-x describe-mode` or the `h` or `?` keys. Some more are described on the project website, https://codeberg.org/martianh/mastodon.el in the README.org
+`M-x describe-mode` or the `h` or `?` keys. Can you remember them all?
 
 But, if you don't use Mastodon that regularly, maybe a Hydra can help you?
 
