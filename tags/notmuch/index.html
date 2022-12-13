@@ -1,25 +1,39 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>notmuch &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../tags/notmuch/index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>notmuch</h1></div><div class=content><article><header><h2><a href=../../en/emacs-notmuch-export-patch/>Export patches from Emacs' Notmuch</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2017-01-15</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=../../topics/emacs>Emacs</a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=../../tags/emacs>Emacs</a>&nbsp;/
-<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a></div></div></header><p>I’m reading several linux-kernel related mailing lists. They are full of proposed patches. And from time to time a few of them look interesting. So I wanted to have an easy (and fast) solution of exporting those patches: with a keystroke, and without the need of specifying patch names.
+<a class=post-taxonomy-topic href=../../topics/emacs>Emacs</a>
+<a class=rss type=application/rss+xml href=../../topics/emacs/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/emacs>Emacs</a>
+<a class=rss type=application/rss+xml href=../../tags/emacs/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a>
+<a class=rss type=application/rss+xml href=../../tags/notmuch/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>I’m reading several linux-kernel related mailing lists. They are full of proposed patches. And from time to time a few of them look interesting. So I wanted to have an easy (and fast) solution of exporting those patches: with a keystroke, and without the need of specifying patch names.
 Format of a patch email If you ever contributed a patch to Linux, you’d know that your patch must follow some formatting rules, or it might be ignored.</p><footer><a href=../../en/emacs-notmuch-export-patch/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/emacs-notmuch-hello/>A nicer notmuch-hello screen for Emacs</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2016-05-03</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=../../topics/emacs>Emacs</a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=../../tags/emacs>Emacs</a>&nbsp;/
-<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a></div></div></header><p><p>Here I define my own hello screen for <a href=http://notmuchmail.org/>notmuch</a>. However, I didn’t like it’s original
+<a class=post-taxonomy-topic href=../../topics/emacs>Emacs</a>
+<a class=rss type=application/rss+xml href=../../topics/emacs/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/emacs>Emacs</a>
+<a class=rss type=application/rss+xml href=../../tags/emacs/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a>
+<a class=rss type=application/rss+xml href=../../tags/notmuch/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>Here I define my own hello screen for <a href=http://notmuchmail.org/>notmuch</a>. However, I didn’t like it’s original
 “hello” screen not that much. So I wrote something to replace it.</p></p><footer><a href=../../en/emacs-notmuch-hello/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/notmuch-mark-uninteresting/>notmuch: automatically mark uninteresting mails as read</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2016-05-02</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=../../topics/linux>Linux</a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a></div></div></header><p><p>Now that I switched from Emacs&rsquo; <code>GNUS</code> to Emacs&rsquo; <code>notmuch</code>, I needed a
+<a class=post-taxonomy-topic href=../../topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=../../topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a>
+<a class=rss type=application/rss+xml href=../../tags/notmuch/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>Now that I switched from Emacs&rsquo; <code>GNUS</code> to Emacs&rsquo; <code>notmuch</code>, I needed a
 method to automatically &ldquo;discard&rdquo; uninteresting mails. In some Linux
 mailing lists a huge amount of mails are about topics that I don&rsquo;t
 care. So I a little shell script <code>bin/pollmail.sh</code> that polls
 the mails and efficiently marks uninteresting stuff as read.</p></p><footer><a href=../../en/notmuch-mark-uninteresting/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/notmuch-polling-with-mbsync/>notmuch: polling mail with mbsync</a></h2><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
 <time>2016-05-02</time></div><div><i class="fa fa-folder fa-fw"></i>
-<a class=post-taxonomy-topic href=../../topics/linux>Linux</a></div><div><i class="fa fa-tags fa-fw"></i>
-<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a>&nbsp;/
-<a class=post-taxonomy-tag href=../../tags/mbsync>mbsync</a></div></div></header><p><p>In this blog post I describe how I configured <code>mbsync</code> 1.3.0 and
+<a class=post-taxonomy-topic href=../../topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=../../topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/notmuch>notmuch</a>
+<a class=rss type=application/rss+xml href=../../tags/notmuch/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/mbsync>mbsync</a>
+<a class=rss type=application/rss+xml href=../../tags/mbsync/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>In this blog post I describe how I configured <code>mbsync</code> 1.3.0 and
 <code>notmuch</code> 0.22 so that they get my mail out of GMail&rsquo;s IMAP service.</p></p><footer><a href=../../en/notmuch-polling-with-mbsync/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article></div></div></div><script src=../../js/ui.js></script>
 <script src=../../js/menus.js></script></body></html>
