@@ -11,6 +11,8 @@ D-61206 Wöllstadt
 
 holgerschurig bei golf-mike-alpha-india-lima-dot-charly-oscar-mike (nach dem internationalem Buchstabieralphabet)
 
+Mastodon: [atsign holgerschurig bei emacs.ch](https://emacs.ch/@holgerschurig)
+
 Amateurfunk-Rufzeichen: DH3HS
 
 ## Haftungsausschluß ???
