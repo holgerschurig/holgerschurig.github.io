@@ -12,9 +12,11 @@ But, if you don't use Mastodon that regularly, maybe a Hydra can help you?
 
 <!--more-->
 
-Here is a sample version:
+Here as preview:
 
 ![img](./emacs-mastodon-hydra.png)
+
+created with this Hydra:
 
 ```lisp
 (defhydra mastodon-help (:color blue :hint nil)
@@ -77,3 +79,14 @@ _u_pdate
 
   ("q" doom/escape))
 ```
+
+I personally bound this to the `?` key. And since I'm using Doom with my [emacs
+configuration](https://github.com/holgerschurig/emacs-doom-config/blob/master/config.el),
+I do it the Doom way:
+
+```lisp
+(map! :map mastodon-mode-map
+  "?" #'mastodon-help/body)
+```
+
+But you can of course just use the default Emacs way, e.g. with `(define-key ...)`.
