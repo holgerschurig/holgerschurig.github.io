@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.82.0"><title>ATmega328 von Raspberry aus programmieren &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class="fa fa-list fa-fw"></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class="fa fa-list fa-fw"></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class="fa fa-folder fa-fw"></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class="fa fa-phone fa-fw"></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>ATmega328 von Raspberry aus programmieren &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>ATmega328 von Raspberry aus programmieren</h1><h2></h2></div><div class=content><p>Viele Leute kennen den ATmega von den Arduino-Projekten. Dort sind die
 Prozessoren bereits mit einem sog. &lsquo;Bootloader&rsquo; versehen, man kann sie
 also über deren serielle Schnittstelle programmieren.</p><p>Was aber, wenn man einen &ldquo;rohen&rdquo; ATmega hat, frisch vom
@@ -16,55 +16,58 @@ und 8.</li><li>16 MHz-Quarz an Pins 9 und 10</li><li>von jedem Quarz-Pin ein 22p
 merkte ich, das noch nicht mal der Pull-Up-Widerstand wirklich nötig
 ist &mldr;</li></ul><p>Obige Grundschaltung findet man immer und immer wieder.</p><p>Nun wollen wir den ATmega jedoch programmieren, also müssen wir einige
 Bahnen vom Raspberry zum ATmega ziehen:</p><ul><li>gelb: <code>GPIO25</code> nach <code>nRESET</code></li><li>cyan: <code>GPIO10</code>/<code>SPI0_MOSI</code> nach <code>D11</code>/<code>MOSI</code></li><li>lila: <code>GPIO9</code>/<code>SPI0_MISO</code> nach <code>D12</code>/<code>MISO</code></li><li>grün: <code>GPIO11</code>/<code>SPI_CLK</code> nach <code>D13</code>/<code>SCK</code></li></ul><p>Die erste (gelbe) Leitung ist zum Resetten des ATmega.</p><p>Die anderen drei Leitungen sind SPI-Leitungen, mit denen der Raspberry
-den AVR programmieren kann.</p><h2 id=software>Software</h2><h3 id=avrdude-installieren>AVRdude installieren</h3><p>Auf dem Raspberry brauchen wir die Software <code>avrdude</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>pi<span style=color:red;background-color:#faa>@</span>raspberrypi:<span style=color:red;background-color:#faa>~</span> <span style=color:red;background-color:#faa>$</span> sudo su
-root<span style=color:red;background-color:#faa>@</span>raspberrypi:<span style=color:#333>/</span>home<span style=color:#333>/</span>pi<span style=color:red;background-color:#faa>#</span> apt<span style=color:#333>-</span>get install avrdude
-Reading <span style=color:#080;font-weight:700>package</span> lists<span style=color:#333>...</span> Done
-Building dependency tree       
-Reading state information<span style=color:#333>...</span> Done
-The following extra packages will be installed:
-  libftdi1
-Suggested packages:
-  avrdude<span style=color:#333>-</span>doc
-The following NEW packages will be installed:
-  avrdude libftdi1
-<span style=color:#00d;font-weight:700>0</span> upgraded, <span style=color:#00d;font-weight:700>2</span> newly installed, <span style=color:#00d;font-weight:700>0</span> to remove and <span style=color:#00d;font-weight:700>12</span> not upgraded.
-Need to get <span style=color:#00d;font-weight:700>260</span> kB of archives.
-After this operation, <span style=color:#00d;font-weight:700>1</span>,<span style=color:#40e;font-weight:700>021</span> kB of additional disk space will be used.
-Do you want to <span style=color:#080;font-weight:700>continue</span><span style=color:red;background-color:#faa>?</span> [Y<span style=color:#333>/</span>n] y
-Get:<span style=color:#00d;font-weight:700>1</span> http:<span style=color:#888>//archive.raspberrypi.org/debian/ jessie/main avrdude armhf 6.1-2+rpi1 [244 kB]
-</span><span style=color:#888></span>Get:<span style=color:#00d;font-weight:700>2</span> http:<span style=color:#888>//mirrordirector.raspbian.org/raspbian/ jessie/main libftdi1 armhf 0.20-2 [16.7 kB]
-</span><span style=color:#888></span>Fetched <span style=color:#00d;font-weight:700>260</span> kB in <span style=color:#00d;font-weight:700>1</span><span style=color:#06b;font-weight:700>s</span> (<span style=color:#00d;font-weight:700>182</span> kB<span style=color:#333>/</span>s)                              
-Selecting previously unselected <span style=color:#080;font-weight:700>package</span> libftdi1:armhf.
-(Reading database <span style=color:#333>...</span> <span style=color:#00d;font-weight:700>126952</span> files and directories currently installed.)
-Preparing to unpack <span style=color:#333>.../</span>libftdi1_0<span style=color:#60e;font-weight:700>.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span>_armhf.deb <span style=color:#333>...</span>
-Unpacking libftdi1:<span style=color:#06b;font-weight:700>armhf</span> (<span style=color:#60e;font-weight:700>0.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span>) <span style=color:#333>...</span>
-Selecting previously unselected <span style=color:#080;font-weight:700>package</span> avrdude.
-Preparing to unpack <span style=color:#333>.../</span>avrdude_6<span style=color:#60e;font-weight:700>.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1_armhf.deb <span style=color:#333>...</span>
-Unpacking <span style=color:#06b;font-weight:700>avrdude</span> (<span style=color:#60e;font-weight:700>6.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1) <span style=color:#333>...</span>
-Processing triggers <span style=color:#080;font-weight:700>for</span> man<span style=color:#333>-</span><span style=color:#06b;font-weight:700>db</span> (<span style=color:#60e;font-weight:700>2.7.0.2</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>5</span>) <span style=color:#333>...</span>
-Setting up libftdi1:<span style=color:#06b;font-weight:700>armhf</span> (<span style=color:#60e;font-weight:700>0.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span>) <span style=color:#333>...</span>
-Setting up <span style=color:#06b;font-weight:700>avrdude</span> (<span style=color:#60e;font-weight:700>6.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1) <span style=color:#333>...</span>
-Processing triggers <span style=color:#080;font-weight:700>for</span> libc<span style=color:#333>-</span><span style=color:#06b;font-weight:700>bin</span> (<span style=color:#60e;font-weight:700>2.19</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>18</span><span style=color:#333>+</span>deb8u3) <span style=color:#333>...</span>
-</code></pre></div><p>Ältere Tutorials reden davon, das man den AVRdude selbst compilieren
+den AVR programmieren kann.</p><h2 id=software>Software</h2><h3 id=avrdude-installieren>AVRdude installieren</h3><p>Auf dem Raspberry brauchen wir die Software <code>avrdude</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span>pi<span style=color:red;background-color:#faa>@</span>raspberrypi:<span style=color:red;background-color:#faa>~</span> <span style=color:red;background-color:#faa>$</span> sudo su
+</span></span><span style=display:flex><span>root<span style=color:red;background-color:#faa>@</span>raspberrypi:<span style=color:#333>/</span>home<span style=color:#333>/</span>pi<span style=color:red;background-color:#faa>#</span> apt<span style=color:#333>-</span>get install avrdude
+</span></span><span style=display:flex><span>Reading <span style=color:#080;font-weight:700>package</span> lists<span style=color:#333>...</span> Done
+</span></span><span style=display:flex><span>Building dependency tree       
+</span></span><span style=display:flex><span>Reading state information<span style=color:#333>...</span> Done
+</span></span><span style=display:flex><span>The following extra packages will be installed:
+</span></span><span style=display:flex><span>  libftdi1
+</span></span><span style=display:flex><span>Suggested packages:
+</span></span><span style=display:flex><span>  avrdude<span style=color:#333>-</span>doc
+</span></span><span style=display:flex><span>The following NEW packages will be installed:
+</span></span><span style=display:flex><span>  avrdude libftdi1
+</span></span><span style=display:flex><span><span style=color:#00d;font-weight:700>0</span> upgraded, <span style=color:#00d;font-weight:700>2</span> newly installed, <span style=color:#00d;font-weight:700>0</span> to remove and <span style=color:#00d;font-weight:700>12</span> not upgraded.
+</span></span><span style=display:flex><span>Need to get <span style=color:#00d;font-weight:700>260</span> kB of archives.
+</span></span><span style=display:flex><span>After this operation, <span style=color:#00d;font-weight:700>1</span>,<span style=color:#40e;font-weight:700>021</span> kB of additional disk space will be used.
+</span></span><span style=display:flex><span>Do you want to <span style=color:#080;font-weight:700>continue</span><span style=color:red;background-color:#faa>?</span> [Y<span style=color:#333>/</span>n] y
+</span></span><span style=display:flex><span>Get:<span style=color:#00d;font-weight:700>1</span> http:<span style=color:#888>//archive.raspberrypi.org/debian/ jessie/main avrdude armhf 6.1-2+rpi1 [244 kB]
+</span></span></span><span style=display:flex><span><span style=color:#888></span>Get:<span style=color:#00d;font-weight:700>2</span> http:<span style=color:#888>//mirrordirector.raspbian.org/raspbian/ jessie/main libftdi1 armhf 0.20-2 [16.7 kB]
+</span></span></span><span style=display:flex><span><span style=color:#888></span>Fetched <span style=color:#00d;font-weight:700>260</span> kB in <span style=color:#00d;font-weight:700>1</span><span style=color:#06b;font-weight:700>s</span> (<span style=color:#00d;font-weight:700>182</span> kB<span style=color:#333>/</span>s)                              
+</span></span><span style=display:flex><span>Selecting previously unselected <span style=color:#080;font-weight:700>package</span> libftdi1:armhf.
+</span></span><span style=display:flex><span>(Reading database <span style=color:#333>...</span> <span style=color:#00d;font-weight:700>126952</span> files and directories currently installed.)
+</span></span><span style=display:flex><span>Preparing to unpack <span style=color:#333>.../</span>libftdi1_0<span style=color:#60e;font-weight:700>.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2_</span>armhf.deb <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Unpacking libftdi1:<span style=color:#06b;font-weight:700>armhf</span> (<span style=color:#60e;font-weight:700>0.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span>) <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Selecting previously unselected <span style=color:#080;font-weight:700>package</span> avrdude.
+</span></span><span style=display:flex><span>Preparing to unpack <span style=color:#333>.../</span>avrdude_6<span style=color:#60e;font-weight:700>.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1_armhf.deb <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Unpacking <span style=color:#06b;font-weight:700>avrdude</span> (<span style=color:#60e;font-weight:700>6.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1) <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Processing triggers <span style=color:#080;font-weight:700>for</span> man<span style=color:#333>-</span><span style=color:#06b;font-weight:700>db</span> (<span style=color:#60e;font-weight:700>2.7.0.2</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>5</span>) <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Setting up libftdi1:<span style=color:#06b;font-weight:700>armhf</span> (<span style=color:#60e;font-weight:700>0.20</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span>) <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Setting up <span style=color:#06b;font-weight:700>avrdude</span> (<span style=color:#60e;font-weight:700>6.1</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>2</span><span style=color:#333>+</span>rpi1) <span style=color:#333>...</span>
+</span></span><span style=display:flex><span>Processing triggers <span style=color:#080;font-weight:700>for</span> libc<span style=color:#333>-</span><span style=color:#06b;font-weight:700>bin</span> (<span style=color:#60e;font-weight:700>2.19</span><span style=color:#333>-</span><span style=color:#00d;font-weight:700>18</span><span style=color:#333>+</span>deb8u3) <span style=color:#333>...</span>
+</span></span></code></pre></div><p>Ältere Tutorials reden davon, das man den AVRdude selbst compilieren
 solle. Das ist aber mittlerweile nicht mehr nötig. Mein Raspberry
 läuft Raspian 8.0, also basierend auf Debian Jessie. Und die
-avrdude-Version <strong>6.1</strong> funktioniert einwandfrei.</p><h3 id=chip-erkennen>Chip erkennen</h3><p>Hat man alles richtig verdrahtet, sollte der Chip erkannt werden:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>root@raspberrypi:~# avrdude -c linuxspi -p m328p -P /dev/spidev0.0 
-avrdude: AVR device initialized and ready to accept instructions
-Reading | ################################################## | 100% 0.00s
-avrdude: Device signature = 0x1e950f
-avrdude: safemode: Fuses OK (E:07, H:D9, L:62)
-avrdude done.  Thank you.
-</code></pre></div><p>Die Device-Signatur 0x1e950f steht für den ATmega328<strong>P</strong>, also exakt
+avrdude-Version <strong>6.1</strong> funktioniert einwandfrei.</p><h3 id=chip-erkennen>Chip erkennen</h3><p>Hat man alles richtig verdrahtet, sollte der Chip erkannt werden:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>root@raspberrypi:~# avrdude -c linuxspi -p m328p -P /dev/spidev0.0 
+</span></span><span style=display:flex><span>avrdude: AVR device initialized and ready to accept instructions
+</span></span><span style=display:flex><span>Reading | ################################################## | 100% 0.00s
+</span></span><span style=display:flex><span>avrdude: Device signature = 0x1e950f
+</span></span><span style=display:flex><span>avrdude: safemode: Fuses OK (E:07, H:D9, L:62)
+</span></span><span style=display:flex><span>avrdude done.  Thank you.
+</span></span></code></pre></div><p>Die Device-Signatur 0x1e950f steht für den ATmega328<strong>P</strong>, also exakt
 für den Chip, den ich mir gekauft hatte.</p><p>Sollte kein <code>/dev/spidev0.0</code> vorhanden sein, muss <code>raspi-config</code>
 starten und unter &ldquo;Advanced Options&rdquo; SPI aktivieren.</p><h3 id=takt-senken>Takt senken</h3><p>Bei mir ging es danach aber dennoch noch nicht. Erst als ich den
 SPI-Takt von 400 kHz auf 200 kHz gesenkt hatte, lief es. Das ist zwar
 deutlich langsamer als vorher, aber immer noch schneller als mit
-GPIO-&ldquo;Bitbanging&rdquo;.</p><p>Dazu in <code>/etc/avrdude.conf</code> den Eintrag <code>linuxspi</code> so ändern:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>programmer
-  id = &#34;linuxspi&#34;;
-  desc = &#34;Use Linux SPI device in /dev/spidev*&#34;;
-  type = &#34;linuxspi&#34;;
-  reset = 25;
-  baudrate=200000;
-;
-</code></pre></div><p>Nun hat&rsquo;s funktioniert. Ich vermute, das meine Kabel vom Raspberry zum
-Breadboard mit dem ATmega zu lang waren.</p></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
+GPIO-&ldquo;Bitbanging&rdquo;.</p><p>Dazu in <code>/etc/avrdude.conf</code> den Eintrag <code>linuxspi</code> so ändern:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>programmer
+</span></span><span style=display:flex><span>  id = &#34;linuxspi&#34;;
+</span></span><span style=display:flex><span>  desc = &#34;Use Linux SPI device in /dev/spidev*&#34;;
+</span></span><span style=display:flex><span>  type = &#34;linuxspi&#34;;
+</span></span><span style=display:flex><span>  reset = 25;
+</span></span><span style=display:flex><span>  baudrate=200000;
+</span></span><span style=display:flex><span>;
+</span></span></code></pre></div><p>Nun hat&rsquo;s funktioniert. Ich vermute, das meine Kabel vom Raspberry zum
+Breadboard mit dem ATmega zu lang waren.</p></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script>
+<script src=../../js/math-code.js></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

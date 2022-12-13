@@ -1,49 +1,51 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.82.0"><title>Update your Blog with Sitecopy &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class="fa fa-list fa-fw"></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class="fa fa-list fa-fw"></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class="fa fa-folder fa-fw"></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class="fa fa-phone fa-fw"></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>Update your Blog with Sitecopy &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Update your Blog with Sitecopy</h1><h2></h2></div><div class=content><p>Almost any site describing how to use the static web site generator
 <a href=http://gohugo.io>Hugo</a> uses some complicated method to get the contents
-publish.</p><p>I simply do this with <a href=http://www.manyfish.co.uk/sitecopy/>sitecopy</a>.</p><p>Getting it is easy on Debian:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>apt-get install sitecopy
-</code></pre></div><p>And using it with Hugo is easy, too. I have a tiny <code>Makefile</code>
-that contains this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>publish:
-	hugo
-	sitecopy -u home
-</code></pre></div><p>And together with me <code>~/.sitecopyrc</code> file updates are done in a breeze:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>site home
-	server www.holgerschurig.de
-	remote /
-	local /home/holger/www.hugo/public
-	username gehe-eim
-	password supergeheim
-	permissions exec
-	state checksum
-	protocol ftp
-	checkmoved
-	tempupload
-	ignore /logs
-	exclude /logs
-</code></pre></div><p>Now all I do is:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>holger@holger:~/www.hugo$ make
-hugo
-Started building site
-0 draft content
-0 future content
-14 pages created
-25 non-page files copied
-0 paginator pages created
-16 tags created
-4 topics created
-in 106 ms
-sitecopy -u home
-sitecopy: Updating site `home&#39; (on www.holgerschurig.de in /)
-Creating en/blogging-with-sitecopy/: done.
-Uploading tags/hugo/index.xml: [..] done.
-Uploading tags/hugo/index.html: [.] done.
-Uploading tags/index.html: [.] done.
-Uploading en/emacs-init-tangle/index.html: [.] done.
-Uploading en/emacs-blog-from-org-to-hugo/index.html: [..] done.
-Uploading en/blogging-with-sitecopy/index.html: [.] done.
-Uploading en/index.xml: [...] done.
-Uploading en/index.html: [.] done.
-Uploading index.xml: [........] done.
-Uploading sitemap.xml: [.] done.
-Uploading index.html: [..] done.
-sitecopy: Update completed successfully.
-
-</code></pre></div><p>A process that took 8.3 seconds only :-)</p></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
+publish.</p><p>I simply do this with <a href=http://www.manyfish.co.uk/sitecopy/>sitecopy</a>.</p><p>Getting it is easy on Debian:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>apt-get install sitecopy
+</span></span></code></pre></div><p>And using it with Hugo is easy, too. I have a tiny <code>Makefile</code>
+that contains this:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>publish:
+</span></span><span style=display:flex><span>	hugo
+</span></span><span style=display:flex><span>	sitecopy -u home
+</span></span></code></pre></div><p>And together with me <code>~/.sitecopyrc</code> file updates are done in a breeze:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>site home
+</span></span><span style=display:flex><span>	server www.holgerschurig.de
+</span></span><span style=display:flex><span>	remote /
+</span></span><span style=display:flex><span>	local /home/holger/www.hugo/public
+</span></span><span style=display:flex><span>	username gehe-eim
+</span></span><span style=display:flex><span>	password supergeheim
+</span></span><span style=display:flex><span>	permissions exec
+</span></span><span style=display:flex><span>	state checksum
+</span></span><span style=display:flex><span>	protocol ftp
+</span></span><span style=display:flex><span>	checkmoved
+</span></span><span style=display:flex><span>	tempupload
+</span></span><span style=display:flex><span>	ignore /logs
+</span></span><span style=display:flex><span>	exclude /logs
+</span></span></code></pre></div><p>Now all I do is:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>holger@holger:~/www.hugo$ make
+</span></span><span style=display:flex><span>hugo
+</span></span><span style=display:flex><span>Started building site
+</span></span><span style=display:flex><span>0 draft content
+</span></span><span style=display:flex><span>0 future content
+</span></span><span style=display:flex><span>14 pages created
+</span></span><span style=display:flex><span>25 non-page files copied
+</span></span><span style=display:flex><span>0 paginator pages created
+</span></span><span style=display:flex><span>16 tags created
+</span></span><span style=display:flex><span>4 topics created
+</span></span><span style=display:flex><span>in 106 ms
+</span></span><span style=display:flex><span>sitecopy -u home
+</span></span><span style=display:flex><span>sitecopy: Updating site `home&#39; (on www.holgerschurig.de in /)
+</span></span><span style=display:flex><span>Creating en/blogging-with-sitecopy/: done.
+</span></span><span style=display:flex><span>Uploading tags/hugo/index.xml: [..] done.
+</span></span><span style=display:flex><span>Uploading tags/hugo/index.html: [.] done.
+</span></span><span style=display:flex><span>Uploading tags/index.html: [.] done.
+</span></span><span style=display:flex><span>Uploading en/emacs-init-tangle/index.html: [.] done.
+</span></span><span style=display:flex><span>Uploading en/emacs-blog-from-org-to-hugo/index.html: [..] done.
+</span></span><span style=display:flex><span>Uploading en/blogging-with-sitecopy/index.html: [.] done.
+</span></span><span style=display:flex><span>Uploading en/index.xml: [...] done.
+</span></span><span style=display:flex><span>Uploading en/index.html: [.] done.
+</span></span><span style=display:flex><span>Uploading index.xml: [........] done.
+</span></span><span style=display:flex><span>Uploading sitemap.xml: [.] done.
+</span></span><span style=display:flex><span>Uploading index.html: [..] done.
+</span></span><span style=display:flex><span>sitecopy: Update completed successfully.
+</span></span></code></pre></div><p>A process that took 8.3 seconds only :-)</p></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script>
+<script src=../../js/math-code.js></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

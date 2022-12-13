@@ -1,49 +1,50 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.82.0"><title>AwesomeWM: about title bars and toggling them &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class="fa fa-list fa-fw"></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class="fa fa-list fa-fw"></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class="fa fa-folder fa-fw"></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class="fa fa-phone fa-fw"></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>AwesomeWM: about title bars and toggling them &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>AwesomeWM: about title bars and toggling them</h1><h2></h2></div><div class=content><p>The default <code>rc.lua</code> from Awesome 4.0 turns title bars on. Here I show
 how you can turn them off, and also how I enable them only for
-floating clients.</p><p>Note: the following works with AwesomeWM v4.0. I used v4.0-105-gbfb35349.</p><h2 id=removing-the-title-bars>Removing the title bars</h2><p>Users of awesome 3.5.x are surprised that suddenly all clients have a title bar.</p><p>This is because the rules file in the default <code>rc.lua</code> contains those lines:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=color:#888>-- Add title bars to normal clients and dialogs</span>
-{ rule_any <span style=color:#333>=</span> {type <span style=color:#333>=</span> { <span style=background-color:#fff0f0>&#34;normal&#34;</span>, <span style=background-color:#fff0f0>&#34;dialog&#34;</span> }
-  }, properties <span style=color:#333>=</span> { titlebars_enabled <span style=color:#333>=</span> <span style=color:#080;font-weight:700>true</span> }
-},
-</code></pre></div><p>So removing the title bars is as easy as changing the <code>true</code> to <code>false</code>.</p><h2 id=removing-the-title-bars-only-for-non-floating-clients>Removing the title bars only for non-floating clients</h2><p>However, now no title bar will ever created. If you want to show a title bar
+floating clients.</p><p>Note: the following works with AwesomeWM v4.0. I used v4.0-105-gbfb35349.</p><h2 id=removing-the-title-bars>Removing the title bars</h2><p>Users of awesome 3.5.x are surprised that suddenly all clients have a title bar.</p><p>This is because the rules file in the default <code>rc.lua</code> contains those lines:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#888>-- Add title bars to normal clients and dialogs</span>
+</span></span><span style=display:flex><span>{ rule_any <span style=color:#333>=</span> {type <span style=color:#333>=</span> { <span style=background-color:#fff0f0>&#34;normal&#34;</span>, <span style=background-color:#fff0f0>&#34;dialog&#34;</span> }
+</span></span><span style=display:flex><span>  }, properties <span style=color:#333>=</span> { titlebars_enabled <span style=color:#333>=</span> <span style=color:#080;font-weight:700>true</span> }
+</span></span><span style=display:flex><span>},
+</span></span></code></pre></div><p>So removing the title bars is as easy as changing the <code>true</code> to <code>false</code>.</p><h2 id=removing-the-title-bars-only-for-non-floating-clients>Removing the title bars only for non-floating clients</h2><p>However, now no title bar will ever created. If you want to show a title bar
 for a floating client, you cannot do that: there exists none. So let&rsquo;s change
 the <code>false</code> back to <code>true</code>.</p><p>Now title bars will be created in the signal handler for the signal
-<code>request::titlebar</code>. At the end of the handling function, add this code:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>    ...
-        layout <span style=color:#333>=</span> wibox.layout.align.horizontal
-    }
-    <span style=color:#888>-- Hide the menubar</span>
-    awful.titlebar.hide(c)
-<span style=color:#080;font-weight:700>end</span>)
-</code></pre></div><p>This hides the newly created title bar. Or, maybe we want to hide the
-title bar only sometimes, then use:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>    ...
-        layout <span style=color:#333>=</span> wibox.layout.align.horizontal
-    }
-    <span style=color:#888>-- Hide the menubar if we are not floating</span>
-    <span style=color:#080;font-weight:700>local</span> l <span style=color:#333>=</span> awful.layout.get(c.screen)
-    <span style=color:#080;font-weight:700>if</span> <span style=color:#000;font-weight:700>not</span> (l.name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;floating&#34;</span> <span style=color:#000;font-weight:700>or</span> c.floating) <span style=color:#080;font-weight:700>then</span>
-        awful.titlebar.hide(c)
-    <span style=color:#080;font-weight:700>end</span>
-</code></pre></div><p>And now you can still toggle the title bar, e.g. with this binding:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>clientkey({ modkey, <span style=background-color:#fff0f0>&#34;Control&#34;</span> }, <span style=background-color:#fff0f0>&#34;t&#34;</span>,
-   awful.titlebar.toggle,
-   {description <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Toggle title bar&#34;</span>, group <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Clients&#34;</span>})
-</code></pre></div><p>(See my blog post about <a href=../../en/awesome-4.0-bindings/>keybindings</a> to learn
+<code>request::titlebar</code>. At the end of the handling function, add this code:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>        layout <span style=color:#333>=</span> wibox.layout.align.horizontal
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#888>-- Hide the menubar</span>
+</span></span><span style=display:flex><span>    awful.titlebar.hide(c)
+</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>)
+</span></span></code></pre></div><p>This hides the newly created title bar. Or, maybe we want to hide the
+title bar only sometimes, then use:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>        layout <span style=color:#333>=</span> wibox.layout.align.horizontal
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#888>-- Hide the menubar if we are not floating</span>
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>local</span> l <span style=color:#333>=</span> awful.layout.get(c.screen)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>if</span> <span style=color:#000;font-weight:700>not</span> (l.name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;floating&#34;</span> <span style=color:#000;font-weight:700>or</span> c.floating) <span style=color:#080;font-weight:700>then</span>
+</span></span><span style=display:flex><span>        awful.titlebar.hide(c)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>end</span>
+</span></span></code></pre></div><p>And now you can still toggle the title bar, e.g. with this binding:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>clientkey({ modkey, <span style=background-color:#fff0f0>&#34;Control&#34;</span> }, <span style=background-color:#fff0f0>&#34;t&#34;</span>,
+</span></span><span style=display:flex><span>   awful.titlebar.toggle,
+</span></span><span style=display:flex><span>   {description <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Toggle title bar&#34;</span>, group <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Clients&#34;</span>})
+</span></span></code></pre></div><p>(See my blog post about <a href=../../en/awesome-4.0-bindings/>keybindings</a> to learn
 about the <code>clientkey()</code> function.)</p><h2 id=turning-title-bars-on-when-a-client-is-floating>Turning title bars on when a client is floating</h2><p>Or you can show/hide the title bar automatically whenever you toggle
-the floating attribute if you add this property signal handler:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>client.connect_signal(<span style=background-color:#fff0f0>&#34;property::floating&#34;</span>, <span style=color:#080;font-weight:700>function</span> (c)
-    <span style=color:#080;font-weight:700>if</span> c.floating <span style=color:#080;font-weight:700>then</span>
-        awful.titlebar.show(c)
-    <span style=color:#080;font-weight:700>else</span>
-        awful.titlebar.hide(c)
-    <span style=color:#080;font-weight:700>end</span>
-<span style=color:#080;font-weight:700>end</span>)
-</code></pre></div><p>A possible binding might be:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>clientkey({ modkey, <span style=background-color:#fff0f0>&#34;Control&#34;</span> }, <span style=background-color:#fff0f0>&#34;o&#34;</span>,
-   <span style=color:#080;font-weight:700>function</span> (c) c.floating <span style=color:#333>=</span> <span style=color:#000;font-weight:700>not</span> c.floating <span style=color:#080;font-weight:700>end</span>,
-   {description <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Toggle floating&#34;</span>, group <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Clients&#34;</span>})
-</code></pre></div><h2 id=turning-on-the-title-bars-when-the-layout-is-floating>Turning on the title bars when the layout is floating</h2><p>But what is when I don&rsquo;t set a single client to floating mode (e.g. via rules,
+the floating attribute if you add this property signal handler:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>client.connect_signal(<span style=background-color:#fff0f0>&#34;property::floating&#34;</span>, <span style=color:#080;font-weight:700>function</span> (c)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>if</span> c.floating <span style=color:#080;font-weight:700>then</span>
+</span></span><span style=display:flex><span>        awful.titlebar.show(c)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>else</span>
+</span></span><span style=display:flex><span>        awful.titlebar.hide(c)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>)
+</span></span></code></pre></div><p>A possible binding might be:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>clientkey({ modkey, <span style=background-color:#fff0f0>&#34;Control&#34;</span> }, <span style=background-color:#fff0f0>&#34;o&#34;</span>,
+</span></span><span style=display:flex><span>   <span style=color:#080;font-weight:700>function</span> (c) c.floating <span style=color:#333>=</span> <span style=color:#000;font-weight:700>not</span> c.floating <span style=color:#080;font-weight:700>end</span>,
+</span></span><span style=display:flex><span>   {description <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Toggle floating&#34;</span>, group <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;Clients&#34;</span>})
+</span></span></code></pre></div><h2 id=turning-on-the-title-bars-when-the-layout-is-floating>Turning on the title bars when the layout is floating</h2><p>But what is when I don&rsquo;t set a single client to floating mode (e.g. via rules,
 or via a keybinding), but when I use the floating layout suit? As often, a signal
-handler can help here:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua>awful.tag.attached_connect_signal(s, <span style=background-color:#fff0f0>&#34;property::layout&#34;</span>, <span style=color:#080;font-weight:700>function</span> (t)
-    <span style=color:#080;font-weight:700>local</span> float <span style=color:#333>=</span> t.layout.name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;floating&#34;</span>
-    <span style=color:#080;font-weight:700>for</span> _,c <span style=color:#080;font-weight:700>in</span> pairs(t:clients()) <span style=color:#080;font-weight:700>do</span>
-        c.floating <span style=color:#333>=</span> float
-    <span style=color:#080;font-weight:700>end</span>
-<span style=color:#080;font-weight:700>end</span>)
-</code></pre></div></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script></body></html>
+handler can help here:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>awful.tag.attached_connect_signal(s, <span style=background-color:#fff0f0>&#34;property::layout&#34;</span>, <span style=color:#080;font-weight:700>function</span> (t)
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>local</span> float <span style=color:#333>=</span> t.layout.name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;floating&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>for</span> _,c <span style=color:#080;font-weight:700>in</span> pairs(t:clients()) <span style=color:#080;font-weight:700>do</span>
+</span></span><span style=display:flex><span>        c.floating <span style=color:#333>=</span> float
+</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>)
+</span></span></code></pre></div></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script></body></html>

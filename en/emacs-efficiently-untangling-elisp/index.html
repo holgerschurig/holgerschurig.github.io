@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.82.0"><title>Efficiently untangling Elisp from .org files &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class="fa fa-home fa-fw"></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class="fa fa-list fa-fw"></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class="fa fa-list fa-fw"></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class="fa fa-folder fa-fw"></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class="fa fa-phone fa-fw"></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>Efficiently untangling Elisp from .org files &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Efficiently untangling Elisp from .org files</h1><h2></h2></div><div class=content><p>Many people keep their Emacs config in and org-mode file because it’s
 easier to manage.</p><p>However, we need to extract the Elisp parts out of the org file and
 evaluate them somehow. org-mode has a built-in command for this:
@@ -19,75 +19,78 @@ it doesn’t care for the todo-state of a section. I wrote my code
 so that it will skip over items marked as “CANCELED”. It’s just
 nicer to mark one section with “CANCELED” — compared to change
 everyone of it’s five source-code blocks with <code>:tangle no</code>.</li></ul><h1 id=the-tangling>The tangling</h1><p>First I define a function that — when the point is at some source-code block —
-goes back to the section header and checks if there entry has been canceled:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-<span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
-
-(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-section-canceled</span> ()
-  <span style=background-color:#fff0f0>&#34;Return t if the current section header was CANCELED, else nil.&#34;</span>
-  (<span style=color:#963>save-excursion</span>
-    (<span style=color:#080;font-weight:700>if</span> (<span style=color:#963>re-search-backward</span> <span style=background-color:#fff0f0>&#34;^\\*+\\s-+\\(.*?\\)?\\s-*$&#34;</span> <span style=color:#036;font-weight:700>nil</span> <span style=color:#036;font-weight:700>t</span>)
-        (<span style=color:#963>string-prefix-p</span> <span style=background-color:#fff0f0>&#34;CANCELED&#34;</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>1</span>))
-      <span style=color:#036;font-weight:700>nil</span>)))
-</code></pre></div><p>With that done, we can untangle source-code blocks like this:</p><ul><li>disabled garbage collection</li><li>defines the regexp (stolen from org-mode) to parse org-mode source blocks</li><li>uses a while-loop to search every source-block</li><li>checks that the source block is neither untangleable nor in a CANCELED section</li><li>appends the body of the source block to <code>body-list</code></li><li>finally, it uses a temporary file and insert all the collected bodies into it</li><li>and writes the result out into a <code>.el</code>-file</li></ul><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=color:#888>;; This uses partially derived code from ob-core.el. So this snippet</span>
-<span style=color:#888>;; is GPLv3 or later. If you still don&#39;t know the details, read</span>
-<span style=color:#888>;; http://www.gnu.org/licenses/</span>
-
-(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-config-org</span> (<span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>)
-  <span style=background-color:#fff0f0>&#34;This function will write all source blocks from =config.org= into
-</span><span style=background-color:#fff0f0>=config.el= that are ...
-</span><span style=background-color:#fff0f0>
-</span><span style=background-color:#fff0f0>- not marked as :tangle no
-</span><span style=background-color:#fff0f0>- have a source-code of =emacs-lisp=
-</span><span style=background-color:#fff0f0>- doesn&#39;t have the todo-marker CANCELED&#34;</span>
-  (<span style=color:#080;font-weight:700>let*</span> ((<span style=color:#963>body-list</span> ())
-         (<span style=color:#963>gc-cons-threshold</span> <span style=color:#963>most-positive-fixnum</span>)
-         (<span style=color:#963>org-babel-src-block-regexp</span>   (<span style=color:#963>concat</span>
-                                        <span style=color:#888>;; (1) indentation                 (2) lang</span>
-                                        <span style=background-color:#fff0f0>&#34;^\\([ \t]*\\)#\\+begin_src[ \t]+\\([^ \f\t\n\r\v]+\\)[ \t]*&#34;</span>
-                                        <span style=color:#888>;; (3) switches</span>
-                                        <span style=background-color:#fff0f0>&#34;\\([^\&#34;:\n]*\&#34;[^\&#34;\n*]*\&#34;[^\&#34;:\n]*\\|[^\&#34;:\n]*\\)&#34;</span>
-                                        <span style=color:#888>;; (4) header arguments</span>
-                                        <span style=background-color:#fff0f0>&#34;\\([^\n]*\\)\n&#34;</span>
-                                        <span style=color:#888>;; (5) body</span>
-                                        <span style=background-color:#fff0f0>&#34;\\([^\000]*?\n\\)??[ \t]*#\\+end_src&#34;</span>)))
-    (<span style=color:#963>with-temp-buffer</span>
-      (<span style=color:#963>insert-file-contents</span> <span style=color:#963>orgfile</span>)
-      (<span style=color:#963>goto-char</span> (<span style=color:#963>point-min</span>))
-      (<span style=color:#963>while</span> (<span style=color:#963>re-search-forward</span> <span style=color:#963>org-babel-src-block-regexp</span> <span style=color:#036;font-weight:700>nil</span> <span style=color:#036;font-weight:700>t</span>)
-        (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>lang</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>2</span>))
-              (<span style=color:#963>args</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>4</span>))
-              (<span style=color:#963>body</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>5</span>))
-              (<span style=color:#963>canc</span> (<span style=color:#963>my-tangle-section-canceled</span>)))
-          (<span style=color:#007020>when</span> (<span style=color:#007020>and</span> (<span style=color:#06b;font-weight:700>string=</span> <span style=color:#963>lang</span> <span style=background-color:#fff0f0>&#34;emacs-lisp&#34;</span>)
-                     (<span style=color:#06b;font-weight:700>not</span> (<span style=color:#963>string-match-p</span> <span style=background-color:#fff0f0>&#34;:tangle\\s-+no&#34;</span> <span style=color:#963>args</span>))
-                     (<span style=color:#06b;font-weight:700>not</span> <span style=color:#963>canc</span>))
-              (<span style=color:#963>add-to-list</span> <span style=color:#a60;background-color:#fff0f0>&#39;body-list</span> <span style=color:#963>body</span>)))))
-    (<span style=color:#963>with-temp-file</span> <span style=color:#963>elfile</span>
-      (<span style=color:#963>insert</span> (<span style=color:#06b;font-weight:700>format</span> <span style=background-color:#fff0f0>&#34;;; Don&#39;t edit this file, edit %s instead ...\n\n&#34;</span> <span style=color:#963>orgfile</span>))
-      (<span style=color:#06b;font-weight:700>apply</span> <span style=color:#a60;background-color:#fff0f0>&#39;insert</span> (<span style=color:#06b;font-weight:700>reverse</span> <span style=color:#963>body-list</span>)))
-    (<span style=color:#963>message</span> <span style=background-color:#fff0f0>&#34;Wrote %s ...&#34;</span> <span style=color:#963>elfile</span>)))
-</code></pre></div><h1 id=the-usage>The Usage</h1><p>Now I can use this function. If either the <code>.el</code> file doesn’t exist or
-the <code>.org</code> file is newer, I’ll re-create the <code>.el</code> file.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-<span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
-
-(<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>orgfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span>))
-      (<span style=color:#963>elfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.el&#34;</span>)))
-  (<span style=color:#007020>when</span> (<span style=color:#007020>or</span> (<span style=color:#06b;font-weight:700>not</span> (<span style=color:#963>file-exists-p</span> <span style=color:#963>elfile</span>))
-            (<span style=color:#963>file-newer-than-file-p</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))
-    (<span style=color:#963>my-tangle-config-org</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))
-  (<span style=color:#963>load-file</span> <span style=color:#963>elfile</span>))
-</code></pre></div><p>This code is mostly active when I update my emacs configuration with
+goes back to the section header and checks if there entry has been canceled:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-section-canceled</span> ()
+</span></span><span style=display:flex><span>  <span style=background-color:#fff0f0>&#34;Return t if the current section header was CANCELED, else nil.&#34;</span>
+</span></span><span style=display:flex><span>  (<span style=color:#963>save-excursion</span>
+</span></span><span style=display:flex><span>    (<span style=color:#080;font-weight:700>if</span> (<span style=color:#963>re-search-backward</span> <span style=background-color:#fff0f0>&#34;^\\*+\\s-+\\(.*?\\)?\\s-*$&#34;</span> <span style=color:#036;font-weight:700>nil</span> <span style=color:#036;font-weight:700>t</span>)
+</span></span><span style=display:flex><span>        (<span style=color:#963>string-prefix-p</span> <span style=background-color:#fff0f0>&#34;CANCELED&#34;</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>1</span>))
+</span></span><span style=display:flex><span>      <span style=color:#036;font-weight:700>nil</span>)))
+</span></span></code></pre></div><p>With that done, we can untangle source-code blocks like this:</p><ul><li>disabled garbage collection</li><li>defines the regexp (stolen from org-mode) to parse org-mode source blocks</li><li>uses a while-loop to search every source-block</li><li>checks that the source block is neither untangleable nor in a CANCELED section</li><li>appends the body of the source block to <code>body-list</code></li><li>finally, it uses a temporary file and insert all the collected bodies into it</li><li>and writes the result out into a <code>.el</code>-file</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This uses partially derived code from ob-core.el. So this snippet</span>
+</span></span><span style=display:flex><span><span style=color:#888>;; is GPLv3 or later. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-config-org</span> (<span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>)
+</span></span><span style=display:flex><span>  <span style=background-color:#fff0f0>&#34;This function will write all source blocks from =config.org= into
+</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>=config.el= that are ...
+</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>
+</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>- not marked as :tangle no
+</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>- have a source-code of =emacs-lisp=
+</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>- doesn&#39;t have the todo-marker CANCELED&#34;</span>
+</span></span><span style=display:flex><span>  (<span style=color:#080;font-weight:700>let*</span> ((<span style=color:#963>body-list</span> ())
+</span></span><span style=display:flex><span>         (<span style=color:#963>gc-cons-threshold</span> <span style=color:#963>most-positive-fixnum</span>)
+</span></span><span style=display:flex><span>         (<span style=color:#963>org-babel-src-block-regexp</span>   (<span style=color:#963>concat</span>
+</span></span><span style=display:flex><span>                                        <span style=color:#888>;; (1) indentation                 (2) lang</span>
+</span></span><span style=display:flex><span>                                        <span style=background-color:#fff0f0>&#34;^\\([ \t]*\\)#\\+begin_src[ \t]+\\([^ \f\t\n\r\v]+\\)[ \t]*&#34;</span>
+</span></span><span style=display:flex><span>                                        <span style=color:#888>;; (3) switches</span>
+</span></span><span style=display:flex><span>                                        <span style=background-color:#fff0f0>&#34;\\([^\&#34;:\n]*\&#34;[^\&#34;\n*]*\&#34;[^\&#34;:\n]*\\|[^\&#34;:\n]*\\)&#34;</span>
+</span></span><span style=display:flex><span>                                        <span style=color:#888>;; (4) header arguments</span>
+</span></span><span style=display:flex><span>                                        <span style=background-color:#fff0f0>&#34;\\([^\n]*\\)\n&#34;</span>
+</span></span><span style=display:flex><span>                                        <span style=color:#888>;; (5) body</span>
+</span></span><span style=display:flex><span>                                        <span style=background-color:#fff0f0>&#34;\\([^\000]*?\n\\)??[ \t]*#\\+end_src&#34;</span>)))
+</span></span><span style=display:flex><span>    (<span style=color:#963>with-temp-buffer</span>
+</span></span><span style=display:flex><span>      (<span style=color:#963>insert-file-contents</span> <span style=color:#963>orgfile</span>)
+</span></span><span style=display:flex><span>      (<span style=color:#963>goto-char</span> (<span style=color:#963>point-min</span>))
+</span></span><span style=display:flex><span>      (<span style=color:#963>while</span> (<span style=color:#963>re-search-forward</span> <span style=color:#963>org-babel-src-block-regexp</span> <span style=color:#036;font-weight:700>nil</span> <span style=color:#036;font-weight:700>t</span>)
+</span></span><span style=display:flex><span>        (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>lang</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>2</span>))
+</span></span><span style=display:flex><span>              (<span style=color:#963>args</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>4</span>))
+</span></span><span style=display:flex><span>              (<span style=color:#963>body</span> (<span style=color:#963>match-string</span> <span style=color:#00d;font-weight:700>5</span>))
+</span></span><span style=display:flex><span>              (<span style=color:#963>canc</span> (<span style=color:#963>my-tangle-section-canceled</span>)))
+</span></span><span style=display:flex><span>          (<span style=color:#007020>when</span> (<span style=color:#007020>and</span> (<span style=color:#06b;font-weight:700>string=</span> <span style=color:#963>lang</span> <span style=background-color:#fff0f0>&#34;emacs-lisp&#34;</span>)
+</span></span><span style=display:flex><span>                     (<span style=color:#06b;font-weight:700>not</span> (<span style=color:#963>string-match-p</span> <span style=background-color:#fff0f0>&#34;:tangle\\s-+no&#34;</span> <span style=color:#963>args</span>))
+</span></span><span style=display:flex><span>                     (<span style=color:#06b;font-weight:700>not</span> <span style=color:#963>canc</span>))
+</span></span><span style=display:flex><span>              (<span style=color:#963>add-to-list</span> <span style=color:#a60;background-color:#fff0f0>&#39;body-list</span> <span style=color:#963>body</span>)))))
+</span></span><span style=display:flex><span>    (<span style=color:#963>with-temp-file</span> <span style=color:#963>elfile</span>
+</span></span><span style=display:flex><span>      (<span style=color:#963>insert</span> (<span style=color:#06b;font-weight:700>format</span> <span style=background-color:#fff0f0>&#34;;; Don&#39;t edit this file, edit %s instead ...\n\n&#34;</span> <span style=color:#963>orgfile</span>))
+</span></span><span style=display:flex><span>      (<span style=color:#06b;font-weight:700>apply</span> <span style=color:#a60;background-color:#fff0f0>&#39;insert</span> (<span style=color:#06b;font-weight:700>reverse</span> <span style=color:#963>body-list</span>)))
+</span></span><span style=display:flex><span>    (<span style=color:#963>message</span> <span style=background-color:#fff0f0>&#34;Wrote %s ...&#34;</span> <span style=color:#963>elfile</span>)))
+</span></span></code></pre></div><h1 id=the-usage>The Usage</h1><p>Now I can use this function. If either the <code>.el</code> file doesn’t exist or
+the <code>.org</code> file is newer, I’ll re-create the <code>.el</code> file.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>orgfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span>))
+</span></span><span style=display:flex><span>      (<span style=color:#963>elfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.el&#34;</span>)))
+</span></span><span style=display:flex><span>  (<span style=color:#007020>when</span> (<span style=color:#007020>or</span> (<span style=color:#06b;font-weight:700>not</span> (<span style=color:#963>file-exists-p</span> <span style=color:#963>elfile</span>))
+</span></span><span style=display:flex><span>            (<span style=color:#963>file-newer-than-file-p</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))
+</span></span><span style=display:flex><span>    (<span style=color:#963>my-tangle-config-org</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))
+</span></span><span style=display:flex><span>  (<span style=color:#963>load-file</span> <span style=color:#963>elfile</span>))
+</span></span></code></pre></div><p>This code is mostly active when I update my emacs configuration with
 <code>git pull</code>, e.g. when switching from desktop to laptop or vica versa.</p><h1 id=also-tangle-on-save>Also tangle on save</h1><p>But normally I’d like to avoid even this. I wrote a function that is
 called whenever I save a file. It checks if the file is indeed the
-.org file.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-<span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
-
-(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-config-org-hook-func</span> ()
-  (<span style=color:#007020>when</span> (<span style=color:#06b;font-weight:700>string=</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span> (<span style=color:#963>buffer-name</span>))
-    (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>orgfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span>))
-          (<span style=color:#963>elfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.el&#34;</span>)))
-      (<span style=color:#963>my-tangle-config-org</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))))
-(<span style=color:#963>add-hook</span> <span style=color:#a60;background-color:#fff0f0>&#39;after-save-hook</span> <span style=color:#06b;font-weight:700>#&#39;</span><span style=color:#963>my-tangle-config-org-hook-func</span>)
-</code></pre></div><h1 id=some-benchmark-results>Some benchmark results</h1><p>You’ll see that …</p><ul><li>my approach is 0.32 seconds faster than using <code>org-babel-load-file</code>.
+.org file.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#007020>defun</span> <span style=color:#963>my-tangle-config-org-hook-func</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:#007020>when</span> (<span style=color:#06b;font-weight:700>string=</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span> (<span style=color:#963>buffer-name</span>))
+</span></span><span style=display:flex><span>    (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>orgfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.org&#34;</span>))
+</span></span><span style=display:flex><span>          (<span style=color:#963>elfile</span> (<span style=color:#963>concat</span> <span style=color:#963>user-emacs-directory</span> <span style=background-color:#fff0f0>&#34;config.el&#34;</span>)))
+</span></span><span style=display:flex><span>      (<span style=color:#963>my-tangle-config-org</span> <span style=color:#963>orgfile</span> <span style=color:#963>elfile</span>))))
+</span></span><span style=display:flex><span>(<span style=color:#963>add-hook</span> <span style=color:#a60;background-color:#fff0f0>&#39;after-save-hook</span> <span style=color:#06b;font-weight:700>#&#39;</span><span style=color:#963>my-tangle-config-org-hook-func</span>)
+</span></span></code></pre></div><h1 id=some-benchmark-results>Some benchmark results</h1><p>You’ll see that …</p><ul><li>my approach is 0.32 seconds faster than using <code>org-babel-load-file</code>.
 But I have the added benefit that I can mark sections as CANCELED
-:-)</li><li>after a fresh “git pull”, I pay a very low price of 0.09 seconds</li><li>byte-compilation doesn’t bring much for this file …</li></ul><p>All measurements were done on my laptop. My desktop is about double as fast.</p></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
+:-)</li><li>after a fresh “git pull”, I pay a very low price of 0.09 seconds</li><li>byte-compilation doesn’t bring much for this file …</li></ul><p>All measurements were done on my laptop. My desktop is about double as fast.</p></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script>
+<script src=../../js/math-code.js></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

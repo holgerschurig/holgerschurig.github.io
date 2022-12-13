@@ -2,6 +2,6 @@
 &lt;a href="../../tags/raspi/">Raspberry Pi&lt;/a>) you often need to work over a serial port, e.g. to
 customize the Barebox or U-Boot boot loader.&lt;/p>
 &lt;p>On Linux, people often use &amp;ldquo;&lt;em>minicom&lt;/em>&amp;rdquo; for this. Other options are
-&amp;ldquo;&lt;em>Putty&lt;/em>&amp;rdquo; (yes, it&amp;rsquo;s not a Windows-only program, try &amp;ldquo;&lt;code>apt-get install putty&lt;/code>&amp;quot;) or even the ancient &lt;a href="http://www.kermitproject.org">C-Kermit&lt;/a>.
+&amp;ldquo;&lt;em>Putty&lt;/em>&amp;rdquo; (yes, it&amp;rsquo;s not a Windows-only program, try &amp;ldquo;&lt;code>apt-get install putty&lt;/code>&amp;rdquo;) or even the ancient &lt;a href="http://www.kermitproject.org">C-Kermit&lt;/a>.
 Surprisingly I found that Kermit suits my work-flow the best, when
 properly configured.&lt;/p></description></item></channel></rss>
