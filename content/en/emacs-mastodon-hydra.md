@@ -1,6 +1,6 @@
 +++
 title = "mastodon.el: a Hydra to memorize/access it's many commands"
-date = "2022-12-13"
+date = "2022-12-13T11:57:00+01:00"
 tags = [ "Emacs", "mastodon.el", "Hydra" ]
 topics = [ "Emacs" ]
 +++

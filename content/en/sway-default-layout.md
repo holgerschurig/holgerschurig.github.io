@@ -1,7 +1,7 @@
 +++
-date = "2022-12-13"
+date = "2022-12-13T15:30:00+01:00"
 title = "Sway: default initial layout"
-tags = [ "sway", "dotfiles" ]
+tags = [ "sway", "wayland", "dotfiles" ]
 topics = [ "Linux" ]
 keywords = [ "Sway", "layout" ]
 +++
