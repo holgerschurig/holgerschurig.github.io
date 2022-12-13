@@ -9,160 +9,160 @@ position: around the center of the screen. Also it won’t
 differentiate between new and total counts .. or it would need two
 queries, not just one. → Present the queries better.</li><li>I see elements that i never use, e.g. the header, the footer, or the
 “Clear” button. → Get rid of them.</li></ul><p>What I wrote now looks like this:</p><p><img src=./emacs-notmuch-hello-mine.png alt=img></p><h1 id=the-implementation>The implementation</h1><p>Let’s start simple: define the queries.</p><p>Note that I define basic queries, e.g. at this point in time I don’t
-create two queries for the unread/total amount of messages.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+create two queries for the unread/total amount of messages.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#75715e>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>(<span style=color:#06b;font-weight:700>use-package</span> <span style=color:#963>notmuch-hello</span>
-</span></span><span style=display:flex><span>  <span style=color:#a60;background-color:#fff0f0>:defer</span> <span style=color:#036;font-weight:700>t</span>
-</span></span><span style=display:flex><span>  <span style=color:#a60;background-color:#fff0f0>:config</span>
-</span></span><span style=display:flex><span>  (<span style=color:#080;font-weight:700>setq</span> <span style=color:#963>notmuch-saved-searches</span>
-</span></span><span style=display:flex><span>        <span style=color:#333>&#39;</span>((<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;i&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;inbox&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:INBOX&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;b&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;barebox&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:barebox&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;c&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;linux-can&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:linux-can&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;a&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;linux-arm-kernel&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:linux-arm-kernel&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;m&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;linux-mmc&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:linux-mmc&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;9&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;ath9k-devel&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:ath9k-devel&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;e&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;elecraft&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:elecraft&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;p&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;powertop&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:powertop&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;D&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;Deleted&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;tag:deleted&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;F&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;Flagged&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;tag:flagged&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;S&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;Sent&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;folder:sent&#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#a60;background-color:#fff0f0>:key</span> <span style=background-color:#fff0f0>&#34;u&#34;</span> <span style=color:#a60;background-color:#fff0f0>:name</span> <span style=background-color:#fff0f0>&#34;unread&#34;</span> <span style=color:#a60;background-color:#fff0f0>:query</span> <span style=background-color:#fff0f0>&#34;tag:unread&#34;</span>)
+</span></span><span style=display:flex><span>(<span style=color:#a6e22e>use-package</span> notmuch-hello
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>:defer</span> <span style=color:#66d9ef>t</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>:config</span>
+</span></span><span style=display:flex><span>  (<span style=color:#66d9ef>setq</span> notmuch-saved-searches
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#39;</span>((<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;i&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;inbox&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:INBOX&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;b&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;barebox&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:barebox&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;c&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;linux-can&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:linux-can&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;a&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;linux-arm-kernel&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:linux-arm-kernel&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;m&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;linux-mmc&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:linux-mmc&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;9&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;ath9k-devel&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:ath9k-devel&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;e&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;elecraft&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:elecraft&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;p&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;powertop&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:powertop&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;D&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;Deleted&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;tag:deleted&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;F&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;Flagged&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;tag:flagged&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;S&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;Sent&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;folder:sent&#34;</span>)
+</span></span><span style=display:flex><span>          (<span style=color:#e6db74>:key</span> <span style=color:#e6db74>&#34;u&#34;</span> <span style=color:#e6db74>:name</span> <span style=color:#e6db74>&#34;unread&#34;</span> <span style=color:#e6db74>:query</span> <span style=color:#e6db74>&#34;tag:unread&#34;</span>)
 </span></span><span style=display:flex><span>          ))
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; We add items later in reverse order with (add-to-list ...):</span>
-</span></span><span style=display:flex><span>  (<span style=color:#080;font-weight:700>setq</span> <span style=color:#963>notmuch-hello-sections</span> <span style=color:#333>&#39;</span>())
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; We add items later in reverse order with (add-to-list ...):</span>
+</span></span><span style=display:flex><span>  (<span style=color:#66d9ef>setq</span> notmuch-hello-sections <span style=color:#f92672>&#39;</span>())
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; Add a thousand separator</span>
-</span></span><span style=display:flex><span>  (<span style=color:#080;font-weight:700>setq</span> <span style=color:#963>notmuch-hello-thousands-separator</span> <span style=background-color:#fff0f0>&#34;.&#34;</span>)
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; Add a thousand separator</span>
+</span></span><span style=display:flex><span>  (<span style=color:#66d9ef>setq</span> notmuch-hello-thousands-separator <span style=color:#e6db74>&#34;.&#34;</span>)
 </span></span></code></pre></div><p>We set <code>notmuch-hello-sections</code> to the empty list, so we add
 hello-section after hello-section with <code>(add-to-list</code>. This prepends,
 so we add the sections in reverse order.</p><h1 id=list-of-recent-searches>List of recent searches</h1><p><img src=./emacs-notmuch-hello-recent.png alt=img></p><p>At the bottom are the recent searches, just without the “Save” and
 “Clear” buttons. This is just a slightly modified reimplementation of
-<code>notmuch-hello-insert-recent-searches</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#888>;; This is GPLv3. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span><span style=color:#888>;; http://www.gnu.org/licenses/gpl-3.0.en.html</span>
+<code>notmuch-hello-insert-recent-searches</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span><span style=color:#75715e>;; This is GPLv3. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>;; http://www.gnu.org/licenses/gpl-3.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>(<span style=color:#007020>defun</span> <span style=color:#963>my-notmuch-hello-insert-recent-searches</span> ()
-</span></span><span style=display:flex><span>  <span style=background-color:#fff0f0>&#34;Insert recent searches.&#34;</span>
-</span></span><span style=display:flex><span>  (<span style=color:#007020>when</span> <span style=color:#963>notmuch-search-history</span>
-</span></span><span style=display:flex><span>    (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;Recent searches:&#34;</span>)
-</span></span><span style=display:flex><span>    (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;\n\n&#34;</span>)
-</span></span><span style=display:flex><span>    (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>start</span> (<span style=color:#963>point</span>)))
-</span></span><span style=display:flex><span>      (<span style=color:#007020>loop</span> <span style=color:#963>for</span> <span style=color:#963>i</span> <span style=color:#963>from</span> <span style=color:#00d;font-weight:700>1</span> <span style=color:#963>to</span> <span style=color:#963>notmuch-hello-recent-searches-max</span>
-</span></span><span style=display:flex><span>        <span style=color:#963>for</span> <span style=color:#06b;font-weight:700>search</span> <span style=color:#963>in</span> <span style=color:#963>notmuch-search-history</span> <span style=color:#007020>do</span>
-</span></span><span style=display:flex><span>        (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>widget-symbol</span> (<span style=color:#06b;font-weight:700>intern</span> (<span style=color:#06b;font-weight:700>format</span> <span style=background-color:#fff0f0>&#34;notmuch-hello-search-%d&#34;</span> <span style=color:#963>i</span>))))
-</span></span><span style=display:flex><span>          (<span style=color:#06b;font-weight:700>set</span> <span style=color:#963>widget-symbol</span>
-</span></span><span style=display:flex><span>           (<span style=color:#963>widget-create</span> <span style=color:#a60;background-color:#fff0f0>&#39;editable-field</span>
-</span></span><span style=display:flex><span>                  <span style=color:#888>;; Don&#39;t let the search boxes be</span>
-</span></span><span style=display:flex><span>                  <span style=color:#888>;; less than 8 characters wide.</span>
-</span></span><span style=display:flex><span>                  <span style=color:#a60;background-color:#fff0f0>:size</span> (<span style=color:#06b;font-weight:700>max</span> <span style=color:#00d;font-weight:700>8</span>
-</span></span><span style=display:flex><span>                         (<span style=color:#06b;font-weight:700>-</span> (<span style=color:#963>window-width</span>)
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; Leave some space</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; at the start and</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; end of the</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; boxes.</span>
-</span></span><span style=display:flex><span>                        (<span style=color:#06b;font-weight:700>*</span> <span style=color:#00d;font-weight:700>2</span> <span style=color:#963>notmuch-hello-indent</span>)
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; 1 for the space</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; before the `[del]&#39;</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; button. 5 for the</span>
-</span></span><span style=display:flex><span>                        <span style=color:#888>;; `[del]&#39; button.</span>
-</span></span><span style=display:flex><span>                        <span style=color:#00d;font-weight:700>1</span> <span style=color:#00d;font-weight:700>5</span>))
-</span></span><span style=display:flex><span>                  <span style=color:#a60;background-color:#fff0f0>:action</span> (<span style=color:#007020>lambda</span> (<span style=color:#963>widget</span> <span style=color:#080;font-weight:700>&amp;rest</span> <span style=color:#080;font-weight:700>ignore</span>)
-</span></span><span style=display:flex><span>                        (<span style=color:#963>notmuch-hello-search</span> (<span style=color:#963>widget-value</span> <span style=color:#963>widget</span>)))
-</span></span><span style=display:flex><span>                  <span style=color:#06b;font-weight:700>search</span>))
-</span></span><span style=display:flex><span>          (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34; &#34;</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#963>widget-create</span> <span style=color:#a60;background-color:#fff0f0>&#39;push-button</span>
-</span></span><span style=display:flex><span>                 <span style=color:#a60;background-color:#fff0f0>:notify</span> (<span style=color:#007020>lambda</span> (<span style=color:#963>widget</span> <span style=color:#080;font-weight:700>&amp;rest</span> <span style=color:#080;font-weight:700>ignore</span>)
-</span></span><span style=display:flex><span>                       (<span style=color:#007020>when</span> (<span style=color:#06b;font-weight:700>y-or-n-p</span> <span style=background-color:#fff0f0>&#34;Are you sure you want to delete this search? &#34;</span>)
-</span></span><span style=display:flex><span>                     (<span style=color:#963>notmuch-hello-delete-search-from-history</span> <span style=color:#963>widget</span>)))
-</span></span><span style=display:flex><span>                 <span style=color:#a60;background-color:#fff0f0>:notmuch-saved-search-widget</span> <span style=color:#963>widget-symbol</span>
-</span></span><span style=display:flex><span>                 <span style=background-color:#fff0f0>&#34;del&#34;</span>))
-</span></span><span style=display:flex><span>        (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;\n&#34;</span>))
-</span></span><span style=display:flex><span>      (<span style=color:#963>indent-rigidly</span> <span style=color:#963>start</span> (<span style=color:#963>point</span>) <span style=color:#963>notmuch-hello-indent</span>))
-</span></span><span style=display:flex><span>    <span style=color:#036;font-weight:700>nil</span>))
+</span></span><span style=display:flex><span>(defun my-notmuch-hello-insert-recent-searches ()
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Insert recent searches.&#34;</span>
+</span></span><span style=display:flex><span>  (when notmuch-search-history
+</span></span><span style=display:flex><span>    (widget-insert <span style=color:#e6db74>&#34;Recent searches:&#34;</span>)
+</span></span><span style=display:flex><span>    (widget-insert <span style=color:#e6db74>&#34;\n\n&#34;</span>)
+</span></span><span style=display:flex><span>    (<span style=color:#66d9ef>let</span> ((start (point)))
+</span></span><span style=display:flex><span>      (loop for i from <span style=color:#ae81ff>1</span> to notmuch-hello-recent-searches-max
+</span></span><span style=display:flex><span>        for <span style=color:#a6e22e>search</span> in notmuch-search-history do
+</span></span><span style=display:flex><span>        (<span style=color:#66d9ef>let</span> ((widget-symbol (<span style=color:#a6e22e>intern</span> (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;notmuch-hello-search-%d&#34;</span> i))))
+</span></span><span style=display:flex><span>          (<span style=color:#a6e22e>set</span> widget-symbol
+</span></span><span style=display:flex><span>           (widget-create <span style=color:#e6db74>&#39;editable-field</span>
+</span></span><span style=display:flex><span>                  <span style=color:#75715e>;; Don&#39;t let the search boxes be</span>
+</span></span><span style=display:flex><span>                  <span style=color:#75715e>;; less than 8 characters wide.</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e6db74>:size</span> (<span style=color:#a6e22e>max</span> <span style=color:#ae81ff>8</span>
+</span></span><span style=display:flex><span>                         (<span style=color:#a6e22e>-</span> (window-width)
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; Leave some space</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; at the start and</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; end of the</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; boxes.</span>
+</span></span><span style=display:flex><span>                        (<span style=color:#a6e22e>*</span> <span style=color:#ae81ff>2</span> notmuch-hello-indent)
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; 1 for the space</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; before the `[del]&#39;</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; button. 5 for the</span>
+</span></span><span style=display:flex><span>                        <span style=color:#75715e>;; `[del]&#39; button.</span>
+</span></span><span style=display:flex><span>                        <span style=color:#ae81ff>1</span> <span style=color:#ae81ff>5</span>))
+</span></span><span style=display:flex><span>                  <span style=color:#e6db74>:action</span> (lambda (widget <span style=color:#66d9ef>&amp;rest</span> <span style=color:#66d9ef>ignore</span>)
+</span></span><span style=display:flex><span>                        (notmuch-hello-search (widget-value widget)))
+</span></span><span style=display:flex><span>                  <span style=color:#a6e22e>search</span>))
+</span></span><span style=display:flex><span>          (widget-insert <span style=color:#e6db74>&#34; &#34;</span>)
+</span></span><span style=display:flex><span>          (widget-create <span style=color:#e6db74>&#39;push-button</span>
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>:notify</span> (lambda (widget <span style=color:#66d9ef>&amp;rest</span> <span style=color:#66d9ef>ignore</span>)
+</span></span><span style=display:flex><span>                       (when (<span style=color:#a6e22e>y-or-n-p</span> <span style=color:#e6db74>&#34;Are you sure you want to delete this search? &#34;</span>)
+</span></span><span style=display:flex><span>                     (notmuch-hello-delete-search-from-history widget)))
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>:notmuch-saved-search-widget</span> widget-symbol
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>&#34;del&#34;</span>))
+</span></span><span style=display:flex><span>        (widget-insert <span style=color:#e6db74>&#34;\n&#34;</span>))
+</span></span><span style=display:flex><span>      (indent-rigidly start (point) notmuch-hello-indent))
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>nil</span>))
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=color:#963>add-to-list</span> <span style=color:#a60;background-color:#fff0f0>&#39;notmuch-hello-sections</span> <span style=color:#06b;font-weight:700>#&#39;</span><span style=color:#963>my-notmuch-hello-insert-recent-searches</span>)
+</span></span><span style=display:flex><span>  (add-to-list <span style=color:#e6db74>&#39;notmuch-hello-sections</span> <span style=color:#a6e22e>#&#39;</span>my-notmuch-hello-insert-recent-searches)
 </span></span></code></pre></div><h1 id=simple-search-line>Simple search line</h1><p><img src=./emacs-notmuch-hello-search.png alt=img></p><p>Then I want a simple search method. The original implementation suited
-my needs quite fine, I use it unmodified:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  (<span style=color:#963>add-to-list</span> <span style=color:#a60;background-color:#fff0f0>&#39;notmuch-hello-sections</span> <span style=color:#06b;font-weight:700>#&#39;</span><span style=color:#963>notmuch-hello-insert-search</span>)
+my needs quite fine, I use it unmodified:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  (add-to-list <span style=color:#e6db74>&#39;notmuch-hello-sections</span> <span style=color:#a6e22e>#&#39;</span>notmuch-hello-insert-search)
 </span></span></code></pre></div><h1 id=header-face-for-the-search-screen>Header face for the search screen</h1><p>And finally we want out improved hello screen. Let’s start with the
-face for the header:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+face for the header:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#75715e>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=color:#963>defface</span> <span style=color:#963>my-notmuch-hello-header-face</span>
-</span></span><span style=display:flex><span>    <span style=color:#333>&#39;</span>((<span style=color:#036;font-weight:700>t</span> <span style=color:#a60;background-color:#fff0f0>:foreground</span> <span style=background-color:#fff0f0>&#34;white&#34;</span>
-</span></span><span style=display:flex><span>         <span style=color:#a60;background-color:#fff0f0>:background</span> <span style=background-color:#fff0f0>&#34;blue&#34;</span>
-</span></span><span style=display:flex><span>         <span style=color:#a60;background-color:#fff0f0>:weight</span> <span style=color:#963>bold</span>))
-</span></span><span style=display:flex><span>    <span style=background-color:#fff0f0>&#34;Font for the header in `my-notmuch-hello-insert-searches`.&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a60;background-color:#fff0f0>:group</span> <span style=color:#a60;background-color:#fff0f0>&#39;notmuch-faces</span>)
-</span></span></code></pre></div><h1 id=helper-function-to-count-messages>Helper function to count messages</h1><p>I implemented a simpler version of <code>notmuch-hello-query-counts</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#888>;; This is GPLv3. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; http://www.gnu.org/licenses/gpl-3.0.en.html</span>
+</span></span><span style=display:flex><span>  (defface my-notmuch-hello-header-face
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#39;</span>((<span style=color:#66d9ef>t</span> <span style=color:#e6db74>:foreground</span> <span style=color:#e6db74>&#34;white&#34;</span>
+</span></span><span style=display:flex><span>         <span style=color:#e6db74>:background</span> <span style=color:#e6db74>&#34;blue&#34;</span>
+</span></span><span style=display:flex><span>         <span style=color:#e6db74>:weight</span> bold))
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Font for the header in `my-notmuch-hello-insert-searches`.&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>:group</span> <span style=color:#e6db74>&#39;notmuch-faces</span>)
+</span></span></code></pre></div><h1 id=helper-function-to-count-messages>Helper function to count messages</h1><p>I implemented a simpler version of <code>notmuch-hello-query-counts</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#75715e>;; This is GPLv3. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; http://www.gnu.org/licenses/gpl-3.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=color:#007020>defun</span> <span style=color:#963>my-count-query</span> (<span style=color:#963>query</span>)
-</span></span><span style=display:flex><span>    (<span style=color:#963>with-temp-buffer</span>
-</span></span><span style=display:flex><span>      (<span style=color:#963>insert</span> <span style=color:#963>query</span> <span style=background-color:#fff0f0>&#34;\n&#34;</span>)
-</span></span><span style=display:flex><span>      (<span style=color:#007020>unless</span> (<span style=color:#06b;font-weight:700>=</span> (<span style=color:#963>call-process-region</span> (<span style=color:#963>point-min</span>) (<span style=color:#963>point-max</span>) <span style=color:#963>notmuch-command</span>
-</span></span><span style=display:flex><span>                                      <span style=color:#036;font-weight:700>t</span> <span style=color:#036;font-weight:700>t</span> <span style=color:#036;font-weight:700>nil</span> <span style=background-color:#fff0f0>&#34;count&#34;</span> <span style=background-color:#fff0f0>&#34;--batch&#34;</span>) <span style=color:#00d;font-weight:700>0</span>)
-</span></span><span style=display:flex><span>        (<span style=color:#963>notmuch-logged-error</span> <span style=background-color:#fff0f0>&#34;notmuch count --batch failed&#34;</span>
-</span></span><span style=display:flex><span><span style=background-color:#fff0f0>&#34;Please check that the notmuch CLI is new enough to support `count
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>--batch&#39;. In general we recommend running matching versions of
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>the CLI and emacs interface.&#34;</span>))
+</span></span><span style=display:flex><span>  (defun my-count-query (query)
+</span></span><span style=display:flex><span>    (with-temp-buffer
+</span></span><span style=display:flex><span>      (insert query <span style=color:#e6db74>&#34;\n&#34;</span>)
+</span></span><span style=display:flex><span>      (unless (<span style=color:#a6e22e>=</span> (call-process-region (point-min) (point-max) notmuch-command
+</span></span><span style=display:flex><span>                                      <span style=color:#66d9ef>t</span> <span style=color:#66d9ef>t</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;count&#34;</span> <span style=color:#e6db74>&#34;--batch&#34;</span>) <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>        (notmuch-logged-error <span style=color:#e6db74>&#34;notmuch count --batch failed&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;Please check that the notmuch CLI is new enough to support `count
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>--batch&#39;. In general we recommend running matching versions of
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>the CLI and emacs interface.&#34;</span>))
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      (<span style=color:#963>goto-char</span> (<span style=color:#963>point-min</span>))
-</span></span><span style=display:flex><span>      (<span style=color:#080;font-weight:700>let</span> ((<span style=color:#963>n</span> (<span style=color:#06b;font-weight:700>read</span> (<span style=color:#963>current-buffer</span>))))
-</span></span><span style=display:flex><span>        (<span style=color:#080;font-weight:700>if</span> (<span style=color:#06b;font-weight:700>=</span> <span style=color:#963>n</span> <span style=color:#00d;font-weight:700>0</span>)
-</span></span><span style=display:flex><span>            <span style=color:#036;font-weight:700>nil</span>
-</span></span><span style=display:flex><span>          (<span style=color:#963>notmuch-hello-nice-number</span> <span style=color:#963>n</span>)))))
+</span></span><span style=display:flex><span>      (goto-char (point-min))
+</span></span><span style=display:flex><span>      (<span style=color:#66d9ef>let</span> ((n (<span style=color:#a6e22e>read</span> (current-buffer))))
+</span></span><span style=display:flex><span>        (<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>=</span> n <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>nil</span>
+</span></span><span style=display:flex><span>          (notmuch-hello-nice-number n)))))
 </span></span></code></pre></div><p>This function can be called like this:</p><pre><code>(my-count-query &quot;folder:linux-arm-kernel tag:unread&quot;)
 </code></pre><p>It will return either nil or a string containing the nicely
 formatted amount of messages. Note that it doesn’t return the integer
 0 or the string “0” but nil. I’ve done it so that I can easier depend
 on the return value in an <code>(if ...)</code> form — if considers “0” to be
 true.</p><h1 id=create-query-widget>Create query widget</h1><p>The following either inserts a <code>'push-button</code> widget (if the query has
-a count associated) or some empty spaces:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+a count associated) or some empty spaces:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#75715e>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=color:#007020>defun</span> <span style=color:#963>my-notmuch-hello-query-insert</span> (<span style=color:#963>cnt</span> <span style=color:#963>query</span> <span style=color:#963>elem</span>)
-</span></span><span style=display:flex><span>    (<span style=color:#080;font-weight:700>if</span> <span style=color:#963>cnt</span>
-</span></span><span style=display:flex><span>        (<span style=color:#080;font-weight:700>let*</span> ((<span style=color:#963>str</span> (<span style=color:#06b;font-weight:700>format</span> <span style=background-color:#fff0f0>&#34;%s&#34;</span> <span style=color:#963>cnt</span>))
-</span></span><span style=display:flex><span>               (<span style=color:#963>widget-push-button-prefix</span> <span style=background-color:#fff0f0>&#34;&#34;</span>)
-</span></span><span style=display:flex><span>               (<span style=color:#963>widget-push-button-suffix</span> <span style=background-color:#fff0f0>&#34;&#34;</span>)
-</span></span><span style=display:flex><span>               (<span style=color:#963>oldest-first</span> (<span style=color:#007020>case</span> (<span style=color:#963>plist-get</span> <span style=color:#963>elem</span> <span style=color:#a60;background-color:#fff0f0>:sort-order</span>)
-</span></span><span style=display:flex><span>                               (<span style=color:#963>newest-first</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>                               (<span style=color:#963>oldest-first</span> <span style=color:#036;font-weight:700>t</span>)
-</span></span><span style=display:flex><span>                               (<span style=color:#963>otherwise</span> <span style=color:#963>notmuch-search-oldest-first</span>))))
-</span></span><span style=display:flex><span>          (<span style=color:#963>widget-create</span> <span style=color:#a60;background-color:#fff0f0>&#39;push-button</span>
-</span></span><span style=display:flex><span>                         <span style=color:#a60;background-color:#fff0f0>:notify</span> <span style=color:#06b;font-weight:700>#&#39;</span><span style=color:#963>notmuch-hello-widget-search</span>
-</span></span><span style=display:flex><span>                         <span style=color:#a60;background-color:#fff0f0>:notmuch-search-terms</span> <span style=color:#963>query</span>
-</span></span><span style=display:flex><span>                         <span style=color:#a60;background-color:#fff0f0>:notmuch-search-oldest-first</span> <span style=color:#963>oldest-first</span>
-</span></span><span style=display:flex><span>                         <span style=color:#a60;background-color:#fff0f0>:notmuch-search-type</span> <span style=color:#a60;background-color:#fff0f0>&#39;tree</span>
-</span></span><span style=display:flex><span>                         <span style=color:#963>str</span>)
-</span></span><span style=display:flex><span>          (<span style=color:#963>widget-insert</span> (<span style=color:#06b;font-weight:700>make-string</span> (<span style=color:#06b;font-weight:700>-</span> <span style=color:#00d;font-weight:700>8</span> (<span style=color:#06b;font-weight:700>length</span> <span style=color:#963>str</span>)) <span style=color:#963>?</span> )))
-</span></span><span style=display:flex><span>      (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;        &#34;</span>)))
+</span></span><span style=display:flex><span>  (defun my-notmuch-hello-query-insert (cnt query elem)
+</span></span><span style=display:flex><span>    (<span style=color:#66d9ef>if</span> cnt
+</span></span><span style=display:flex><span>        (<span style=color:#66d9ef>let*</span> ((str (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;%s&#34;</span> cnt))
+</span></span><span style=display:flex><span>               (widget-push-button-prefix <span style=color:#e6db74>&#34;&#34;</span>)
+</span></span><span style=display:flex><span>               (widget-push-button-suffix <span style=color:#e6db74>&#34;&#34;</span>)
+</span></span><span style=display:flex><span>               (oldest-first (case (plist-get elem <span style=color:#e6db74>:sort-order</span>)
+</span></span><span style=display:flex><span>                               (newest-first <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>                               (oldest-first <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                               (otherwise notmuch-search-oldest-first))))
+</span></span><span style=display:flex><span>          (widget-create <span style=color:#e6db74>&#39;push-button</span>
+</span></span><span style=display:flex><span>                         <span style=color:#e6db74>:notify</span> <span style=color:#a6e22e>#&#39;</span>notmuch-hello-widget-search
+</span></span><span style=display:flex><span>                         <span style=color:#e6db74>:notmuch-search-terms</span> query
+</span></span><span style=display:flex><span>                         <span style=color:#e6db74>:notmuch-search-oldest-first</span> oldest-first
+</span></span><span style=display:flex><span>                         <span style=color:#e6db74>:notmuch-search-type</span> <span style=color:#e6db74>&#39;tree</span>
+</span></span><span style=display:flex><span>                         str)
+</span></span><span style=display:flex><span>          (widget-insert (<span style=color:#a6e22e>make-string</span> (<span style=color:#a6e22e>-</span> <span style=color:#ae81ff>8</span> (<span style=color:#a6e22e>length</span> str)) ? )))
+</span></span><span style=display:flex><span>      (widget-insert <span style=color:#e6db74>&#34;        &#34;</span>)))
 </span></span></code></pre></div><h1 id=binding-everything-together>Binding everything together</h1><p>And finally we iterate over the <code>notmuch-saved-searches</code>, get the base
 query, calculate the count of total messages into <code>q_tot</code> and the
 count of new messages into <code>q_new</code>. We use that information to create
-the widgets accordingly.</p><p><img src=./emacs-notmuch-hello.png alt=img></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#888>;; This is GPLv2. If you still don&#39;t know the details, read</span>
-</span></span><span style=display:flex><span>  <span style=color:#888>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
+the widgets accordingly.</p><p><img src=./emacs-notmuch-hello.png alt=img></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>  <span style=color:#75715e>;; This is GPLv2. If you still don&#39;t know the details, read</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=color:#007020>defun</span> <span style=color:#963>my-notmuch-hello-insert-searches</span> ()
-</span></span><span style=display:flex><span>    <span style=background-color:#fff0f0>&#34;Insert the saved-searches section.&#34;</span>
-</span></span><span style=display:flex><span>    (<span style=color:#963>widget-insert</span> (<span style=color:#963>propertize</span> <span style=background-color:#fff0f0>&#34;New     Total      Key  List\n&#34;</span> <span style=color:#a60;background-color:#fff0f0>&#39;face</span> <span style=color:#a60;background-color:#fff0f0>&#39;my-notmuch-hello-header-face</span>))
-</span></span><span style=display:flex><span>    (<span style=color:#06b;font-weight:700>mapc</span> (<span style=color:#007020>lambda</span> (<span style=color:#963>elem</span>)
-</span></span><span style=display:flex><span>            (<span style=color:#007020>when</span> <span style=color:#963>elem</span>
-</span></span><span style=display:flex><span>              (<span style=color:#080;font-weight:700>let*</span> ((<span style=color:#963>q_tot</span> (<span style=color:#963>plist-get</span> <span style=color:#963>elem</span> <span style=color:#a60;background-color:#fff0f0>:query</span>))
-</span></span><span style=display:flex><span>                     (<span style=color:#963>q_new</span> (<span style=color:#963>concat</span> <span style=color:#963>q_tot</span> <span style=background-color:#fff0f0>&#34; AND tag:unread&#34;</span>))
-</span></span><span style=display:flex><span>                     (<span style=color:#963>n_tot</span> (<span style=color:#963>my-count-query</span> <span style=color:#963>q_tot</span>))
-</span></span><span style=display:flex><span>                     (<span style=color:#963>n_new</span> (<span style=color:#963>my-count-query</span> <span style=color:#963>q_new</span>)))
-</span></span><span style=display:flex><span>                (<span style=color:#963>my-notmuch-hello-query-insert</span> <span style=color:#963>n_new</span> <span style=color:#963>q_new</span> <span style=color:#963>elem</span>)
-</span></span><span style=display:flex><span>                (<span style=color:#963>my-notmuch-hello-query-insert</span> <span style=color:#963>n_tot</span> <span style=color:#963>q_tot</span> <span style=color:#963>elem</span>)
-</span></span><span style=display:flex><span>                (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;   &#34;</span>)
-</span></span><span style=display:flex><span>                (<span style=color:#963>widget-insert</span> (<span style=color:#963>plist-get</span> <span style=color:#963>elem</span> <span style=color:#a60;background-color:#fff0f0>:key</span>))
-</span></span><span style=display:flex><span>                (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;    &#34;</span>)
-</span></span><span style=display:flex><span>                (<span style=color:#963>widget-insert</span> (<span style=color:#963>plist-get</span> <span style=color:#963>elem</span> <span style=color:#a60;background-color:#fff0f0>:name</span>))
-</span></span><span style=display:flex><span>                (<span style=color:#963>widget-insert</span> <span style=background-color:#fff0f0>&#34;\n&#34;</span>)
+</span></span><span style=display:flex><span>  (defun my-notmuch-hello-insert-searches ()
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Insert the saved-searches section.&#34;</span>
+</span></span><span style=display:flex><span>    (widget-insert (propertize <span style=color:#e6db74>&#34;New     Total      Key  List\n&#34;</span> <span style=color:#e6db74>&#39;face</span> <span style=color:#e6db74>&#39;my-notmuch-hello-header-face</span>))
+</span></span><span style=display:flex><span>    (<span style=color:#a6e22e>mapc</span> (lambda (elem)
+</span></span><span style=display:flex><span>            (when elem
+</span></span><span style=display:flex><span>              (<span style=color:#66d9ef>let*</span> ((q_tot (plist-get elem <span style=color:#e6db74>:query</span>))
+</span></span><span style=display:flex><span>                     (q_new (concat q_tot <span style=color:#e6db74>&#34; AND tag:unread&#34;</span>))
+</span></span><span style=display:flex><span>                     (n_tot (my-count-query q_tot))
+</span></span><span style=display:flex><span>                     (n_new (my-count-query q_new)))
+</span></span><span style=display:flex><span>                (my-notmuch-hello-query-insert n_new q_new elem)
+</span></span><span style=display:flex><span>                (my-notmuch-hello-query-insert n_tot q_tot elem)
+</span></span><span style=display:flex><span>                (widget-insert <span style=color:#e6db74>&#34;   &#34;</span>)
+</span></span><span style=display:flex><span>                (widget-insert (plist-get elem <span style=color:#e6db74>:key</span>))
+</span></span><span style=display:flex><span>                (widget-insert <span style=color:#e6db74>&#34;    &#34;</span>)
+</span></span><span style=display:flex><span>                (widget-insert (plist-get elem <span style=color:#e6db74>:name</span>))
+</span></span><span style=display:flex><span>                (widget-insert <span style=color:#e6db74>&#34;\n&#34;</span>)
 </span></span><span style=display:flex><span>              ))
 </span></span><span style=display:flex><span>            )
-</span></span><span style=display:flex><span>          <span style=color:#963>notmuch-saved-searches</span>))
+</span></span><span style=display:flex><span>          notmuch-saved-searches))
 </span></span></code></pre></div><p>That’s all, folks.</p></div></div></div><script src=../../js/ui.js></script>
 <script src=../../js/menus.js></script>
 <script src=../../js/math-code.js></script>

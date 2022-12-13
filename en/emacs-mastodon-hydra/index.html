@@ -1,63 +1,67 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>mastodon.el: a Hydra to memorize/access it's many commands &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>mastodon.el: a Hydra to memorize/access it's many commands</h1><h2></h2></div><div class=content><p>Mastodon has a lot of commands. You can access most of them directly via keybindings, just use
-<code>M-x describe-mode</code> or the <code>h</code> or <code>?</code> keys. Some more are described on the project website, <a href=https://codeberg.org/martianh/mastodon.el>https://codeberg.org/martianh/mastodon.el</a> in the README.org</p><p>But, if you don&rsquo;t use Mastodon that regularly, maybe a Hydra can help you?</p><p>Here is a sample version:</p><p><img src=./emacs-mastodon-hydra.png alt=img></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#963>defhydra</span> <span style=color:#963>mastodon-help</span> (<span style=color:#a60;background-color:#fff0f0>:color</span> <span style=color:#963>blue</span> <span style=color:#a60;background-color:#fff0f0>:hint</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>  <span style=background-color:#fff0f0>&#34;
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>Timelines^^   Toots^^^^           Own Toots^^   Profiles^^      Users/Follows^^  Misc^^
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>^^-----------------^^^^--------------------^^----------^^-------------------^^------^^-----
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_H_ome        _n_ext _p_rev       _r_eply       _A_uthors       follo_W_         _X_ lists
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_L_ocal       _T_hread of toot^^  wri_t_e       user _P_rofile  _N_otifications  f_I_lter
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_F_ederated   (un) _b_oost^^      _e_dit        ^^              _R_equests       _C_opy URL
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>fa_V_orites   (un) _f_avorite^^   _d_elete      _O_wn           su_G_estions     _S_earch
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_#_ tagged    (un) p_i_n^^        ^^            _U_pdate own    _M_ute user      _h_elp
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_@_ mentions  (un) boo_k_mark^^   show _E_dits  ^^              _B_lock user
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>boo_K_marks   _v_ote^^
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>trendin_g_
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>_u_pdate
-</span></span></span><span style=display:flex><span><span style=background-color:#fff0f0>&#34;</span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;H&#34;</span> <span style=color:#963>mastodon-tl--get-home-timeline</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;L&#34;</span> <span style=color:#963>mastodon-tl--get-local-timeline</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;F&#34;</span> <span style=color:#963>mastodon-tl--get-federated-timeline</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;V&#34;</span> <span style=color:#963>mastodon-profile--view-favourites</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;#&#34;</span> <span style=color:#963>mastodon-tl--get-tag-timeline</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;@&#34;</span> <span style=color:#963>mastodon-notifications--get-mentions</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;K&#34;</span> <span style=color:#963>mastodon-profile--view-bookmarks</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;g&#34;</span> <span style=color:#963>mastodon-search--trending-tags</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;u&#34;</span> <span style=color:#963>mastodon-tl--update</span> <span style=color:#a60;background-color:#fff0f0>:exit</span> <span style=color:#036;font-weight:700>nil</span>)
+<code>M-x describe-mode</code> or the <code>h</code> or <code>?</code> keys. Some more are described on the project website, <a href=https://codeberg.org/martianh/mastodon.el>https://codeberg.org/martianh/mastodon.el</a> in the README.org</p><p>But, if you don&rsquo;t use Mastodon that regularly, maybe a Hydra can help you?</p><p>Here as preview:</p><p><img src=./emacs-mastodon-hydra.png alt=img></p><p>created with this Hydra:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(defhydra mastodon-help (<span style=color:#e6db74>:color</span> blue <span style=color:#e6db74>:hint</span> <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Timelines^^   Toots^^^^           Own Toots^^   Profiles^^      Users/Follows^^  Misc^^
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>^^-----------------^^^^--------------------^^----------^^-------------------^^------^^-----
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_H_ome        _n_ext _p_rev       _r_eply       _A_uthors       follo_W_         _X_ lists
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_L_ocal       _T_hread of toot^^  wri_t_e       user _P_rofile  _N_otifications  f_I_lter
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_F_ederated   (un) _b_oost^^      _e_dit        ^^              _R_equests       _C_opy URL
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>fa_V_orites   (un) _f_avorite^^   _d_elete      _O_wn           su_G_estions     _S_earch
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_#_ tagged    (un) p_i_n^^        ^^            _U_pdate own    _M_ute user      _h_elp
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_@_ mentions  (un) boo_k_mark^^   show _E_dits  ^^              _B_lock user
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>boo_K_marks   _v_ote^^
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>trendin_g_
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>_u_pdate
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;H&#34;</span> mastodon-tl--get-home-timeline)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;L&#34;</span> mastodon-tl--get-local-timeline)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;F&#34;</span> mastodon-tl--get-federated-timeline)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;V&#34;</span> mastodon-profile--view-favourites)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;#&#34;</span> mastodon-tl--get-tag-timeline)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;@&#34;</span> mastodon-notifications--get-mentions)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;K&#34;</span> mastodon-profile--view-bookmarks)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;g&#34;</span> mastodon-search--trending-tags)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;u&#34;</span> mastodon-tl--update <span style=color:#e6db74>:exit</span> <span style=color:#66d9ef>nil</span>)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;n&#34;</span> <span style=color:#963>mastodon-tl--goto-next-toot</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;p&#34;</span> <span style=color:#963>mastodon-tl--goto-prev-toot</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;T&#34;</span> <span style=color:#963>mastodon-tl--thread</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;b&#34;</span> <span style=color:#963>mastodon-toot--toggle-boost</span> <span style=color:#a60;background-color:#fff0f0>:exit</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;f&#34;</span> <span style=color:#963>mastodon-toot--toggle-favourite</span> <span style=color:#a60;background-color:#fff0f0>:exit</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;i&#34;</span> <span style=color:#963>mastodon-toot--pin-toot-toggle</span> <span style=color:#a60;background-color:#fff0f0>:exit</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;k&#34;</span> <span style=color:#963>mastodon-toot--bookmark-toot-toggle</span> <span style=color:#a60;background-color:#fff0f0>:exit</span> <span style=color:#036;font-weight:700>nil</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;c&#34;</span> <span style=color:#963>mastodon-tl--toggle-spoiler-text-in-toot</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;v&#34;</span> <span style=color:#963>mastodon-tl--poll-vote</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;n&#34;</span> mastodon-tl--goto-next-toot)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;p&#34;</span> mastodon-tl--goto-prev-toot)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;T&#34;</span> mastodon-tl--thread)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;b&#34;</span> mastodon-toot--toggle-boost <span style=color:#e6db74>:exit</span> <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;f&#34;</span> mastodon-toot--toggle-favourite <span style=color:#e6db74>:exit</span> <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;i&#34;</span> mastodon-toot--pin-toot-toggle <span style=color:#e6db74>:exit</span> <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;k&#34;</span> mastodon-toot--bookmark-toot-toggle <span style=color:#e6db74>:exit</span> <span style=color:#66d9ef>nil</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;c&#34;</span> mastodon-tl--toggle-spoiler-text-in-toot)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;v&#34;</span> mastodon-tl--poll-vote)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;A&#34;</span> <span style=color:#963>mastodon-profile--get-toot-author</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;P&#34;</span> <span style=color:#963>mastodon-profile--show-user</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;O&#34;</span> <span style=color:#963>mastodon-profile--my-profile</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;U&#34;</span> <span style=color:#963>mastodon-profile--update-user-profile-note</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;A&#34;</span> mastodon-profile--get-toot-author)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;P&#34;</span> mastodon-profile--show-user)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;O&#34;</span> mastodon-profile--my-profile)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;U&#34;</span> mastodon-profile--update-user-profile-note)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;W&#34;</span> <span style=color:#963>mastodon-tl--follow-user</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;N&#34;</span> <span style=color:#963>mastodon-notifications-get</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;R&#34;</span> <span style=color:#963>mastodon-profile--view-follow-requests</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;G&#34;</span> <span style=color:#963>mastodon-tl--get-follow-suggestions</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;M&#34;</span> <span style=color:#963>mastodon-tl--mute-user</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;B&#34;</span> <span style=color:#963>mastodon-tl--block-user</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;W&#34;</span> mastodon-tl--follow-user)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;N&#34;</span> mastodon-notifications-get)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;R&#34;</span> mastodon-profile--view-follow-requests)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;G&#34;</span> mastodon-tl--get-follow-suggestions)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;M&#34;</span> mastodon-tl--mute-user)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;B&#34;</span> mastodon-tl--block-user)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;r&#34;</span> <span style=color:#963>mastodon-toot--reply</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;t&#34;</span> <span style=color:#963>mastodon-toot</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;e&#34;</span> <span style=color:#963>mastodon-toot--edit-toot-at-point</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;d&#34;</span> <span style=color:#963>mastodon-toot--delete-toot</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;E&#34;</span> <span style=color:#963>mastodon-toot--view-toot-edits</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;r&#34;</span> mastodon-toot--reply)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;t&#34;</span> mastodon-toot)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;e&#34;</span> mastodon-toot--edit-toot-at-point)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;d&#34;</span> mastodon-toot--delete-toot)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;E&#34;</span> mastodon-toot--view-toot-edits)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;I&#34;</span> <span style=color:#963>mastodon-tl--view-filters</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;X&#34;</span> <span style=color:#963>mastodon-tl--view-lists</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;C&#34;</span> <span style=color:#963>mastodon-toot--copy-toot-url</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;S&#34;</span> <span style=color:#963>mastodon-search--search-query</span>)
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;h&#34;</span> <span style=color:#963>describe-mode</span>)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;I&#34;</span> mastodon-tl--view-filters)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;X&#34;</span> mastodon-tl--view-lists)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;C&#34;</span> mastodon-toot--copy-toot-url)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;S&#34;</span> mastodon-search--search-query)
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;h&#34;</span> describe-mode)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  (<span style=background-color:#fff0f0>&#34;q&#34;</span> <span style=color:#963>doom/escape</span>))
-</span></span></code></pre></div></div></div></div><script src=../../js/ui.js></script>
+</span></span><span style=display:flex><span>  (<span style=color:#e6db74>&#34;q&#34;</span> doom/escape))
+</span></span></code></pre></div><p>I personally bound this to the <code>?</code> key. And since I&rsquo;m using Doom with my <a href=https://github.com/holgerschurig/emacs-doom-config/blob/master/config.el>emacs
+configuration</a>,
+I do it the Doom way:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(map! <span style=color:#e6db74>:map</span> mastodon-mode-map
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;?&#34;</span> <span style=color:#a6e22e>#&#39;</span>mastodon-help/body)
+</span></span></code></pre></div><p>But you can of course just use the default Emacs way, e.g. with <code>(define-key ...)</code>.</p></div></div></div><script src=../../js/ui.js></script>
 <script src=../../js/menus.js></script></body></html>

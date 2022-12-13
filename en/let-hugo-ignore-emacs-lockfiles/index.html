@@ -4,32 +4,32 @@
 server that you can use to fine-tune your pages. Hugo sits and watches
 your content and layout directory for any changes. Whenever a file changes,
 it re-renders the pages and even tells your browser to live-relead the pages.</p><p>Very nice.</p><p>Except that it doesn&rsquo;t work with Emacs. But there&rsquo;s a cure.</p><h2 id=the-problem>The problem</h2><p>The problem is that Emacs creates lockfiles and Hugo triggers detects
-those lockfiles, but get&rsquo;s confused. Here is such a lockfile:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>schurig@desktop:~/www.hugo/content/en$ ll
-</span></span><span style=display:flex><span>total <span style=color:#60e;font-weight:700>24</span>
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig  <span style=color:#60e;font-weight:700>988</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 bash-aliases.md
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>1759</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 blogging-with-sitecopy.md
-</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#60e;font-weight:700>2</span> schurig schurig <span style=color:#60e;font-weight:700>4096</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-blog-from-org-to-hugo/
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>6503</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-blog-from-org-to-hugo.md
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#60e;font-weight:700>1</span> schurig schurig <span style=color:#60e;font-weight:700>3593</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:55 emacs-init-tangle.md
-</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#60e;font-weight:700>1</span> schurig schurig   <span style=color:#60e;font-weight:700>21</span> Apr  <span style=color:#60e;font-weight:700>1</span> 08:58 .#let-hugo-ignore-emacs-lockfiles.md -&gt; schurig@desktop.28219
+those lockfiles, but get&rsquo;s confused. Here is such a lockfile:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>schurig@desktop:~/www.hugo/content/en$ ll
+</span></span><span style=display:flex><span>total <span style=color:#ae81ff>24</span>
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> schurig schurig  <span style=color:#ae81ff>988</span> Apr  <span style=color:#ae81ff>1</span> 08:55 bash-aliases.md
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> schurig schurig <span style=color:#ae81ff>1759</span> Apr  <span style=color:#ae81ff>1</span> 08:55 blogging-with-sitecopy.md
+</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>2</span> schurig schurig <span style=color:#ae81ff>4096</span> Apr  <span style=color:#ae81ff>1</span> 08:55 emacs-blog-from-org-to-hugo/
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> schurig schurig <span style=color:#ae81ff>6503</span> Apr  <span style=color:#ae81ff>1</span> 08:55 emacs-blog-from-org-to-hugo.md
+</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> schurig schurig <span style=color:#ae81ff>3593</span> Apr  <span style=color:#ae81ff>1</span> 08:55 emacs-init-tangle.md
+</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#ae81ff>1</span> schurig schurig   <span style=color:#ae81ff>21</span> Apr  <span style=color:#ae81ff>1</span> 08:58 .#let-hugo-ignore-emacs-lockfiles.md -&gt; schurig@desktop.28219
 </span></span></code></pre></div><p>(Note: <code>ll</code> is described in <a href=../../en/bash-aliases/>bash aliases</a>).</p><h2 id=the-cure>The cure</h2><p>Setting <code>ignoreFiles</code> in <code>config.toml</code> won&rsquo;t help. The file system watcher doesn&rsquo;t care
-about the <code>ignoreFile</code> setting.</p><p>I finally fixed this with a patch to Hugo:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:navy;font-weight:700>diff --git a/commands/hugo.go b/commands/hugo.go
-</span></span></span><span style=display:flex><span><span style=color:navy;font-weight:700>index 131879c..1ed9823 100644
-</span></span></span><span style=display:flex><span><span style=color:navy;font-weight:700></span><span style=color:#a00000>--- a/commands/hugo.go
-</span></span></span><span style=display:flex><span><span style=color:#a00000></span><span style=color:#00a000>+++ b/commands/hugo.go
-</span></span></span><span style=display:flex><span><span style=color:#00a000></span><span style=color:purple;font-weight:700>@@ -732,12 +732,14 @@ func NewWatcher(port int) error {
-</span></span></span><span style=display:flex><span><span style=color:purple;font-weight:700></span> 
+about the <code>ignoreFile</code> setting.</p><p>I finally fixed this with a patch to Hugo:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span>diff --git a/commands/hugo.go b/commands/hugo.go
+</span></span><span style=display:flex><span>index 131879c..1ed9823 100644
+</span></span><span style=display:flex><span><span style=color:#f92672>--- a/commands/hugo.go
+</span></span></span><span style=display:flex><span><span style=color:#f92672></span><span style=color:#a6e22e>+++ b/commands/hugo.go
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e></span><span style=color:#75715e>@@ -732,12 +732,14 @@ func NewWatcher(port int) error {
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span> 
 </span></span><span style=display:flex><span> 				for _, ev := range evs {
 </span></span><span style=display:flex><span> 					ext := filepath.Ext(ev.Name)
-</span></span><span style=display:flex><span><span style=color:#00a000>+					base := filepath.Base(ev.Name)
-</span></span></span><span style=display:flex><span><span style=color:#00a000></span> 					istemp := strings.HasSuffix(ext, &#34;~&#34;) ||
+</span></span><span style=display:flex><span><span style=color:#a6e22e>+					base := filepath.Base(ev.Name)
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e></span> 					istemp := strings.HasSuffix(ext, &#34;~&#34;) ||
 </span></span><span style=display:flex><span> 						(ext == &#34;.swp&#34;) ||
 </span></span><span style=display:flex><span> 						(ext == &#34;.swx&#34;) ||
 </span></span><span style=display:flex><span> 						(ext == &#34;.tmp&#34;) ||
 </span></span><span style=display:flex><span> 						(ext == &#34;.DS_Store&#34;) ||
 </span></span><span style=display:flex><span> 						filepath.Base(ev.Name) == &#34;4913&#34; ||
-</span></span><span style=display:flex><span><span style=color:#00a000>+						strings.HasPrefix(base, &#34;.#&#34;) || // Emacs lock files
-</span></span></span><span style=display:flex><span><span style=color:#00a000></span> 						strings.HasPrefix(ext, &#34;.goutputstream&#34;) ||
+</span></span><span style=display:flex><span><span style=color:#a6e22e>+						strings.HasPrefix(base, &#34;.#&#34;) || // Emacs lock files
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e></span> 						strings.HasPrefix(ext, &#34;.goutputstream&#34;) ||
 </span></span><span style=display:flex><span> 						strings.HasSuffix(ext, &#34;jb_old___&#34;) ||
 </span></span><span style=display:flex><span> 						strings.HasSuffix(ext, &#34;jb_bak___&#34;)
 </span></span></code></pre></div></div></div></div><script src=../../js/ui.js></script>

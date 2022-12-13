@@ -36,10 +36,10 @@ that will show the newest 4 articles from each type.</p><h2 id=writing>Writing</
 which happens to be stored in an <a href=http://orgmode.org/>Org-Mode</a> file.</p><h2 id=hosting>Hosting</h2><p>Together with my DSL account I have a home page at 1&1 internet. They provide me
 FTP access. I use <a href=../../en/blogging-with-sitecopy/>sitecopy</a> to update
 those pages.</p><h1 id=hugo-tricks>Hugo tricks</h1><h2 id=html-comments>HTML comments</h2><p>Hugo normally eats all comments, but this code in a (full or partial)
-template will render a HTML comment:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>{{&#34;&lt;!-- SOURCE: index.html //--&gt;&#34; | safeHTML}}
+template will render a HTML comment:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>{{&#34;&lt;!-- SOURCE: index.html //--&gt;&#34; | safeHTML}}
 </span></span></code></pre></div><h2 id=setting-language-code>Setting language code</h2><p>I couldn&rsquo;t simply access the language code in my
 <a href="https://bitbucket.org/holgerschurig/hpg/src/HEAD/themes/my/layouts/partials/header.html?at=master&fileviewer=file-view-default">themes/my/layouts/partials/header.html</a>
 partial. This generated error on pages like tags index.</p><p>And so reverted to parsing the URL and only switch the language code
-to german if the path says so:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>&lt;html lang=&#34;{{if in &#34;/de/&#34; .URLPath.URL}}de{{else}}en{{end}}&#34;&gt;
+to german if the path says so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>&lt;html lang=&#34;{{if in &#34;/de/&#34; .URLPath.URL}}de{{else}}en{{end}}&#34;&gt;
 </span></span></code></pre></div></div></div></div><script src=../../js/ui.js></script>
 <script src=../../js/menus.js></script></body></html>

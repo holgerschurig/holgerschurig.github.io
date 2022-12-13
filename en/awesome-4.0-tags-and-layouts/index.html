@@ -2,8 +2,8 @@
 <small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>AwesomeWM: Tags and Layout setup</h1><h2></h2></div><div class=content><p>In this post I show a nice method to define tags and associated
 layouts, where the tag names change dynamically when the layout
 changes.</p><p>Note: the following works with AwesomeWM v4.0. I used v4.0-105-gbfb35349.</p><h2 id=current-situation>Current situation</h2><p>When you look at the example <code>rc.lua</code> file, you see that tags and layout setup
-is spread over several places.</p><p>First, you have this long list of available layouts:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#888>-- Table of layouts to cover with awful.layout.inc, order matters</span>
-</span></span><span style=display:flex><span>awful.layout.layouts <span style=color:#333>=</span> {
+is spread over several places.</p><p>First, you have this long list of available layouts:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- Table of layouts to cover with awful.layout.inc, order matters</span>
+</span></span><span style=display:flex><span>awful.layout.layouts <span style=color:#f92672>=</span> {
 </span></span><span style=display:flex><span>    awful.layout.suit.floating,
 </span></span><span style=display:flex><span>    awful.layout.suit.tile,
 </span></span><span style=display:flex><span>    awful.layout.suit.tile.left,
@@ -17,17 +17,17 @@ is spread over several places.</p><p>First, you have this long list of available
 </span></span><span style=display:flex><span>    awful.layout.suit.max.fullscreen,
 </span></span><span style=display:flex><span>    awful.layout.suit.magnifier,
 </span></span><span style=display:flex><span>    awful.layout.suit.corner.nw,
-</span></span><span style=display:flex><span>    <span style=color:#888>-- awful.layout.suit.corner.ne,</span>
-</span></span><span style=display:flex><span>    <span style=color:#888>-- awful.layout.suit.corner.sw,</span>
-</span></span><span style=display:flex><span>    <span style=color:#888>-- awful.layout.suit.corner.se,</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- awful.layout.suit.corner.ne,</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- awful.layout.suit.corner.sw,</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- awful.layout.suit.corner.se,</span>
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>and then, where the screens get setup, you see:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#888>-- Each screen has its own tag table.</span>
-</span></span><span style=display:flex><span>awful.tag({ <span style=background-color:#fff0f0>&#34;1&#34;</span>, <span style=background-color:#fff0f0>&#34;2&#34;</span>, <span style=background-color:#fff0f0>&#34;3&#34;</span>, <span style=background-color:#fff0f0>&#34;4&#34;</span>, <span style=background-color:#fff0f0>&#34;5&#34;</span>, <span style=background-color:#fff0f0>&#34;6&#34;</span>, <span style=background-color:#fff0f0>&#34;7&#34;</span>, <span style=background-color:#fff0f0>&#34;8&#34;</span>, <span style=background-color:#fff0f0>&#34;9&#34;</span> }, s, awful.layout.layouts[<span style=color:#00d;font-weight:700>1</span>])
+</span></span></code></pre></div><p>and then, where the screens get setup, you see:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- Each screen has its own tag table.</span>
+</span></span><span style=display:flex><span>awful.tag({ <span style=color:#e6db74>&#34;1&#34;</span>, <span style=color:#e6db74>&#34;2&#34;</span>, <span style=color:#e6db74>&#34;3&#34;</span>, <span style=color:#e6db74>&#34;4&#34;</span>, <span style=color:#e6db74>&#34;5&#34;</span>, <span style=color:#e6db74>&#34;6&#34;</span>, <span style=color:#e6db74>&#34;7&#34;</span>, <span style=color:#e6db74>&#34;8&#34;</span>, <span style=color:#e6db74>&#34;9&#34;</span> }, s, awful.layout.layouts[<span style=color:#ae81ff>1</span>])
 </span></span></code></pre></div><p>I disliked several things here:</p><ul><li>the numbers aren&rsquo;t telling me much</li><li>when I change the numbers to roles, e.g. &ldquo;www&rdquo;, &ldquo;dev&rdquo;, &ldquo;music&rdquo; I
 loose flexibility. Maybe I don&rsquo;t have &ldquo;music&rdquo; at the work, but at
 home &mldr;</li><li>as a layout is tightly coupled to a tag, it would probably be better
 to reflect the layout in the tag name.</li><li>initializing all tags with the same layout seems unflexible</li></ul><p>So let&rsquo;s work toward a setup that will fit more to my taste.</p><h2 id=define-tags-and-layouts-in-one-go>Define tags and layouts in one go</h2><p>I first define a table that contains which tags I want <strong>and</strong> their
-default layout:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#080;font-weight:700>local</span> my_tag_list <span style=color:#333>=</span> {
+default layout:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#66d9ef>local</span> my_tag_list <span style=color:#f92672>=</span> {
 </span></span><span style=display:flex><span>    awful.layout.suit.fair,
 </span></span><span style=display:flex><span>    awful.layout.suit.fair,
 </span></span><span style=display:flex><span>    awful.layout.suit.fair,
@@ -38,35 +38,35 @@ default layout:</p><div class=highlight><pre tabindex=0 style=background-color:#
 <code>awful.layout.layouts</code> like in the example rc.lua.</p><p>Awesome needs <code>awful.layout.layouts</code> set. It uses when you
 increment/decrement the layout, e.g with the mouse or some keybinding.
 Instead of manually setting this up, we can use <code>my_tag_list</code> as a
-source for it.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>awful.layout.layouts <span style=color:#333>=</span> {}
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>for</span> _,v <span style=color:#080;font-weight:700>in</span> pairs(my_tag_list) <span style=color:#080;font-weight:700>do</span>
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>if</span> <span style=color:#000;font-weight:700>not</span> awful.util.table.hasitem(awful.layout.layouts, v) <span style=color:#080;font-weight:700>then</span>
+source for it.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>awful.layout.layouts <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> _,v <span style=color:#66d9ef>in</span> pairs(my_tag_list) <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> awful.util.table.hasitem(awful.layout.layouts, v) <span style=color:#66d9ef>then</span>
 </span></span><span style=display:flex><span>        table.insert(awful.layout.layouts, v)
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>end</span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>
-</span></span></code></pre></div><h2 id=attach-tags-and-layouts-to-the-screens>Attach tags and layouts to the screens</h2><p>We can now attach our tags and layouts to the screens:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#888>-- put this inside the `awful.screen.connect_for_each_screen` function:</span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>for</span> i,l <span style=color:#080;font-weight:700>in</span> ipairs(my_tag_list) <span style=color:#080;font-weight:700>do</span>
-</span></span><span style=display:flex><span>    awful.tag.add(i <span style=color:#333>..</span> <span style=background-color:#fff0f0>&#34;:&#34;</span> <span style=color:#333>..</span> shorten_layout_name(l.name),
-</span></span><span style=display:flex><span>                  {layout <span style=color:#333>=</span> l,
-</span></span><span style=display:flex><span>                   screen <span style=color:#333>=</span> s,
-</span></span><span style=display:flex><span>                   selected <span style=color:#333>=</span> i<span style=color:#333>==</span><span style=color:#00d;font-weight:700>1</span>})
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h2 id=attach-tags-and-layouts-to-the-screens>Attach tags and layouts to the screens</h2><p>We can now attach our tags and layouts to the screens:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- put this inside the `awful.screen.connect_for_each_screen` function:</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i,l <span style=color:#66d9ef>in</span> ipairs(my_tag_list) <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    awful.tag.add(i <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;:&#34;</span> <span style=color:#f92672>..</span> shorten_layout_name(l.name),
+</span></span><span style=display:flex><span>                  {layout <span style=color:#f92672>=</span> l,
+</span></span><span style=display:flex><span>                   screen <span style=color:#f92672>=</span> s,
+</span></span><span style=display:flex><span>                   selected <span style=color:#f92672>=</span> i<span style=color:#f92672>==</span><span style=color:#ae81ff>1</span>})
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
 </span></span></code></pre></div><p>An observant reader will have noticed that I used a function
 <code>shorten_layout_name()</code>. That&rsquo;s just because I want my tag/layout
-names to be short, e.g. around 4 characters wide.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#080;font-weight:700>function</span> <span style=color:#06b;font-weight:700>shorten_layout_name</span>(name)
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>if</span> name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;fullscreen&#34;</span> <span style=color:#080;font-weight:700>then</span> name <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;full&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>elseif</span> name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;floating&#34;</span> <span style=color:#080;font-weight:700>then</span> name <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;float&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>elseif</span> name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;fairv&#34;</span> <span style=color:#080;font-weight:700>then</span> name <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;fair&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>elseif</span> name <span style=color:#333>==</span> <span style=background-color:#fff0f0>&#34;termfair&#34;</span> <span style=color:#080;font-weight:700>then</span> name <span style=color:#333>=</span> <span style=background-color:#fff0f0>&#34;term&#34;</span> <span style=color:#080;font-weight:700>end</span>
-</span></span><span style=display:flex><span>    <span style=color:#080;font-weight:700>return</span> name
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>
-</span></span></code></pre></div><h2 id=automatically-change-the-tag-names-when-layout-changes>Automatically change the tag names when layout changes</h2><p>The taglist will now look like</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>4:fair 5:fait 6:fair 7:float 8:max
+names to be short, e.g. around 4 characters wide.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>shorten_layout_name</span>(name)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> name <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;fullscreen&#34;</span> <span style=color:#66d9ef>then</span> name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;full&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>elseif</span> name <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;floating&#34;</span> <span style=color:#66d9ef>then</span> name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;float&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>elseif</span> name <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;fairv&#34;</span> <span style=color:#66d9ef>then</span> name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;fair&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>elseif</span> name <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;termfair&#34;</span> <span style=color:#66d9ef>then</span> name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;term&#34;</span> <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> name
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h2 id=automatically-change-the-tag-names-when-layout-changes>Automatically change the tag names when layout changes</h2><p>The taglist will now look like</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>4:fair 5:fait 6:fair 7:float 8:max
 </span></span></code></pre></div><p>This will be wrong as soon as I change the layout of a tag. So I need
-to react to some signals. Define this function:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#080;font-weight:700>local</span> <span style=color:#080;font-weight:700>function</span> <span style=color:#06b;font-weight:700>tagbox_update_tagname</span>(t)    
-</span></span><span style=display:flex><span>    t.name <span style=color:#333>=</span> t.index <span style=color:#333>..</span> <span style=background-color:#fff0f0>&#34;:&#34;</span> <span style=color:#333>..</span> shorten_layout_name(t.layout.name)
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>end</span>
-</span></span></code></pre></div><p>And now just assign this function to two signals:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#888>-- put this inside the `awful.screen.connect_for_each_screen` function:</span>
-</span></span><span style=display:flex><span>awful.tag.attached_connect_signal(s, <span style=background-color:#fff0f0>&#34;tagged&#34;</span>, tagbox_update_tagname)
-</span></span><span style=display:flex><span>awful.tag.attached_connect_signal(s, <span style=background-color:#fff0f0>&#34;property::layout&#34;</span>, tagbox_update_tagname)
+to react to some signals. Define this function:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#66d9ef>local</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>tagbox_update_tagname</span>(t)    
+</span></span><span style=display:flex><span>    t.name <span style=color:#f92672>=</span> t.index <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;:&#34;</span> <span style=color:#f92672>..</span> shorten_layout_name(t.layout.name)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>And now just assign this function to two signals:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- put this inside the `awful.screen.connect_for_each_screen` function:</span>
+</span></span><span style=display:flex><span>awful.tag.attached_connect_signal(s, <span style=color:#e6db74>&#34;tagged&#34;</span>, tagbox_update_tagname)
+</span></span><span style=display:flex><span>awful.tag.attached_connect_signal(s, <span style=color:#e6db74>&#34;property::layout&#34;</span>, tagbox_update_tagname)
 </span></span></code></pre></div></div></div></div><script src=../../js/ui.js></script>
 <script src=../../js/menus.js></script></body></html>

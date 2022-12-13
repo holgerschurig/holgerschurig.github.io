@@ -16,106 +16,106 @@ Einfachheit halber habe ich nur zwei LEDs eingezeichnet.</p><p>Auch war ich spar
 gemeinsamen Vorwiderstand von 220 Ohm eingebaut. Damit sind die LEDs
 unterschiedlich hell wenn man mal mehr als eine LED anschaltet. Da es
 mir aber darum ging, den &lsquo;595 und SPI zu verstehen, war mir das egal.
-Ansonsten hätte ich eine Konstantstromquelle vorgesehen.</p><h2 id=verdrahtung>Verdrahtung</h2><p>Auch in die Verdrahtung habe ich nur 2 von 8 LEDs eingetragen.</p><h2 id=software-für-gpio>Software für GPIO</h2><p>Zunächst habe ich das ganze via GPIO, also per &ldquo;Big Banging&rdquo; betrieben. Das geht so:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#888>#!/usr/bin/python</span>
+Ansonsten hätte ich eine Konstantstromquelle vorgesehen.</p><h2 id=verdrahtung>Verdrahtung</h2><p>Auch in die Verdrahtung habe ich nur 2 von 8 LEDs eingetragen.</p><h2 id=software-für-gpio>Software für GPIO</h2><p>Zunächst habe ich das ganze via GPIO, also per &ldquo;Big Banging&rdquo; betrieben. Das geht so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>import</span> <span style=color:#0e84b5;font-weight:700>sys</span><span style=color:#333>,</span> <span style=color:#0e84b5;font-weight:700>time</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> sys<span style=color:#f92672>,</span> time
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>SPEED <span style=color:#333>=</span> <span style=color:#60e;font-weight:700>0.04</span>
+</span></span><span style=display:flex><span>SPEED <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.04</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>import</span> <span style=color:#0e84b5;font-weight:700>RPi.GPIO</span> <span style=color:#080;font-weight:700>as</span> <span style=color:#0e84b5;font-weight:700>GPIO</span>
-</span></span><span style=display:flex><span>GPIO<span style=color:#333>.</span>setmode(GPIO<span style=color:#333>.</span>BCM)
-</span></span><span style=display:flex><span>GPIO<span style=color:#333>.</span>setwarnings(<span style=color:#080;font-weight:700>False</span>)
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> RPi.GPIO <span style=color:#66d9ef>as</span> GPIO
+</span></span><span style=display:flex><span>GPIO<span style=color:#f92672>.</span>setmode(GPIO<span style=color:#f92672>.</span>BCM)
+</span></span><span style=display:flex><span>GPIO<span style=color:#f92672>.</span>setwarnings(<span style=color:#66d9ef>False</span>)
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#888># Nebeneinander liegende GPIOs:</span>
-</span></span><span style=display:flex><span><span style=color:#888># DATA   = 22 # DS</span>
-</span></span><span style=display:flex><span><span style=color:#888># LATCH  = 27 # STCP</span>
-</span></span><span style=display:flex><span><span style=color:#888># CLOCK  = 17 # SHCP</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Nebeneinander liegende GPIOs:</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># DATA   = 22 # DS</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># LATCH  = 27 # STCP</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># CLOCK  = 17 # SHCP</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#888># Die Pins von SPI0 nutzend, aber noch als GPIO benutzt:</span>
-</span></span><span style=display:flex><span>DATA    <span style=color:#333>=</span> <span style=color:#00d;font-weight:700>10</span> <span style=color:#888># SPI0_MOSI</span>
-</span></span><span style=display:flex><span>LATCH   <span style=color:#333>=</span> <span style=color:#00d;font-weight:700>8</span>  <span style=color:#888># SPI0 CS0</span>
-</span></span><span style=display:flex><span>CLOCK   <span style=color:#333>=</span> <span style=color:#00d;font-weight:700>11</span> <span style=color:#888># SPI0 CLK</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Die Pins von SPI0 nutzend, aber noch als GPIO benutzt:</span>
+</span></span><span style=display:flex><span>DATA    <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span> <span style=color:#75715e># SPI0_MOSI</span>
+</span></span><span style=display:flex><span>LATCH   <span style=color:#f92672>=</span> <span style=color:#ae81ff>8</span>  <span style=color:#75715e># SPI0 CS0</span>
+</span></span><span style=display:flex><span>CLOCK   <span style=color:#f92672>=</span> <span style=color:#ae81ff>11</span> <span style=color:#75715e># SPI0 CLK</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>setup</span>():
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>setmode(GPIO<span style=color:#333>.</span>BCM)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>cleanup()
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>setup(DATA,  GPIO<span style=color:#333>.</span>OUT)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>setup(CLOCK, GPIO<span style=color:#333>.</span>OUT)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>setup(LATCH, GPIO<span style=color:#333>.</span>OUT)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(DATA,  <span style=color:#080;font-weight:700>False</span>)  <span style=color:#888># Databit to be shifted into the register</span>
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(LATCH, <span style=color:#080;font-weight:700>False</span>)  <span style=color:#888># Latch is used to output the saved data</span>
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(CLOCK, <span style=color:#080;font-weight:700>False</span>)  <span style=color:#888># Used to shift the value of DATAIN to the register</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>setup</span>():
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>setmode(GPIO<span style=color:#f92672>.</span>BCM)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>cleanup()
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>setup(DATA,  GPIO<span style=color:#f92672>.</span>OUT)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>setup(CLOCK, GPIO<span style=color:#f92672>.</span>OUT)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>setup(LATCH, GPIO<span style=color:#f92672>.</span>OUT)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(DATA,  <span style=color:#66d9ef>False</span>)  <span style=color:#75715e># Databit to be shifted into the register</span>
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(LATCH, <span style=color:#66d9ef>False</span>)  <span style=color:#75715e># Latch is used to output the saved data</span>
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(CLOCK, <span style=color:#66d9ef>False</span>)  <span style=color:#75715e># Used to shift the value of DATAIN to the register</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>shift</span>(dat):
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(DATA,  dat)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(CLOCK, GPIO<span style=color:#333>.</span>HIGH)
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(CLOCK, GPIO<span style=color:#333>.</span>LOW)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>shift</span>(dat):
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(DATA,  dat)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(CLOCK, GPIO<span style=color:#f92672>.</span>HIGH)
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(CLOCK, GPIO<span style=color:#f92672>.</span>LOW)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>writeout</span>():
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(LATCH, GPIO<span style=color:#333>.</span>HIGH)
-</span></span><span style=display:flex><span>	<span style=color:#888># time.sleep(icsleep)</span>
-</span></span><span style=display:flex><span>	GPIO<span style=color:#333>.</span>output(LATCH, GPIO<span style=color:#333>.</span>LOW)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>writeout</span>():
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(LATCH, GPIO<span style=color:#f92672>.</span>HIGH)
+</span></span><span style=display:flex><span>	<span style=color:#75715e># time.sleep(icsleep)</span>
+</span></span><span style=display:flex><span>	GPIO<span style=color:#f92672>.</span>output(LATCH, GPIO<span style=color:#f92672>.</span>LOW)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>shiftnum</span>(dat):
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>for</span> i <span style=color:#000;font-weight:700>in</span> <span style=color:#007020>range</span>(<span style=color:#00d;font-weight:700>8</span>):
-</span></span><span style=display:flex><span>		shift(dat <span style=color:#333>&amp;</span> <span style=color:#058;font-weight:700>0x80</span> <span style=color:#333>!=</span> <span style=color:#00d;font-weight:700>0</span>)
-</span></span><span style=display:flex><span>		dat <span style=color:#333>&lt;&lt;=</span> <span style=color:#00d;font-weight:700>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>shiftnum</span>(dat):
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>8</span>):
+</span></span><span style=display:flex><span>		shift(dat <span style=color:#f92672>&amp;</span> <span style=color:#ae81ff>0x80</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>		dat <span style=color:#f92672>&lt;&lt;=</span> <span style=color:#ae81ff>1</span>
 </span></span><span style=display:flex><span>	writeout()
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>setup()
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>run_down</span>():
-</span></span><span style=display:flex><span>	n <span style=color:#333>=</span> <span style=color:#058;font-weight:700>0x01</span>
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>while</span> n <span style=color:#333>&lt;</span> <span style=color:#058;font-weight:700>0x100</span>:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run_down</span>():
+</span></span><span style=display:flex><span>	n <span style=color:#f92672>=</span> <span style=color:#ae81ff>0x01</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>while</span> n <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0x100</span>:
 </span></span><span style=display:flex><span>		shiftnum(n)
-</span></span><span style=display:flex><span>		time<span style=color:#333>.</span>sleep(SPEED)
-</span></span><span style=display:flex><span>		n <span style=color:#333>&lt;&lt;=</span> <span style=color:#00d;font-weight:700>1</span>
+</span></span><span style=display:flex><span>		time<span style=color:#f92672>.</span>sleep(SPEED)
+</span></span><span style=display:flex><span>		n <span style=color:#f92672>&lt;&lt;=</span> <span style=color:#ae81ff>1</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>run_up</span>():
-</span></span><span style=display:flex><span>	n <span style=color:#333>=</span> <span style=color:#058;font-weight:700>0x80</span>
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>while</span> n:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run_up</span>():
+</span></span><span style=display:flex><span>	n <span style=color:#f92672>=</span> <span style=color:#ae81ff>0x80</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>while</span> n:
 </span></span><span style=display:flex><span>		shiftnum(n)
-</span></span><span style=display:flex><span>		time<span style=color:#333>.</span>sleep(SPEED)
-</span></span><span style=display:flex><span>		n <span style=color:#333>&gt;&gt;=</span> <span style=color:#00d;font-weight:700>1</span>
+</span></span><span style=display:flex><span>		time<span style=color:#f92672>.</span>sleep(SPEED)
+</span></span><span style=display:flex><span>		n <span style=color:#f92672>&gt;&gt;=</span> <span style=color:#ae81ff>1</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>def</span> <span style=color:#06b;font-weight:700>run_pattern</span>(pattern, speed<span style=color:#333>=</span><span style=color:#60e;font-weight:700>0.08</span>):
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>for</span> n <span style=color:#000;font-weight:700>in</span> pattern:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run_pattern</span>(pattern, speed<span style=color:#f92672>=</span><span style=color:#ae81ff>0.08</span>):
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> n <span style=color:#f92672>in</span> pattern:
 </span></span><span style=display:flex><span>		shiftnum(n)
-</span></span><span style=display:flex><span>		time<span style=color:#333>.</span>sleep(speed)
+</span></span><span style=display:flex><span>		time<span style=color:#f92672>.</span>sleep(speed)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>try</span>:
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>while</span> <span style=color:#080;font-weight:700>True</span>:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>while</span> <span style=color:#66d9ef>True</span>:
 </span></span><span style=display:flex><span>		run_down()
 </span></span><span style=display:flex><span>		run_up()
-</span></span><span style=display:flex><span>		<span style=color:#888># run_pattern((</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x80 | 0x04,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x40 | 0x08,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x20 | 0x10,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x10 | 0x20,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x08 | 0x40,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x04 | 0x80,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x02 | 0x01,</span>
-</span></span><span style=display:flex><span>		<span style=color:#888># 	0x01 | 0x02))</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># run_pattern((</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x80 | 0x04,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x40 | 0x08,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x20 | 0x10,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x10 | 0x20,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x08 | 0x40,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x04 | 0x80,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x02 | 0x01,</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e># 	0x01 | 0x02))</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>except</span> <span style=color:red;font-weight:700>KeyboardInterrupt</span>:
-</span></span><span style=display:flex><span>	<span style=color:#007020>print</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>except</span> <span style=color:#a6e22e>KeyboardInterrupt</span>:
+</span></span><span style=display:flex><span>	print
 </span></span></code></pre></div><h2 id=software-für-spi>Software für SPI</h2><p>Aber am meisten hatte ich mich für SPI interessiert. Dieses Programm
-erbrachte dann das gewünschte Ergebnis:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#888>#!/usr/bin/python</span>
+erbrachte dann das gewünschte Ergebnis:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>import</span> <span style=color:#0e84b5;font-weight:700>sys</span><span style=color:#333>,</span> <span style=color:#0e84b5;font-weight:700>time</span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>import</span> <span style=color:#0e84b5;font-weight:700>spidev</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> sys<span style=color:#f92672>,</span> time
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> spidev
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>spi <span style=color:#333>=</span> spidev<span style=color:#333>.</span>SpiDev()
-</span></span><span style=display:flex><span>spi<span style=color:#333>.</span>open(<span style=color:#00d;font-weight:700>0</span>, <span style=color:#00d;font-weight:700>0</span>)    <span style=color:#888># Port 0, Chip Select 0</span>
+</span></span><span style=display:flex><span>spi <span style=color:#f92672>=</span> spidev<span style=color:#f92672>.</span>SpiDev()
+</span></span><span style=display:flex><span>spi<span style=color:#f92672>.</span>open(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>)    <span style=color:#75715e># Port 0, Chip Select 0</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>n <span style=color:#333>=</span> <span style=color:#00d;font-weight:700>1</span>
-</span></span><span style=display:flex><span><span style=color:#080;font-weight:700>while</span> <span style=color:#080;font-weight:700>True</span>:
-</span></span><span style=display:flex><span>	spi<span style=color:#333>.</span>writebytes([n])
-</span></span><span style=display:flex><span>	time<span style=color:#333>.</span>sleep(<span style=color:#60e;font-weight:700>0.04</span>)
-</span></span><span style=display:flex><span>	n <span style=color:#333>&lt;&lt;=</span> <span style=color:#00d;font-weight:700>1</span>
-</span></span><span style=display:flex><span>	<span style=color:#080;font-weight:700>if</span> n <span style=color:#333>==</span> <span style=color:#058;font-weight:700>0x100</span>:
-</span></span><span style=display:flex><span>	    n <span style=color:#333>=</span> <span style=color:#00d;font-weight:700>1</span>
+</span></span><span style=display:flex><span>n <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> <span style=color:#66d9ef>True</span>:
+</span></span><span style=display:flex><span>	spi<span style=color:#f92672>.</span>writebytes([n])
+</span></span><span style=display:flex><span>	time<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>0.04</span>)
+</span></span><span style=display:flex><span>	n <span style=color:#f92672>&lt;&lt;=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> n <span style=color:#f92672>==</span> <span style=color:#ae81ff>0x100</span>:
+</span></span><span style=display:flex><span>	    n <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
 </span></span></code></pre></div><p>Funktionen wie <code>run_down</code>, <code>run_up</code> habe ich mir hier gespart, sie
 funktionieren im Prinzip genauso wie beim GPIO-Beispiel.</p><p>Und, wie man sieht: die eigentliche Ausgabe in das Schieberegister ist
 wesentlich einfacher.</p></div></div></div><script src=../../js/ui.js></script>

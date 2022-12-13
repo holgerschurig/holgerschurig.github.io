@@ -5,8 +5,8 @@ customize the Barebox or U-Boot boot loader.</p><p>On Linux, people often use &l
 &ldquo;<em>Putty</em>&rdquo; (yes, it&rsquo;s not a Windows-only program, try &ldquo;<code>apt-get install putty</code>&rdquo;) or even the ancient <a href=http://www.kermitproject.org>C-Kermit</a>.
 Surprisingly I found that Kermit suits my work-flow the best, when
 properly configured.</p><p>The reason: Kermit doesn&rsquo;t come into my way. No menu, no
-interpretation of escape codes (so urxvt does that), no nothing.</p><h2 id=installation>Installation</h2><p>On Debian, installation is as easy as:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>apt-get install ckermit
-</span></span></code></pre></div><h2 id=configuration>Configuration</h2><p>Place this into <code>~/.kermrm</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>set line /dev/ttyS0
+interpretation of escape codes (so urxvt does that), no nothing.</p><h2 id=installation>Installation</h2><p>On Debian, installation is as easy as:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>apt-get install ckermit
+</span></span></code></pre></div><h2 id=configuration>Configuration</h2><p>Place this into <code>~/.kermrm</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>set line /dev/ttyS0
 </span></span><span style=display:flex><span>set baud 115200
 </span></span><span style=display:flex><span>set handshake none
 </span></span><span style=display:flex><span>set flow-control none
@@ -19,7 +19,7 @@ instead)</li><li>set baud rate. We have the year 2016, so there&rsquo;s no need 
 anything slower than 115200 baud nowadays. Even Windows 7 (or newer)
 can nowadays use this baud rate.</li><li>turn all handshaking off. Embedded devices often only use 3 wires
 (<code>RXD</code>, <code>TXD</code> and <code>GND</code>) for their communications anyway.</li><li>for the same reason, turn of carrier detection</li><li>allow &ldquo;<code>Ctrl-X</code>&rdquo; as an escape character</li><li>write a log of the whole transaction to <code>~/.kermlog</code></li><li>and connect</li></ul><h2 id=keyboard-control>Keyboard control</h2><p>When I want to disconnect, I type &ldquo;<code>Ctrl-X q</code>&rdquo; (q like quit).</p><p>If i ever want to get to Kermit command prompt (which I almost never
-do), then &ldquo;<code>Ctrl-X c</code>&rdquo; does the trick.</p><h2 id=example>Example</h2><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>schurig@desktop:~$ kermit
+do), then &ldquo;<code>Ctrl-X c</code>&rdquo; does the trick.</p><h2 id=example>Example</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>schurig@desktop:~$ kermit
 </span></span><span style=display:flex><span>Connecting to /dev/ttyS0, speed 115200
 </span></span><span style=display:flex><span> Escape character: Ctrl-X (ASCII 24, CAN): enabled
 </span></span><span style=display:flex><span>Type the escape character followed by C to get back,
