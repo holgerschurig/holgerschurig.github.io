@@ -4,7 +4,7 @@ title = "Sway: tweaks and (un)usual keybindings"
 tags = [ "sway", "wayland", "dotfiles" ]
 topics = [ "Linux" ]
 keywords = [ "Sway", "layout" ]
-mastodon = "109508225564672703"
+mastodon = "109507768476455476"
 +++
 
 When I started to configure Sway, I found a lot of configurations online, but
@@ -227,6 +227,22 @@ should put in on Ctrl+Alt+Backspace, for some old X11 feeling?
 
 Reloading without running `sway --validate` first can also be dangerous. Okay,
 only annoying. AwesomeWM was much worse here. Still, I bound that to Logo+Shift+`q`.
+
+
+Caveats
+-------
+Probably you need to publish your blog now twice:
+
+* publish blog
+* fetch it's URL, post Mastodon toot with it
+* determine the Mastodon ID
+* add the Mastodon ID to your frontmatter
+* publish blog again
+
+Another possible problem is: if you edit your Mastodon toot, then the ID of it will change.
+
+But if you can life with that, you have a free, you've found a privacy
+respecting method of letting people comment on your posts.
 
 
 Outro
