@@ -3,6 +3,7 @@ title = "mastodon.el: a Hydra to memorize/access it's many commands"
 date = "2022-12-13T11:57:00+01:00"
 tags = [ "Emacs", "mastodon.el", "Hydra" ]
 topics = [ "Emacs" ]
+mastodon = "109506239141605308"
 +++
 
 Mastodon has a lot of commands. You can access most of them directly via keybindings, just use

@@ -36,4 +36,11 @@
   {{ end }}
   {{ end }}
 
+  {{ if isset .Params "mastodon" }}
+  <div>
+    <i class="fa fa-reply fa-fw"></i>
+    <span><a href="{{ .Site.Params.mastodon }}/{{ .Params.mastodon }}" alt="Replay">Comments</a> on Mastodon</span>
+  </div>
+  {{ end }}
+
 </div>

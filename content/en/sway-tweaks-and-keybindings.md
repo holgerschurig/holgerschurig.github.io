@@ -4,6 +4,7 @@ title = "Sway: tweaks and (un)usual keybindings"
 tags = [ "sway", "wayland", "dotfiles" ]
 topics = [ "Linux" ]
 keywords = [ "Sway", "layout" ]
+mastodon = "109508225564672703"
 +++
 
 When I started to configure Sway, I found a lot of configurations online, but

@@ -22,6 +22,7 @@ params:
   keywords: ["Linux","Emacs","Amateurfunk","Elektronik"]
   favicon: true
   dateFormat: "2006-01-02"
+  mastodon: "https://emacs.ch/@holgerschurig"
 
 menu:
   main:
