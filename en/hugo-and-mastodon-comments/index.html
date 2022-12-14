@@ -1,0 +1,47 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.108.0"><title>Comment static hugo blog entry with Mastodon &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title><link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../topics/><i class='fa fa-folder fa-fw'></i>Topics</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div><div><div class=small-print><small></small></div><div class=small-print><small>Built with&nbsp;<a href=https://gohugo.io/ target=_blank>Hugo</a></small>
+<small>Theme&nbsp;<a href=https://github.com/yoshiharuyamashita/blackburn target=_blank>Blackburn</a></small></div></div></div><div id=main><div class=header><h1>Comment static hugo blog entry with Mastodon</h1><h2></h2></div><div class=content><p>This post describes a simply method to link back from your static block page to Mastodon, so that
+people can eventually reply.</p><p>Today I stumbled about Carl Schwan&rsquo;s article <a href=https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/>Adding comments to your static blog with Mastodon</a>. I liked the idea in general, but I wanted it much simpler.</p><h2 id=specify-mastodon-host>Specify mastodon host</h2><p>First, I don&rsquo;t want to specify my maston host into every host. So this ends up in the <code>Params:</code> section
+of my <code>config.yaml</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>params:
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  mastodon: &#34;https://emacs.ch/@holgerschurig&#34;
+</span></span></code></pre></div><p>One can access this then as `{{ .Site.Params }}`` in Hugo templates.</p><h2 id=mastodon-toot-id>Mastodon toot ID</h2><p>When I toot about one of my blog posts, the post will get a Mastodon ID. I just put
+this ID into the header of my blog post.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>+++
+</span></span><span style=display:flex><span>date = &#34;2022-12-13T18:28:00+01:00&#34;
+</span></span><span style=display:flex><span>title = &#34;Sway: tweaks and (un)usual keybindings&#34;
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>mastodon = &#34;109508225564672703&#34;
+</span></span><span style=display:flex><span>+++
+</span></span></code></pre></div><p>This ID can then be accessed as <code>{{ .Params.mastodon }}</code>. Note the missing <code>.Site</code> compared to the previous
+configuration.</p><h2 id=provide-link-to-comments>Provide link to comments</h2><p>And second, I don&rsquo;t really want this load comments method and the simple HTML sanitation. Somehow
+this seems to be security relevant, and I fear that this simple sanitation isn&rsquo;t bullet proof.</p><p>So I just add a link to my meta data section:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>diff --git a/themes/my/layouts/partials/post_meta.html b/themes/my/layouts/partials/post_meta.html
+</span></span><span style=display:flex><span>index 7b6856b..36429fe 100644
+</span></span><span style=display:flex><span>--- a/themes/my/layouts/partials/post_meta.html
+</span></span><span style=display:flex><span>+++ b/themes/my/layouts/partials/post_meta.html
+</span></span><span style=display:flex><span>@@ -36,4 +36,11 @@
+</span></span><span style=display:flex><span>   {{ end }}
+</span></span><span style=display:flex><span>   {{ end }}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>+  {{ if isset .Params &#34;mastodon&#34; }}
+</span></span><span style=display:flex><span>+  &lt;div&gt;
+</span></span><span style=display:flex><span>+    &lt;i class=&#34;fa fa-reply fa-fw&#34;&gt;&lt;/i&gt;
+</span></span><span style=display:flex><span>+    &lt;span&gt;&lt;a href=&#34;{{ .Site.Params.mastodon }}/{{ .Params.mastodon }}&#34; alt=&#34;Replay&#34;&gt;Comments&lt;/a&gt; on Mastodon&lt;/span&gt;
+</span></span><span style=display:flex><span>+  &lt;/div&gt;
+</span></span><span style=display:flex><span>+  {{ end }}
+</span></span><span style=display:flex><span>+
+</span></span><span style=display:flex><span> &lt;/div&gt;
+</span></span></code></pre></div><p>Basically this places a reply icon (from Font Awesome) followed by the link. `{{
+.Site.Params }} as seen above. Despite being simpler than Carl&rsquo;s approach, his
+approach doesn&rsquo;t work for me because the URL <code>&lt;a class="button" href="https://{{ .host }}/interact/{{ .id }}?type=reply">Reply&lt;/a></code> uses a URL
+that doesn&rsquo;t work with emacs.ch. It doesn&rsquo;t give any reply on this interact URL.</p><h2 id=caveats>Caveats</h2><p>Getting this up is a bit cumbersome:</p><ul><li>publish your blog on the internet</li><li>use the URL to write a Mastodon toot pointing to your blog post</li><li>fetch the mastodon ID of this post</li><li>modify the frontmatter of your post</li><li>republish your blog entry</li></ul><p>Also, should you ever edit your original toot, then it will get a new ID. Under
+the old ID you won&rsquo;t see a toot anymore. That means, that you&rsquo;ll have to update
+your frontmatter again and republish.</p><p>If you can life with such a workflow, then you have now a nice privacy
+respecting method for people to comment on your posts.</p><h2 id=outro>Outro</h2><p>And that&rsquo;s all, now people see a &ldquo;Comments&rdquo; link at the end of my post.</p><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<time>2022-12-14</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../topics/linux>Linux</a>
+<a class=rss type=application/rss+xml href=../../topics/linux/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/hugo>hugo</a>
+<a class=rss type=application/rss+xml href=../../tags/hugo/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/mastodon>mastodon</a>
+<a class=rss type=application/rss+xml href=../../tags/mastodon/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script>
+<script src=../../js/menus.js></script></body></html>
