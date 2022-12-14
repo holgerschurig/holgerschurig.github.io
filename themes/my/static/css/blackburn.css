@@ -87,3 +87,7 @@ i {
 .pagination a {
   color: #265778;
 }
+
+h2 {
+  padding-top: 10px;
+};
