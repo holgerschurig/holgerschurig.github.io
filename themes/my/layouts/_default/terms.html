@@ -5,16 +5,18 @@
   <h1>{{ .Title }}</h1>
 </div>
 <div class="content">
+
   <ul>
-  {{ $data := .Data }}
-  {{ range $key, $value := .Data.Terms.ByCount }}
-    <li>
-      <a class="rss" type="application/rss+xml" href="{{ .Page.Permalink }}/index.xml">RSS <span class="fa fa-rss"></span></a>:
-      <a href="{{ $value.Name | urlize }}">{{ $value.Name }}</a>
-      <span>&#40;{{ $value.Count }}&#41;</span>
-    </li>
+  {{ range $name, $data := .Data.Terms }}
+  <!-- <li>{{ $name }} | {{ len $data }} | {{ .Page.Permalink }} </li> -->
+  <li>
+    <a class="rss" type="application/rss+xml" href="{{ .Page.Permalink }}/index.xml">RSS <span class="fa fa-rss"></span></a>:
+    <a href="{{ .Page.Permalink }}">{{ $name }}</a>
+    <span>{{ len $data }}</span>
+  </li>
   {{ end }}
   </ul>
+
 </div>
 
 {{ partial "footer.html" . }}
