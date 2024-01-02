@@ -35,7 +35,7 @@ apt-get install ckermit
 
 ## Configuration
 
-Place this into `~/.kermrm`:
+Place this into `~/.kermrc`:
 
 ```none
 set line /dev/ttyS0
