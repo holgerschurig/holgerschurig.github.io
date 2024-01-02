@@ -11,6 +11,8 @@ interesting. So I wanted to have an easy (and fast) solution of
 exporting those patches: with a keystroke, and without the need
 of specifying patch names.
 
+<!--more-->
+
 # Format of a patch email
 
 If you ever contributed a patch to **Linux**, you&rsquo;d know that your patch
