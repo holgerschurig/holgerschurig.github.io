@@ -1,0 +1,288 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.121.1"><title>Zepyhr: reproducible project setup &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>Zepyhr: reproducible project setup</h1><h2></h2></div><div class=content><p>This blog post shows you how to <strong>reproducibly</strong> setup a Zephyr project. It also gives
+you a few Makefile tricks and best practices.</p><p>While you can do this by hand, e.g. by following the <a href=https://docs.zephyrproject.org/latest/develop/getting_started/index.html>Getting Started Guide</a>, a
+reproducible & automatic setup still has benefits. For once, any change you do
+is automatically documented in GIT. And also it&rsquo;s much easier to move the
+project onto CI/CD servers or into Docker containers.</p><ul><li><a href=#ab--use-of-makefiles>(Ab)use of Makefiles</a></li><li><a href=#basic-project-setup>Basic project setup</a><ul><li><a href=#make-sure-you-have-all-dependencies-installed>Make sure you have all dependencies installed</a></li><li><a href=#setting-up-a-python-virtual-environment>Setting up a python virtual environment</a></li><li><a href=#install-the-west-tool>Install the &ldquo;<code>west</code>&rdquo; tool</a></li><li><a href=#install-zephyr>Install Zephyr</a></li><li><a href=#install-needed-zephyr-modules-e-dot-g-dot-hals-from-the-%C2%B5c-vendor>Install needed Zephyr modules, e.g. HALs from the µC vendor</a></li></ul></li><li><a href=#getting-help>Getting help</a></li><li><a href=#all-of-the-above>All of the above</a></li><li><a href=#using-this-makefile-in-your-project>Using this makefile in your project</a></li></ul><h2 id=ab--use-of-makefiles>(Ab)use of Makefiles</h2><p>All of the following is orchestrated mostly by a Makefile.</p><p>Even when Zephyr itself uses CMake and Ninja, Makefiles are a nicer way to
+bundle lots of shell snippets into one place. You can view this Makefile also
+as a collection of knowledge, or as a way to have things replicatable.</p><p>The full Makefile is accessible as
+<a href=https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init>https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init</a></p><h2 id=basic-project-setup>Basic project setup</h2><h3 id=make-sure-you-have-all-dependencies-installed>Make sure you have all dependencies installed</h3><p>Execution: either &ldquo;<code>make init</code>&rdquo; or, as a single step, &ldquo;<code>make debs</code>&rdquo;.</p><p>How?</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-1><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-2><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-3><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-4><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-5><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-6><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-7><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-8><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-9><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-10><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-11><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-12><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-13><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-14><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-15><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-16><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-17><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-17>17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-18><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-18>18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-19><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-19>19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-20><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-20>20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-21><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-21>21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-22><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-22>22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-23><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-23>23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-24><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-24>24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-25><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-25>25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-26><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-26>26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-27><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-27>27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-28><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-28>28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-29><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-29>29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-30><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-30>30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-31><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-31>31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-32><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-32>32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-33><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-33>33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-34><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-34>34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-35><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-35>35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-36><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-36>36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-37><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-37>37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-38><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-38>38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-39><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-39>39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-40><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-40>40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-41><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-41>41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-42><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-42>42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-43><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-43>43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-44><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-44>44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-45><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-45>45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1ebb54-46><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1ebb54-46>46</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>UID := $(shell id -u)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>debs .west/stamp.debs:
+</span></span><span style=display:flex><span>ifeq ($(UID),0)
+</span></span><span style=display:flex><span>	apt install -y --no-install-recommends \
+</span></span><span style=display:flex><span>		build-essential \
+</span></span><span style=display:flex><span>		ccache \
+</span></span><span style=display:flex><span>		cmake \
+</span></span><span style=display:flex><span>		device-tree-compiler \
+</span></span><span style=display:flex><span>		dfu-util \
+</span></span><span style=display:flex><span>		doxygen \
+</span></span><span style=display:flex><span>		file \
+</span></span><span style=display:flex><span>		g++-multilib \
+</span></span><span style=display:flex><span>		gcc \
+</span></span><span style=display:flex><span>		gcc-arm-none-eabi \
+</span></span><span style=display:flex><span>		gcc-multilib \
+</span></span><span style=display:flex><span>		gdb-multiarch \
+</span></span><span style=display:flex><span>		git \
+</span></span><span style=display:flex><span>		gperf \
+</span></span><span style=display:flex><span>		graphviz \
+</span></span><span style=display:flex><span>		libmagic1 \
+</span></span><span style=display:flex><span>		libnewlib-arm-none-eabi \
+</span></span><span style=display:flex><span>		libsdl2-dev \
+</span></span><span style=display:flex><span>		make \
+</span></span><span style=display:flex><span>		ninja-build \
+</span></span><span style=display:flex><span>		openocd \
+</span></span><span style=display:flex><span>		plantuml \
+</span></span><span style=display:flex><span>		python3-cbor \
+</span></span><span style=display:flex><span>		python3-click \
+</span></span><span style=display:flex><span>		python3-cryptography \
+</span></span><span style=display:flex><span>		python3-dev \
+</span></span><span style=display:flex><span>		python3-intelhex \
+</span></span><span style=display:flex><span>		python3-pip \
+</span></span><span style=display:flex><span>		python3-setuptools \
+</span></span><span style=display:flex><span>		python3-tk \
+</span></span><span style=display:flex><span>		python3-venv \
+</span></span><span style=display:flex><span>		python3-wheel \
+</span></span><span style=display:flex><span>		quilt \
+</span></span><span style=display:flex><span>		wget \
+</span></span><span style=display:flex><span>		xz-utils \
+</span></span><span style=display:flex><span>		zip
+</span></span><span style=display:flex><span>else
+</span></span><span style=display:flex><span>	sudo $(MAKE) --no-print-directory debs
+</span></span><span style=display:flex><span>	mkdir -p .west
+</span></span><span style=display:flex><span>	touch .west/stamp.debs
+</span></span><span style=display:flex><span>endif
+</span></span></code></pre></td></tr></table></div></div><p>Here we use a trick: the Makefile detects in line <a href=#org-coderef--1ebb54-1>1</a> the user ID of the current user. In line
+<a href=#org-coderef--1ebb54-4>4</a> we when check if the Makefile is running as user or root. If it is running as root, we
+can use &ldquo;<code>apt</code>&rdquo; in line <a href=#org-coderef--1ebb54-5>5</a> to install all the needed dependencies.</p><p>However, if we&rsquo;re a normal user, we use &ldquo;<code>sudo</code>&rdquo; at line <a href=#org-coderef--1ebb54-43>43</a> to become root
+and run the Makefile target &ldquo;debs&rdquo; again. The &ldquo;<code>--no-print-directory</code>&rdquo; command line argument
+just removes visual clutter.</p><p>Finally, as a normal user, we create a directory if it doesn&rsquo;t yet exist ("<code>-p") and put a stamp file into it. "=make init</code>" checks this stamp, if the stamp
+exists, it won&rsquo;t rerun this part. However, &ldquo;<code>make debs</code>&rdquo; doesn&rsquo;t check the
+stamp, it always runs &ldquo;<code>apt</code>&rdquo;. Use this if for some reason you want to install
+additional debian packages in an already setup project.</p><h3 id=setting-up-a-python-virtual-environment>Setting up a python virtual environment</h3><p>Zephyr needs a tool called &ldquo;<code>west</code>&rdquo; which is written in Python and get&rsquo;s installed
+via &ldquo;<code>pip3</code>&rdquo;, together with several python modules. In order to have these modules
+not interfere with those installed by Debian (or Ubuntu), we need to create a virtual
+environent.</p><p>Execution: either &ldquo;<code>make init</code>&rdquo; or, as a single step, &ldquo;<code>make debs</code>&rdquo;.</p><p>How?</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-1><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-2><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-3><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-4><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-5><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-6><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-7><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-8><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-9><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-10><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-11><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-12><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-13><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-14><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-15><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--1275dc-16><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--1275dc-16>16</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>PWD := $(shell pwd)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>.PHONY:: venv
+</span></span><span style=display:flex><span>init venv:: .west/stamp.debs
+</span></span><span style=display:flex><span>ifeq (&#34;$(wildcard .venv/bin/activate)&#34;,&#34;&#34;)
+</span></span><span style=display:flex><span>	python3 -m venv $(PWD)/.venv
+</span></span><span style=display:flex><span>endif
+</span></span><span style=display:flex><span>ifeq (&#34;$(VIRTUAL_ENV)&#34;, &#34;&#34;)
+</span></span><span style=display:flex><span>	@echo &#34;&#34;
+</span></span><span style=display:flex><span>	@echo &#34;... ideally by sourcing all environments: source .env&#34;
+</span></span><span style=display:flex><span>	@echo &#34;&#34;
+</span></span><span style=display:flex><span>	@exit 1
+</span></span><span style=display:flex><span>endif
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>help::
+</span></span><span style=display:flex><span>	@echo &#34;   venv               create and check Python3 virtual environment&#34;
+</span></span></code></pre></td></tr></table></div></div><p>In line <a href=#org-coderef--1275dc-5>5</a> we check if the environment already exists (we could use Make&rsquo;s dependency
+checking, but it will not just look at the mere existence, but also on the timestamp, which here
+is undersirable).</p><p>If it doesn&rsquo;t exists, we use the Python &ldquo;<code>venv</code>&rdquo; module in line <a href=#org-coderef--1275dc-6>6</a> to simply create one. Now
+we could source &ldquo;<code>.venv/bin/activate</code>&rdquo; to activate this&mldr; but unfortunately, this has to be done
+outside of Make. Also, we ask to source &ldquo;<code>.env</code>&rdquo; instead, so that we can also setup needed
+<a href=https://docs.zephyrproject.org/latest/develop/env_vars.html>Zephyr environment variables</a>.</p><p>Pro tip: on my development PCs, I have a shell function &ldquo;<code>pro</code>&rdquo; that changes into a project directory
+and sources &ldquo;<code>.env</code>&rdquo; automatically if it exist. It looks like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>pro ()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    cd ~/src/$1 2&gt; /dev/null || cd ~/d/$1 2&gt; /dev/null || cd /usr/src/$1;
+</span></span><span style=display:flex><span>    test -f .env &amp;&amp; . .env
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>So now I can do &ldquo;<code>pro cool-zephyr-project</code>&rdquo; and my environment is automatically setup.</p><p>(This shell function assumes that you have your projects in your home directory
+below the &ldquo;<code>d</code>&rdquo; (like development) or &ldquo;<code>src</code>&rdquo; directories. Adjust as needed.)</p><h3 id=install-the-west-tool>Install the &ldquo;<code>west</code>&rdquo; tool</h3><p>Now that we have a virtual environent, we can install the &ldquo;<code>west</code>&rdquo; tool.</p><p>Execution: either “make init” or, as a single step, “make west”.</p><p>How?</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>.PHONY:: west
+</span></span><span style=display:flex><span>init:: .west/config
+</span></span><span style=display:flex><span>west .west/config:
+</span></span><span style=display:flex><span>	@type west &gt;/dev/null || pip3 install west pyelftools
+</span></span><span style=display:flex><span>	mkdir -p .west
+</span></span><span style=display:flex><span>	/bin/echo -e &#34;[manifest]\npath = zephyr\nfile = west.yml\n[zephyr]\nbase = zephyr&#34; &gt;.west/config
+</span></span></code></pre></div><p>Actually this does 3 steps:</p><ul><li>install west</li><li>install pyelftools (needed on Debian Bookworm, as the distro provided ones are too old)</li><li>configure Zephyr via &ldquo;<code>.west/config</code>&rdquo;</li></ul><h3 id=install-zephyr>Install Zephyr</h3><p>Now we need the source of Zephyr. On some projects, you want the current development
+version of it, on some projects you want pin yourself to a specific version. You also
+might have local patches for Zephyr that you don&rsquo;t want to publish upstream and that
+you want to apply automatically. This step does all of this!</p><p>BTW, because of these additional functions (specific version, patches) we intentionally
+don&rsquo;t use &ldquo;<code>west init</code>&rdquo;.</p><p>Execution: either “make init” or, as a single step, “make zephyr”.</p><p>How?</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-1><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-2><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-3><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-4><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-5><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-6><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-7><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-8><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-9><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-10><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-11><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-12><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--802ce8-13><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--802ce8-13>13</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>#ZEPHYR_VERSION=zephyr-v3.5.0-3531-g6564e8b756
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>.PHONY:: zephyr
+</span></span><span style=display:flex><span>init:: zephyr/.git/HEAD
+</span></span><span style=display:flex><span>zephyr zephyr/.git/HEAD:
+</span></span><span style=display:flex><span>	git clone https://github.com/zephyrproject-rtos/zephyr.git
+</span></span><span style=display:flex><span>ifneq (&#34;$(ZEPHYR_VERSION)&#34;, &#34;&#34;)
+</span></span><span style=display:flex><span>	cd zephyr; git checkout -b my $(ZEPHYR_VERSION)
+</span></span><span style=display:flex><span>endif
+</span></span><span style=display:flex><span>ifneq (&#34;$(wildcard patches-zepyhr/series)&#34;,&#34;&#34;)
+</span></span><span style=display:flex><span>	ln -s ../patches-zephyr zephyr/patches
+</span></span><span style=display:flex><span>	cd zephyr; quilt push -a
+</span></span><span style=display:flex><span>endif
+</span></span></code></pre></td></tr></table></div></div><p>The first step is a very normal &ldquo;<code>git clone</code>&rdquo;. If you don&rsquo;t care about Zephyr&rsquo;s commit
+history (e.g. you don&rsquo;t want to run things like &ldquo;<code>git log</code>&rdquo; or &ldquo;<code>git blame</code>&rdquo; you can also
+add &ldquo;&ndash;depth 1&rdquo;. That reduces the size of the cloned &ldquo;<code>zephyr/</code>&rdquo; directory.</p><p>You can uncommend and modify ZEPHYR_VERSION in line <a href=#org-coderef--802ce8-1>1</a> to your liking.
+This will pin Zephyr to the specified version. This is done by creating a branch &ldquo;<code>my</code>&rdquo;
+in line <a href=#org-coderef--802ce8-7>7</a>.</p><p>What you in ZEPHYR_VERSION is the output of &ldquo;<code>git describe --tags</code>&rdquo; while I was
+in the &ldquo;<code>zephyr/</code>&rdquo; directory at the point of time where one of my projects moved
+from EVT to DVT phase. But you can also simply use tag names from the Zephyr
+project.</p><p>In one of my projects, I have patches that will probably never be accepted by upstream
+Zephyr. I however also don&rsquo;t want to commit them into the &ldquo;<code>zephyr/</code>&rdquo; project. Instead
+I use the &ldquo;<code>quilt</code>&rdquo; tool to have a stack of patches. BTW, Debian (and thus Ubuntu) also use
+quilt to patch upstream source packages before making &ldquo;<code>.deb</code>&rdquo; files, see their
+<a href=https://wiki.debian.org/UsingQuilt>howto</a> on it.</p><p>The existence of quilt patches is checked in line <a href=#org-coderef--802ce8-10>10</a> and then just
+rolled in in line <a href=#org-coderef--802ce8-12>12</a>.</p><h3 id=install-needed-zephyr-modules-e-dot-g-dot-hals-from-the-µc-vendor>Install needed Zephyr modules, e.g. HALs from the µC vendor</h3><p>Some (actually almost all) of the SOCs that Zephyr supports need HALs (hardware
+abstraction layers) provided by the chip vendor. If they don&rsquo;t exist, we cannot
+compile at all. So let&rsquo;s install them!</p><p>Execution: either “make init” or, as a single step, “make modules”.</p><p>How?</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>.PHONY:: modules
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>init:: modules/hal/stm32/.git/HEAD
+</span></span><span style=display:flex><span>.PHONY:: module_stm32
+</span></span><span style=display:flex><span>update modules module_stm32 modules/hal/stm32/.git/HEAD:: .west/config
+</span></span><span style=display:flex><span>	mkdir -p modules
+</span></span><span style=display:flex><span>	west update hal_stm32
+</span></span><span style=display:flex><span>	touch --no-create modules/hal/stm32/.git/HEAD
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>init:: modules/hal/st/.git/HEAD
+</span></span><span style=display:flex><span>.PHONY:: module_st
+</span></span><span style=display:flex><span>update modules module_st modules/hal/st/.git/HEAD:: .west/config
+</span></span><span style=display:flex><span>	mkdir -p modules
+</span></span><span style=display:flex><span>	west update hal_st
+</span></span><span style=display:flex><span>	touch --no-create modules/hal/st/.git/HEAD
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>init:: modules/hal/cmsis/.git/HEAD
+</span></span><span style=display:flex><span>.PHONY:: module_cmsis
+</span></span><span style=display:flex><span>update modules module_cmsis modules/hal/cmsis/.git/HEAD:: .west/config
+</span></span><span style=display:flex><span>	mkdir -p modules
+</span></span><span style=display:flex><span>	west update cmsis
+</span></span><span style=display:flex><span>	touch --no-create modules/hal/cmsis/.git/HEAD
+</span></span></code></pre></div><p>As usual, I made the Makefile so that &ldquo;<code>make init</code>&rdquo; only pulls in the modules
+once. However &ldquo;<code>make modules</code>&rdquo; will always pull them in, should the vendor have
+changed them.</p><p>Theoretically one could pin the modules also to specific version, like in the
+step above. I however noticed that they are quite stable and this was never
+needed. And also I need to have something to assign to you as homework, didn&rsquo;t I
+????</p><h2 id=getting-help>Getting help</h2><p>If you look at the actual <a href=https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init%20>Makefile</a>, you&rsquo;ll notice that I ommited a whole lot of lines like</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>help::
+</span></span><span style=display:flex><span>	@echo &#34;   modules            install Zeyphr modules (e.g. ST and STM32 HAL, CMSIS ...)&#34;
+</span></span></code></pre></div><p>from above. They aren&rsquo;t strictly necessary, but nice. They allow you to run &ldquo;<code>make help</code>&rdquo; and
+see all the common makefile targets meant for users. Like so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>(.venv) holger@holger:~/src/multi-board-zephyr$ make -f Makefile.zephyr_init help
+</span></span><span style=display:flex><span>init                  do all of these steps:
+</span></span><span style=display:flex><span>   debs               only install debian packages
+</span></span><span style=display:flex><span>   venv               create and check Python3 virtual environment
+</span></span><span style=display:flex><span>   west               install and configure the &#39;west&#39; tool
+</span></span><span style=display:flex><span>   zephyr             clone Zephyr
+</span></span><span style=display:flex><span>   modules            install Zeyphr modules (e.g. ST and STM32 HAL, CMSIS ...)
+</span></span><span style=display:flex><span>     module_stm32     update only STM32 HAL
+</span></span><span style=display:flex><span>     module_st        update only ST HAL
+</span></span><span style=display:flex><span>     module_cmsis     update only CMSIS
+</span></span></code></pre></div><h2 id=all-of-the-above>All of the above</h2><p>The individual targets like &ldquo;<code>make venv</code>&rdquo; or &ldquo;<code>make debs</code>&rdquo; are mostly only for
+debugging. Once you know they are working, simply run: &ldquo;<code>make init</code>&rdquo;.</p><h2 id=using-this-makefile-in-your-project>Using this makefile in your project</h2><p>You can simply add your own clauses at the end of this Makefile &mldr; your you can include it from
+a main Makefile. This is demonstrated in the Github project <a href=https://github.com/holgerschurig/zephyr-multi-board/>https://github.com/holgerschurig/zephyr-multi-board/</a>:</p><p>Main &ldquo;<code>Makefile</code>&rdquo;</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>PWD := $(shell pwd)
+</span></span><span style=display:flex><span>UID := $(shell id -u)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>.PHONY:: all
+</span></span><span style=display:flex><span>all::
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span># Include common boilerplate Makefile to get Zephyr up on running
+</span></span><span style=display:flex><span>include Makefile.zephyr_init
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span># ... many more lines ...
+</span></span></code></pre></div><p>First at the top we set two environment variables that we often use, PWD
+(working directory) and UID (user id). You can then later just use them via
+&ldquo;$(PWD)&rdquo; &mdash; note that Make want&rsquo;s round brances here, not curly braces like
+Bash.</p><p>Then I set a default target, to be executed if you just run &ldquo;<code>make</code>&rdquo; without specifying
+a target by yourself.</p><p>The double colon here needs to be used for all targets that are defined more
+than once in a Makefile. As you see, here the target is empty. It&rsquo;s fleshed out
+in much more complexity below, but this is beyond this blog post.</p><p>Also note the &ldquo;<code>.PHONY:: all</code>&rdquo; line. It helps Make to understand that &ldquo;<code>make</code>&rdquo;
+or &ldquo;<code>make all</code>&rdquo; isn&rsquo;t supposed to actually create file called &ldquo;<code>all</code>&rdquo;. This
+helps it&rsquo;s dependency resolvement engine, and is good style. My makefile uses
+&ldquo;<code>.PHONY::</code>&rdquo; liberally, for each pseudo-target (shell script snippet) basically.</p><p>Finally, we use Make&rsquo;s &ldquo;<code>include</code>&rdquo; clause to include our boilerplate Makefile.</p><p>You could also run the Boilerplate makefile itself, with &ldquo;<code>make -f Makefile.zephyr_init</code>&rdquo;, e.g. for debugging purposes. But oh &mldr; now PWD and UID
+aren&rsquo;t set. So at the top of this makefile I set these variables if they don&rsquo;t exist:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>ifeq ($(PWD),&#34;&#34;)
+</span></span><span style=display:flex><span>PWD := $(shell pwd)
+</span></span><span style=display:flex><span>endif
+</span></span><span style=display:flex><span>ifeq ($(UID),&#34;&#34;)
+</span></span><span style=display:flex><span>UID := $(shell id -u)
+</span></span><span style=display:flex><span>endif
+</span></span></code></pre></div><div class=post-meta><div><i class="fa fa-calendar fa-fw"></i>
+<time>2024-01-02</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../categories/embedded>embedded</a>
+<a class=rss type=application/rss+xml href=../../categories/embedded/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/zephyr>zephyr</a>
+<a class=rss type=application/rss+xml href=../../tags/zephyr/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/make>make</a>
+<a class=rss type=application/rss+xml href=../../tags/make/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/west>west</a>
+<a class=rss type=application/rss+xml href=../../tags/west/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/openocd>OpenOCD</a>
+<a class=rss type=application/rss+xml href=../../tags/openocd/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
