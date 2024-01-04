@@ -1,7 +1,7 @@
 +++
 title = "notmuch: polling mail with mbsync"
 tags = [ "notmuch", "mbsync" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 date = "2016-05-02"
 +++
 

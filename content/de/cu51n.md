@@ -1,6 +1,6 @@
 +++
 title = "Schurig Universalzähler CU 51 N"
-topics = [ "Elektronik" ]
+categories = [ "Elektronik" ]
 tags = [ "CU51N", "Messen" ]
 aliases = [ "amateurfunk/cu51n.html" ]
 #linktitle: CU51N

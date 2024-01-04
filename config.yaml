@@ -15,7 +15,7 @@ canonifyurls: true
 
 taxonomies:
   tag: "tags"
-  topic: "topics"
+  category: "categories"
 
 params:
   subtitle: ""
@@ -39,10 +39,10 @@ menu:
     url: "/de/"
     pre: "<i class='fa fa-list fa-fw'></i>"
     weight: 3
-  - name: "Topics"
-    url: "/topics/"
+  - name: "Categories"
+    url: "/categories/"
     pre: "<i class='fa fa-folder fa-fw'></i>"
-    identifier: "topics"
+    identifier: "categories"
     weight: 4
   - name: "Tags"
     url: "/tags/"

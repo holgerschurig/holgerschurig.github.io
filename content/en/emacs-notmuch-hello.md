@@ -2,7 +2,7 @@
 title = "A nicer notmuch-hello screen for Emacs"
 date = "2016-05-03"
 tags = [ "Emacs", "notmuch" ]
-topics = [ "Emacs" ]
+categories = [ "Emacs" ]
 +++
 
 Here I define my own hello screen for [notmuch](http://notmuchmail.org/). However, I didn&rsquo;t like it&rsquo;s original

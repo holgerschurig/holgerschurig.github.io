@@ -1,7 +1,7 @@
 +++
 title = "Export patches from Emacs' Notmuch"
 date = "2017-01-15"
-topics = [ "Emacs" ]
+categories = [ "Emacs" ]
 tags = [ "Emacs", "notmuch" ]
 +++
 

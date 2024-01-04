@@ -1,7 +1,7 @@
 +++
 title = "ATmega328 von Raspberry aus programmieren"
 tags = [ "RasPi", "Arduino", "ATmega", "SPI" ]
-topics = [ "Elektronik" ]
+categories = [ "Elektronik" ]
 date = "2016-03-28T17:48:46+02:00"
 +++
 

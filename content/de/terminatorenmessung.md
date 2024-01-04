@@ -1,6 +1,6 @@
 +++
 title = "Terminatoren ausmessen"
-topics = [ "Amateurfunk" ]
+categories = [ "Amateurfunk" ]
 #keywords = HP8920, HP8920A, Terminator, Terminatoren, Reflektionsmesskopf, BX-066
 tags = [ "HP8920", "Messen" ]
 date = "2010-06-13"

@@ -1,6 +1,6 @@
 +++
 title = "Blogging with Hugo"
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 tags = [ "Hugo", "Blogging" ]
 date = "2016-04-01"
 description = "Describes how I make this blog and about the used theme."
@@ -72,9 +72,6 @@ mixes styling of the side-menu with styling of the block contents. I removed all
 the styling of my contents into
 [themes/my/static/css/my.css](https://bitbucket.org/holgerschurig/hpg/src/HEAD/themes/my/static/css/my.css?at=master&fileviewer=file-view-default)
 
-
-I went with the taxonomies "Topics" and "Tags" instead of "Categories"
-and "Tags", just for aesthetics.
 
 However, I want to have a bilingual site. So I decided to use two
 [Hugo Types](https://gohugo.io/content/types/). One is named "de" for

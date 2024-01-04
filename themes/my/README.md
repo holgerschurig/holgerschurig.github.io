@@ -77,7 +77,7 @@ paginate = 10
 
 [indexes]
   tag = "tags"
-  topic = "topics"
+  category = "categories"
 
 [params]
   # Shown in the home page

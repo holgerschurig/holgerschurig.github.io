@@ -2,7 +2,7 @@
 date = "2016-03-25T17:39:29+01:00"
 title = "bash aliases"
 tags = [ "bash", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 
 +++
 

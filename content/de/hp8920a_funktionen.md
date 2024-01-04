@@ -1,6 +1,6 @@
 +++
 title = "Messmöglichkeiten des HP8920A"
-topics = [ "Amateurfunk" ]
+categories = [ "Amateurfunk" ]
 #keywords = HP8920, HP8920A, Funkmessplatz, Messmöglichkeiten
 tags = [ "HP8920", "Messen" ]
 date = "2010-07-02"

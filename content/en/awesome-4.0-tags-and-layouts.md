@@ -2,7 +2,7 @@
 date = "2017-01-22"
 title = "AwesomeWM: Tags and Layout setup"
 tags = [ "awesome", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "awesome", "awesomewm", "tags", "layouts", "rc.lua" ]
 
 +++

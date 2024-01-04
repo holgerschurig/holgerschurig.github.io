@@ -2,7 +2,7 @@
 date = "2022-12-14T09:18:00+01:00"
 title = "Comment static hugo blog entry with Mastodon"
 tags = [ "hugo", "mastodon" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "Hugo", "Mastodon", "Comments", "Replies" ]
 mastodon = "109511208637436749"
 +++

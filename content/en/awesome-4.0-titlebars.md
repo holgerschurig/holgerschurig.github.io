@@ -2,7 +2,7 @@
 date = "2017-01-22"
 title = "AwesomeWM: about title bars and toggling them"
 tags = [ "awesome", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "awesome", "awesomewm", "title bars", "floating" ]
 
 +++

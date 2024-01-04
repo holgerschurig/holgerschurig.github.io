@@ -2,8 +2,7 @@
 title = "Lauflicht mit Raspberry und 74HC595"
 date = "2016-03-06T12:32:10+01:00"
 tags = [ "RasPi", "74HC595", "GPIO", "SPI" ]
-topics = [ "Elektronik" ]
-
+categories = [ "Elektronik" ]
 +++
 
 Bei dieser Schaltung geht es mir weniger darum, 8 LEDs zu betreiben.

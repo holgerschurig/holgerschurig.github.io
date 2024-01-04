@@ -1,6 +1,6 @@
 +++
 title = "Serial setup with C-Kermit"
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 tags = [ "Kermit", "Miniterm", "Putty", "Serial" ]
 date = "2016-04-01"
 +++

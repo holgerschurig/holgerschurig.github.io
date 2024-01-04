@@ -1,7 +1,7 @@
 +++
 title = "notmuch: automatically mark uninteresting mails as read"
 tags = [ "notmuch" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 date = "2016-05-02"
 +++
 

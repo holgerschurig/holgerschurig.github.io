@@ -2,7 +2,7 @@
 date = "2022-12-13T18:28:00+01:00"
 title = "Sway: tweaks and (un)usual keybindings"
 tags = [ "sway", "wayland", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "Sway", "layout" ]
 mastodon = "109507768476455476"
 +++

@@ -2,7 +2,7 @@
 title = "Efficiently untangling Elisp from .org files"
 date = "2016-05-12"
 tags = [ "Emacs", "org-mode" ]
-topics = [ "Emacs" ]
+categories = [ "Emacs" ]
 +++
 
 Many people keep their Emacs config in and org-mode file because it&rsquo;s

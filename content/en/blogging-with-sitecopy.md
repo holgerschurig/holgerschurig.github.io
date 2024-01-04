@@ -1,7 +1,7 @@
 +++
 title = "Update your Blog with Sitecopy"
 tags = [ "Hugo" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 date = "2016-03-31"
 +++
 

@@ -2,7 +2,7 @@
 date = "2022-12-13T16:08:00+01:00"
 title = "Sway: Application startup via run-or-raise"
 tags = [ "sway", "wayland", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "Sway", "exec", "run-or-raise" ]
 +++
 

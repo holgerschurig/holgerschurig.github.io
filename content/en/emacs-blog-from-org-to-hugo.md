@@ -2,7 +2,7 @@
 title = "Blog from Org-Mode to Hugo"
 date = "2016-03-31"
 tags = [ "Emacs", "Hugo", "org-mode" ]
-topics = [ "Emacs" ]
+categories = [ "Emacs" ]
 +++
 
 I use the static web-site generator [Hugo](https://gohugo.io/) to create my home page. I

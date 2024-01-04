@@ -1,6 +1,6 @@
 +++
 title = "Let Hugo ignore Emacs lockfiles"
-topics = [ "Emacs" ]
+categories = [ "Emacs" ]
 tags = [ "Hugo", "Emacs", "Blogging" ]
 date = "2016-04-01"
 +++

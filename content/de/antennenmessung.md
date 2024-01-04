@@ -1,6 +1,6 @@
 +++
 title = "Reflektionsmessung an Antenne Maldol EX-104"
-topics = [ "Amateurfunk" ]
+categories = [ "Amateurfunk" ]
 #keywords = HP8920, HP8920A, SWR, Reflektionsmessung, Maldal EX-104
 tags = [ "HP8920", "BX-066", "Messen" ]
 date = "2010-06-13"

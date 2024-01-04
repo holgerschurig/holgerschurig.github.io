@@ -2,7 +2,7 @@
 date = "2017-01-22"
 title = "AwesomeWM: Alternative bindings setup"
 tags = [ "awesome", "dotfiles" ]
-topics = [ "Linux" ]
+categories = [ "Linux" ]
 keywords = [ "awesome", "awesomewm", "key bindings" ]
 
 +++
