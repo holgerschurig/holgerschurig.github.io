@@ -18,7 +18,7 @@ understand. Here I present one approach how to fix this. <br/>
 
 - [What is LSP?](#what-is-lsp)
 - [Enable LSP](#enable-lsp)
-- [Use LSP in your editor](#use-lsp-in-your-editor)
+- [Use LSP in Emacs](#use-lsp-in-emacs)
 - [Observing the first errors](#observing-the-first-errors)
 - [Fixing these errors](#fixing-these-errors)
 
@@ -28,19 +28,19 @@ understand. Here I present one approach how to fix this. <br/>
 
 ## What is LSP? {#what-is-lsp}
 
-[LSP](https://en.wikipedia.org/wiki/Language_Server_Protocol) stands for "Language Server Protocol", a JSON based protocol where a tool <br/>
-(e.g. a compiler) can tell an editor about language specific things **while** <br/>
-editing, i.E. without an extra compilation step. It's also used for completion <br/>
-of variable / function / method / type names in the editor. Or for <br/>
-cross-references. As a real compiler looks at the code, it's quite precise. It <br/>
-can achive much more insight into the code than using only parsing (e.g. <br/>
-directly in the editor). <br/>
+[LSP](https://en.wikipedia.org/wiki/Language_Server_Protocol) stands for "Language Server Protocol", a JSON-based protocol that allows <br/>
+tools to communicate with editors about language-specific information while <br/>
+editing. This provides more precise insight into the code than just parsing, and <br/>
+enables features like completion of variable/function/method/type names, <br/>
+cross-references, and other advanced functionalities. LSP is widely used in <br/>
+modern software development workflows. <br/>
 
 
 ## Enable LSP {#enable-lsp}
 
 Out of the box, Zephyr doesn't support LSP, but it's easy enough to add. When <br/>
-configuring for a board, you only need to ask CMake to create a compilation database: <br/>
+configuring for a board, you only need to ask CMake to create a compilation <br/>
+database. <br/>
 
 ```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--83b8fb }
 west build \
@@ -52,9 +52,9 @@ west build \
 	-DOVERLAY_CONFIG="nucleo_f303re.conf"
 ```
 
-Here in line [BROKEN LINK: ref:cdb] we do exactly that. Once you've compiled your project <br/>
-normally, you'll now have such a compilation database in the "`build/`" <br/>
-directory: <br/>
+In line [BROKEN LINK: ref:cdb], we exactly do that. Once you've compiled your project <br/>
+normally, you will now have such a compilation database in the "build/" <br/>
+directory. <br/>
 
 ```text
 ~/src/multi-board-zephyr$ ls -l build/compile_commands.json
@@ -62,19 +62,15 @@ directory: <br/>
 ```
 
 This compilation database contains the exact set of source files that would be <br/>
-compiled, as well as the full set of compiler command-line arguments for each <br/>
-file. Therefore, an LSP daemon doesn't have to parse e.g. Makefile, meson.build, <br/>
-the many CMake files etc etc etc. It just looks at this one formalized database. <br/>
+compiled, along with the full set of compiler command-line arguments for each <br/>
+file. As a result, an LSP daemon doesn't have to parse e.g., Makefile, <br/>
+meson.build, CMake files, etc. It simply looks at this one formalized database. <br/>
 
 
-## Use LSP in your editor {#use-lsp-in-your-editor}
+## Use LSP in Emacs {#use-lsp-in-emacs}
 
-Since there are hundreds of editors out there, this is really beyond the scope <br/>
-of this blog. <br/>
-
-I personally use Emacs, and there are two options: lsp-mod and eglot. I use the latter. <br/>
-
-On Linux, a good LSP server is [clangd](https://clangd.llvm.org/). I currently use clangd-15, so I tell eglot about it: <br/>
+On Linux, a good C/C++ LSP server is [clangd](https://clangd.llvm.org/). I currently use clangd-15, so I <br/>
+tell Emacs / eglot about it: <br/>
 
 ```elisp
   (add-to-list 'eglot-server-programs '(c-mode  .  ("clangd-15" "-j=2" "--clang-tidy")))
@@ -83,6 +79,8 @@ On Linux, a good LSP server is [clangd](https://clangd.llvm.org/). I currently u
 
 
 ## Observing the first errors {#observing-the-first-errors}
+
+Now all is fine, I can start eglot ("`M-x eglot`"). All is well! <br/>
 
 ... but oh no, even a miniature project already shows an error: <br/>
 
@@ -94,16 +92,20 @@ But what are these errors? <br/>
 
 {{< figure src="/ox-hugo/2024-01-05_733x74.png" >}} <br/>
 
-It turns out that Zephyr uses some command line options that the GCC Compiler <br/>
-understands. The CLANG compiler (when compiling) ignores them. But when we use <br/>
-CLANG\*D\* (the daemon), this will be flagged as an error. <br/>
+It turns out that Zephyr uses some command-line options that the GCC Compiler <br/>
+doesn't understand. The CLANG compiler (when compiling) ignores them. But not <br/>
+the CLANGD language server. That one will bark about the not understood <br/>
+command-line options. <br/>
+
+In effect, you'll see errors in any of your source files. However, in reality, <br/>
+there aren't any errors present. <br/>
 
 
 ## Fixing these errors {#fixing-these-errors}
 
-Now, clangd takes all of the command line arguments from the compilation <br/>
+Now, clangd takes all of the command-line arguments from the compilation <br/>
 database. So after configuring, we simply modify the compilation database <br/>
-directly. So we define a Makefile target for this: <br/>
+directly. Therefore, we define a Makefile target for this: <br/>
 
 ```text
 .PHONY:: fix_lsp_compilation_database

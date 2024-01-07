@@ -7,13 +7,15 @@ categories = ["embedded"]
 draft = false
 +++
 
-This blog post shows you how to **reproducibly** setup a Zephyr project. It also gives
-you a few Makefile tricks and best practices.
+This blog post demonstrates how to set up a Zephyr project in a **reproducible** <br/>
+manner. Additionally, it provides some Makefile tricks and best practices for <br/>
+using this powerful tool effectively. <br/>
 
-While you can do this by hand, e.g. by following the [Getting Started Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html), a
-reproducible &amp; automatic setup still has benefits. For once, any change you do
-is automatically documented in GIT. And also it's much easier to move the
-project onto CI/CD servers or into Docker containers.
+While you can set up a Zephyr project manually, following the [Getting Started <br/>
+Guide](https://docs.zephyrproject.org/latest/develop/getting/started/index.html), a reproducible and automatic approach has several advantages. Firstly, <br/>
+any changes made to the project will be automatically documented in GIT. <br/>
+Furthermore, it is easier to move the project onto CI/CD servers or into Docker <br/>
+containers. <br/>
 
 <!--more-->
 
@@ -38,14 +40,14 @@ project onto CI/CD servers or into Docker containers.
 
 ## (Ab)use of Makefiles {#ab--use-of-makefiles}
 
-All of the following is orchestrated mostly by a Makefile.
+The entire setup is primarily managed by a Makefile. Despite the fact that <br/>
+Zephyr utilizes CMake and Ninja, Makefiles offer a more convenient way to <br/>
+consolidate numerous shell commands into a single location. You can consider <br/>
+this Makefile as a repository of knowledge or as a mechanism for ensuring <br/>
+replicability. <br/>
 
-Even when Zephyr itself uses CMake and Ninja, Makefiles are a nicer way to
-bundle lots of shell snippets into one place. You can view this Makefile also
-as a collection of knowledge, or as a way to have things replicatable.
-
-The full Makefile is accessible as
-<https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init>
+The full Makefile is accessible as <br/>
+<https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init> <br/>
 
 
 ## Basic project setup {#basic-project-setup}
@@ -53,9 +55,9 @@ The full Makefile is accessible as
 
 ### Make sure you have all dependencies installed {#make-sure-you-have-all-dependencies-installed}
 
-Execution: either "`make init`" or, as a single step, "`make debs`".
+Execution: either "`make init`" or, as a single step, "`make debs`". <br/>
 
-How?
+How? <br/>
 
 ```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--1ebb54 }
 UID := $(shell id -u)
@@ -106,31 +108,33 @@ else
 endif
 ```
 
-Here we use a trick: the Makefile detects in line [1](#org-coderef--1ebb54-1) the user ID of the current user. In line
-[4](#org-coderef--1ebb54-4) we when check if the Makefile is running as user or root. If it is running as root, we
-can use "`apt`" in line [5](#org-coderef--1ebb54-5) to install all the needed dependencies.
+In this section, we employ a trick using the Makefile to detect the user ID of <br/>
+the current user in line [1](#org-coderef--1ebb54-1). Line [4](#org-coderef--1ebb54-4) is used to verify if the <br/>
+Makefile is running as a user or root. If it's running as root, we can utilize <br/>
+"`apt`" in line [5](#org-coderef--1ebb54-5) to install all necessary dependencies. <br/>
 
-However, if we're a normal user, we use "`sudo`" at line [43](#org-coderef--1ebb54-43) to become root
-and run the Makefile target "debs" again. The "`--no-print-directory`" command line argument
-just removes visual clutter.
+If we're non-root, we use "`sudo`" in line [43](#org-coderef--1ebb54-43) to become root and execute the <br/>
+"debs" Makefile target again. The "`--no-print-directory`" command-line argument <br/>
+is employed to remove visual clutter from the output. <br/>
 
-Finally, as a normal user, we create a directory if it doesn't yet exist ("`-p")
-and put a stamp file into it. "=make init`" checks this stamp, if the stamp
-exists, it won't rerun this part. However, "`make debs`" doesn't check the
-stamp, it always runs "`apt`". Use this if for some reason you want to install
-additional debian packages in an already setup project.
+Lastly, as a normal user, we create the directory "`.west`" if it doesn't exist <br/>
+("`-p`") and place a stamp file inside it. The "`make init`" command checks the <br/>
+existence of the stamp, preventing unnecessary re-execution of this part if it <br/>
+already exists. In contrast, "`make debs`" does not check for the stamp and <br/>
+always runs "`apt`". This can be used if you want to install additional Debian <br/>
+packages in an existing project setup. <br/>
 
 
 ### Setting up a python virtual environment {#setting-up-a-python-virtual-environment}
 
-Zephyr needs a tool called "`west`" which is written in Python and get's installed
-via "`pip3`", together with several python modules. In order to have these modules
-not interfere with those installed by Debian (or Ubuntu), we need to create a virtual
-environent.
+Zephyr requires a tool named "`west`" that is written in Python and is installed <br/>
+using "`pip3`". Along with several Python modules. To prevent these modules from <br/>
+conflicting with those installed by Debian (or Ubuntu), we need to create a <br/>
+virtual environment. <br/>
 
-Execution: either "`make init`" or, as a single step, "`make debs`".
+Execution: either "`make init`" or, as a single step, "`make debs`". <br/>
 
-How?
+How? <br/>
 
 ```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--1275dc }
 PWD := $(shell pwd)
@@ -151,17 +155,19 @@ help::
 	@echo "   venv               create and check Python3 virtual environment"
 ```
 
-In line [5](#org-coderef--1275dc-5) we check if the environment already exists (we could use Make's dependency
-checking, but it will not just look at the mere existence, but also on the timestamp, which here
-is undersirable).
+In line [5](#org-coderef--1275dc-5), we verify if the environment already exists. While Make's <br/>
+dependency checking can be used for this purpose, it would check not only for <br/>
+file existence, but also for the timestamp. In this case, this is undesirable. <br/>
 
-If it doesn't exists, we use the Python "`venv`" module in line [6](#org-coderef--1275dc-6) to simply create one. Now
-we could source "`.venv/bin/activate`" to activate this... but unfortunately, this has to be done
-outside of Make. Also, we ask to source "`.env`" instead, so that we can also setup needed
-[Zephyr environment variables](https://docs.zephyrproject.org/latest/develop/env_vars.html).
+If the environment does not exist, we use the Python "`venv`" module in line <br/>
+[6](#org-coderef--1275dc-6) to create one. While we could source "`.venv/bin/activate`" to activate <br/>
+this within Make, unfortunately, it has to be done outside of Make. Instead, we <br/>
+ask to source "`.env`" so that we can also set up the required Zephyr <br/>
+environment variables. <br/>
 
-Pro tip: on my development PCs, I have a shell function "`pro`" that changes into a project directory
-and sources "`.env`" automatically if it exist. It looks like this:
+Pro tip: On my development PCs, I have a shell function "`pro`" that <br/>
+automatically changes into a project directory and sources "`.env`" if it <br/>
+exists. It looks like this: <br/>
 
 ```text
 pro ()
@@ -171,19 +177,20 @@ pro ()
 }
 ```
 
-So now I can do "`pro cool-zephyr-project`" and my environment is automatically setup.
+So now I can do "`pro cool-zephyr-project`" and my environment is automatically <br/>
+setup. <br/>
 
-(This shell function assumes that you have your projects in your home directory
-below the "`d`" (like development) or "`src`" directories. Adjust as needed.)
+(This shell function assumes that you have your projects in your home directory <br/>
+below the "`d`" (like development) or "`src`" directories. Adjust as needed.) <br/>
 
 
 ### Install the "`west`" tool {#install-the-west-tool}
 
-Now that we have a virtual environent, we can install the "`west`" tool.
+Now that we have a virtual environent, we can install the "`west`" tool. <br/>
 
-Execution: either “make init” or, as a single step, “make west”.
+Execution: either “make init” or, as a single step, “make west”. <br/>
 
-How?
+How? <br/>
 
 ```text
 .PHONY:: west
@@ -194,26 +201,24 @@ west .west/config:
 	/bin/echo -e "[manifest]\npath = zephyr\nfile = west.yml\n[zephyr]\nbase = zephyr" >.west/config
 ```
 
-Actually this does 3 steps:
+Actually this does 3 steps: <br/>
 
--   install west
--   install pyelftools (needed on Debian Bookworm, as the distro provided ones are too old)
--   configure Zephyr via "`.west/config`"
+-   install west <br/>
+-   install pyelftools (needed on Debian Bookworm, as the distro provided ones are too old) <br/>
+-   configure Zephyr via "`.west/config`" <br/>
 
 
 ### Install Zephyr {#install-zephyr}
 
-Now we need the source of Zephyr. On some projects, you want the current development
-version of it, on some projects you want pin yourself to a specific version. You also
-might have local patches for Zephyr that you don't want to publish upstream and that
-you want to apply automatically. This step does all of this!
+Now we require the source of Zephyr. On some projects, you may want to use the <br/>
+current development version, while on others, you may wish to pin yourself to a <br/>
+specific version. Additionally, you might have local patches for Zephyr that you <br/>
+don't want to publish upstream and that you want to apply automatically. This <br/>
+step accomplishes all of this! <br/>
 
-BTW, because of these additional functions (specific version, patches) we intentionally
-don't use "`west init`".
+Execution: either “make init” or, as a single step, “make zephyr”. <br/>
 
-Execution: either “make init” or, as a single step, “make zephyr”.
-
-How?
+How? <br/>
 
 ```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--802ce8 }
 #ZEPHYR_VERSION=zephyr-v3.5.0-3531-g6564e8b756
@@ -231,38 +236,44 @@ ifneq ("$(wildcard patches-zepyhr/series)","")
 endif
 ```
 
-The first step is a very normal "`git clone`". If you don't care about Zephyr's commit
-history (e.g. you don't want to run things like "`git log`" or "`git blame`" you can also
-add "--depth 1". That reduces the size of the cloned "`zephyr/`" directory.
+The first step is a typical "`git clone`". If you don't care about Zephyr's <br/>
+commit history (e.g., you don't want to run things like "`git log`" or "`git
+blame`"), you can also add "`--depth 1`". This reduces the size of the cloned <br/>
+"`zephyr/`" directory. <br/>
 
-You can uncommend and modify ZEPHYR_VERSION in line [1](#org-coderef--802ce8-1) to your liking.
-This will pin Zephyr to the specified version. This is done by creating a branch "`my`"
-in line [7](#org-coderef--802ce8-7).
+**Specific version**: you can uncommend and modify ZEPHYR_VERSION in line [1](#org-coderef--802ce8-1) to your liking. <br/>
+This will pin Zephyr to the specified version. This is done by creating a branch "`my`" <br/>
+in line [7](#org-coderef--802ce8-7). <br/>
 
-What you in ZEPHYR_VERSION is the output of "`git describe --tags`" while I was
-in the "`zephyr/`" directory at the point of time where one of my projects moved
-from EVT to DVT phase. But you can also simply use tag names from the Zephyr
-project.
+BTW, the value of ZEPHYR_VERSION is the output of "`git describe --tags`". <br/>
 
-In one of my projects, I have patches that will probably never be accepted by upstream
-Zephyr. I however also don't want to commit them into the "`zephyr/`" project. Instead
-I use the "`quilt`" tool to have a stack of patches. BTW, Debian (and thus Ubuntu) also use
-quilt to patch upstream source packages before making "`.deb`" files, see their
-[howto](https://wiki.debian.org/UsingQuilt) on it.
+Background: when should you start to lock Zephyr? This depends on your <br/>
+circumstances. When a project is still in EVT phase, I tend to follow Zephyr <br/>
+closely, e.g. use development version so it. "`ZEPYHR_VERSION`" would be <br/>
+uncommented then. But then the projects enters DVT phase, or even MP phase, I'll <br/>
+certainly lock Zephyr to a well-known version. <br/>
 
-The existence of quilt patches is checked in line [10](#org-coderef--802ce8-10) and then just
-rolled in in line [12](#org-coderef--802ce8-12).
+**Local patches**: in one of my projects, I have patches that will probably never <br/>
+be accepted by upstream Zephyr. I could put them directly into Zephyr, in my own <br/>
+branch ... but I prefer to have them in my own GIT project. So I use the <br/>
+"`quilt`" tool to manage a stack of patches. <br/>
+
+The existence of quilt patches is checked in line [10](#org-coderef--802ce8-10) and, if they <br/>
+exist, line [12](#org-coderef--802ce8-12) rolls them in. <br/>
+
+**Final note**: It's worth mentioning that due to version pinning and local <br/>
+patches, we intentionally don't use "`west init`" in this step. <br/>
 
 
 ### Install needed Zephyr modules, e.g. HALs from the µC vendor {#install-needed-zephyr-modules-e-dot-g-dot-hals-from-the-µc-vendor}
 
-Some (actually almost all) of the SOCs that Zephyr supports need HALs (hardware
-abstraction layers) provided by the chip vendor. If they don't exist, we cannot
-compile at all. So let's install them!
+Some (actually almost all) of the SOCs that Zephyr supports need HALs (hardware <br/>
+abstraction layers) provided by the chip vendor. If they don't exist, we cannot <br/>
+compile at all. So let's install them! <br/>
 
-Execution: either “make init” or, as a single step, “make modules”.
+Execution: either “make init” or, as a single step, “make modules”. <br/>
 
-How?
+How? <br/>
 
 ```text
 .PHONY:: modules
@@ -289,27 +300,27 @@ update modules module_cmsis modules/hal/cmsis/.git/HEAD:: .west/config
 	touch --no-create modules/hal/cmsis/.git/HEAD
 ```
 
-As usual, I made the Makefile so that "`make init`" only pulls in the modules
-once. However "`make modules`" will always pull them in, should the vendor have
-changed them.
+As usual, I made the Makefile so that "`make init`" only pulls in the modules <br/>
+once. However "`make modules`" will always pull them in, should the vendor have <br/>
+changed them. <br/>
 
-Theoretically one could pin the modules also to specific version, like in the
-step above. I however noticed that they are quite stable and this was never
-needed. And also I need to have something to assign to you as homework, didn't I
-????
+Theoretically one could pin the modules also to specific version, like in the <br/>
+step above. I however noticed that they are quite stable and this was never <br/>
+needed. And also I need to have something to assign to you as homework, didn't I <br/>
+???? <br/>
 
 
 ## Getting help {#getting-help}
 
-If you look at the actual [Makefile](https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init%20), you'll notice that I ommited a whole lot of lines like
+If you look at the actual [Makefile](https://github.com/holgerschurig/zephyr-multi-board/blob/main/Makefile.zephyr_init%20), you'll notice that I ommited a whole lot of lines like <br/>
 
 ```text
 help::
 	@echo "   modules            install Zeyphr modules (e.g. ST and STM32 HAL, CMSIS ...)"
 ```
 
-from above. They aren't strictly necessary, but nice. They allow you to run "`make help`" and
-see all the common makefile targets meant for users. Like so:
+from above. They aren't strictly necessary, but nice. They allow you to run "`make help`" and <br/>
+see all the common makefile targets meant for users. Like so: <br/>
 
 ```text
 (.venv) holger@holger:~/src/multi-board-zephyr$ make -f Makefile.zephyr_init help
@@ -327,16 +338,16 @@ init                  do all of these steps:
 
 ## All of the above {#all-of-the-above}
 
-The individual targets like "`make venv`" or "`make debs`" are mostly only for
-debugging. Once you know they are working, simply run: "`make init`".
+The individual targets like "`make venv`" or "`make debs`" are mostly only for <br/>
+debugging. Once you know they are working, simply run: "`make init`". <br/>
 
 
 ## Using this makefile in your project {#using-this-makefile-in-your-project}
 
-You can simply add your own clauses at the end of this Makefile ... your you can include it from
-a main Makefile. This is demonstrated in the Github project <https://github.com/holgerschurig/zephyr-multi-board/>:
+You can simply add your own clauses at the end of this Makefile ... your you can include it from <br/>
+a main Makefile. This is demonstrated in the Github project <https://github.com/holgerschurig/zephyr-multi-board/>: <br/>
 
-Main "`Makefile`"
+Main "`Makefile`" <br/>
 
 ```text
 PWD := $(shell pwd)
@@ -352,28 +363,28 @@ include Makefile.zephyr_init
 # ... many more lines ...
 ```
 
-First at the top we set two environment variables that we often use, PWD
-(working directory) and UID (user id). You can then later just use them via
-"$(PWD)" --- note that Make want's round brances here, not curly braces like
-Bash.
+First at the top we set two environment variables that we often use, PWD <br/>
+(working directory) and UID (user id). You can then later just use them via <br/>
+"$(PWD)" --- note that Make want's round brances here, not curly braces like <br/>
+Bash. <br/>
 
-Then I set a default target, to be executed if you just run "`make`" without specifying
-a target by yourself.
+Then I set a default target, to be executed if you just run "`make`" without specifying <br/>
+a target by yourself. <br/>
 
-The double colon here needs to be used for all targets that are defined more
-than once in a Makefile. As you see, here the target is empty. It's fleshed out
-in much more complexity below, but this is beyond this blog post.
+The double colon here needs to be used for all targets that are defined more <br/>
+than once in a Makefile. As you see, here the target is empty. It's fleshed out <br/>
+in much more complexity below, but this is beyond this blog post. <br/>
 
-Also note the "`.PHONY:: all`" line. It helps Make to understand that "`make`"
-or "`make all`" isn't supposed to actually create file called "`all`". This
-helps it's dependency resolvement engine, and is good style. My makefile uses
-"`.PHONY::`" liberally, for each pseudo-target (shell script snippet) basically.
+Also note the "`.PHONY:: all`" line. It helps Make to understand that "`make`" <br/>
+or "`make all`" isn't supposed to actually create file called "`all`". This <br/>
+helps it's dependency resolvement engine, and is good style. My makefile uses <br/>
+"`.PHONY::`" liberally, for each pseudo-target (shell script snippet) basically. <br/>
 
-Finally, we use Make's "`include`" clause to include our boilerplate Makefile.
+Finally, we use Make's "`include`" clause to include our boilerplate Makefile. <br/>
 
 You could also run the Boilerplate makefile itself, with "`make -f
-Makefile.zephyr_init`", e.g. for debugging purposes. But oh ... now PWD and UID
-aren't set. So at the top of this makefile I set these variables if they don't exist:
+Makefile.zephyr_init`", e.g. for debugging purposes. But oh ... now PWD and UID <br/>
+aren't set. So at the top of this makefile I set these variables if they don't exist: <br/>
 
 ```text
 ifeq ($(PWD),"")
@@ -383,3 +394,4 @@ ifeq ($(UID),"")
 UID := $(shell id -u)
 endif
 ```
+
