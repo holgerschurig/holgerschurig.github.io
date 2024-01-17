@@ -84,13 +84,13 @@ Now all is fine, I can start eglot ("`M-x eglot`"). All is well! <br/>
 
 ... but oh no, even a miniature project already shows an error: <br/>
 
-{{< figure src="/ox-hugo/2024-01-05_226x23.png" >}} <br/>
+{{< figure src="./zephyr-fixing-lsp-issues-error.png" >}} <br/>
 
 Note the "!!" in the left fringe. <br/>
 
 But what are these errors? <br/>
 
-{{< figure src="/ox-hugo/2024-01-05_733x74.png" >}} <br/>
+{{< figure src="./zephyr-fixing-lsp-issues-warnings.png" >}} <br/>
 
 It turns out that Zephyr uses some command-line options that the GCC Compiler <br/>
 doesn't understand. The CLANG compiler (when compiling) ignores them. But not <br/>
