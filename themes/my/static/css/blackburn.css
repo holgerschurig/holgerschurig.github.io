@@ -90,4 +90,13 @@ i {
 
 h2 {
   padding-top: 10px;
-};
+}
+
+table, th, td {
+  /* oben rechts unten links */
+  padding: 2px 3px 2px 3px;
+  border: 1px solid;
+}
+th {
+  text-align: left;
+}
