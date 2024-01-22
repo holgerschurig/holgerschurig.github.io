@@ -17,7 +17,8 @@
 :EXPORT_HUGO_TAGS: linux kernel arm zaurus sa1110 pxa320 opie
 :END:
 
-TODO
+Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso
+ich später eine bessere Lösung im Embedded-Linux-Bereich eingesetzt habe.
 
 #+hugo: more
 #+toc: headlines 3
