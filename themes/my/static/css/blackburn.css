@@ -100,3 +100,9 @@ table, th, td {
 th {
   text-align: left;
 }
+
+.job {
+  background-color: #e0f0f0;
+  padding-left: 1em;
+  border: 1px solid;
+}
