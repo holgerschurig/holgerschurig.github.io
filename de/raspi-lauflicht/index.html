@@ -3,7 +3,7 @@
 Die kann man nämlich auch direkt am Raspberry Pi anschließen. Sondern
 es geht darum, mit den Schieberegister 74HC595 zu experimentieren.</p><p>Dieses steuere ich zunächst durch diverse GPIO Ports an.</p><p>Und danach betreibe ich es am SPI-Port des RasPi. Das funktioniert
 wunderbar, obwohl der Text &ldquo;SPI&rdquo; nirgendwo im 74HC595-Datenblatt
-auftaucht :-)</p><h2 id=schaltung>Schaltung</h2><p>Die Schaltung ist einfach:</p><ul><li>der 74HC595 bekommt <code>VCC</code> und <code>GND</code>. Da es ein HC-Chip ist, kann er
+auftaucht :-)</p><h2 id=schaltung>Schaltung</h2><img src=raspi-lauflicht-schem.png class=pure-img><p>Die Schaltung ist einfach:</p><ul><li>der 74HC595 bekommt <code>VCC</code> und <code>GND</code>. Da es ein HC-Chip ist, kann er
 anders als normale TTL-Bausteine direkt mit 3.3V betrieben
 werden. Das ist wichtig, da der Raspberry Pi <strong>nicht</strong> 5V-tolerant
 ist.</li><li><code>nOE</code> (negative Output Enable) geht an <code>GND</code>. Der &lsquo;595 halt also
@@ -16,7 +16,7 @@ Einfachheit halber habe ich nur zwei LEDs eingezeichnet.</p><p>Auch war ich spar
 gemeinsamen Vorwiderstand von 220 Ohm eingebaut. Damit sind die LEDs
 unterschiedlich hell wenn man mal mehr als eine LED anschaltet. Da es
 mir aber darum ging, den &lsquo;595 und SPI zu verstehen, war mir das egal.
-Ansonsten hätte ich eine Konstantstromquelle vorgesehen.</p><h2 id=verdrahtung>Verdrahtung</h2><p>Auch in die Verdrahtung habe ich nur 2 von 8 LEDs eingetragen.</p><h2 id=software-für-gpio>Software für GPIO</h2><p>Zunächst habe ich das ganze via GPIO, also per &ldquo;Big Banging&rdquo; betrieben. Das geht so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python</span>
+Ansonsten hätte ich eine Konstantstromquelle vorgesehen.</p><h2 id=verdrahtung>Verdrahtung</h2><img src=raspi-lauflicht-bb.png class=pure-img><p>Auch in die Verdrahtung habe ich nur 2 von 8 LEDs eingetragen.</p><h2 id=software-für-gpio>Software für GPIO</h2><p>Zunächst habe ich das ganze via GPIO, also per &ldquo;Big Banging&rdquo; betrieben. Das geht so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>import</span> sys<span style=color:#f92672>,</span> time
 </span></span><span style=display:flex><span>

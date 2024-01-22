@@ -1,0 +1,57 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.121.2"><title>&#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../../css/blackburn.css><link rel=stylesheet href=../../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../../index.xml><link rel="shortcut icon" href=../../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1></h1><h2></h2></div><div class=content><div id=outline-container-headline-1 class=outline-2><h2 id=headline-1>OpenEmbedded</h2><div id=outline-text-headline-1 class=outline-text-2><p>TODO</p><nav><ul><li><a href=#headline-1>OpenEmbedded</a><ul><li><a href=#headline-2>Projekt-Info</a></li><li><a href=#headline-3>Geschichte</a></li><li><a href=#headline-4>Bitbake</a></li><li><a href=#headline-5>BitKeeper</a></li><li><a href=#headline-6>Mein Ausstieg</a></li><li><a href=#headline-7>Verwandte Projekte</a></li></ul></li></ul></nav><div class=job-block><p>In Beiträgen der Kategorie <a href=../../../categories/job/>Job</a> trage ich Projekte zusammen, die ich im Rahmen
+meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
+Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+ja nicht berührt werden.</p></div><div id=outline-container-headline-2 class=outline-3><h3 id=headline-2>Projekt-Info</h3><div id=outline-text-headline-2 class=outline-text-3><p>Idee: Chris Larson, Michael Lauer, ich</p><p>Umsetzung: (Programm) ich, (Träger-Verein) Michael Lauer, (Kommunikation) Chris
+Larson. Später haben noch viele andere Leute mitgebracht, hervorheben mächte ich
+Holger Freyther (der "<code class=verbatim>bitbake</code>" verbessert hat und Marcin Juskiecz, der viele,
+viele Rezepte erstellt bzw. verbessert hat.</p><p>Nutzung: 2003 bis 2010, das Projekt dauert aber bis heute an</p><p>Implementatierung: Make, Bash, Python, BitKeeper (zunächst), dann Git, Bitbake-Recipes</p></div></div><div id=outline-container-headline-3 class=outline-3><h3 id=headline-3>Geschichte</h3><div id=outline-text-headline-3 class=outline-text-3><p>Im Jahr 2003 gab es noch keine Smartphones. Aber ungefähr zu diesem Zeitpunkt tauchte
+der Sharp Zaurus auf. Das war ein kleiner PDA mit Intel StrongARM SA1100 CPU.</p><p><img src=./sharp_zaurus.jpg alt=./sharp_zaurus.jpg title=./sharp_zaurus.jpg></p><p>Auf diesem Bild, kopiert von <a href=https://en.wikipedia.org/wiki/Sharp_Zaurus>https://en.wikipedia.org/wiki/Sharp_Zaurus</a> (Lizenz
+<a href=https://creativecommons.org/licenses/by-sa/3.0/deed.en>CC BY-SA 3.0 Deed</a>) sieht man einen Zaurus, auf dem <a href=https://en.wikipedia.org/wiki/OpenEmbedded>OpenEmbedded</a> und Opie (später
+<a href=https://de.wikipedia.org/wiki/OpenZaurus>OpenZaurus</a>) läuft. Opie war damals in Qt 2 geschieben — was ich damals noch
+nicht konnte — und hatte z.B. Terminkalender, Adressbuch, TODO-Liste etc
+integriert.</p><p>Michael und Chris beispielsweise hatten diese Geräte und wollten dafür Images
+erstellen.</p><p>Ich selbst hatte aus beruflichen Gründen den Wunsch, Images für ARM-Geräte zu
+erstellen. Mein damaliger Arbeitgeber hatte den "MNCI" auf Basis des PXA320
+entwickelt, und dafür mußte Software her — und zwar kein Windows CE.</p><p>Wir trafen uns auf IRC und beratschlagten, wie man so ein Image bauen könnte.
+Es müsste mit den diversen Zaurus-Hardware-Versionen (Collie, Poodle etc)
+klarkommen, aber auch mit meinem Industriegerät. In der Firma setzte ich damals
+Red Hat ein, privat hatte ich aber gerade mit Gentoo experimentiert. Und so kam
+ich auf die Idee, das man "Rezepte" zum Bauen von Paketen haben sollte. Wer ganau
+hinschaut wird merken, das sie an die "<code class=verbatim>.ebuild</code>" von gentoo erinnern.</p><p>Ein großer Unterschied zu Gentoo ist natürlich die Cross-Compilierung und daher
+das "Staging"-Konzept. Um beispielsweise libpng für ARM cross-compilieren zu
+können, muß die glibc ebenfalls für ARM vorliegen. Sie kann aber nicht da stehen,
+wo meine normale glibc für meinen Linux-Entwicklungsrechner steht. Sondern muß davon
+getrennt sein, eben im "Staging"-Bereich.</p><p>Was wir auch machen mußten: viele Buildsystem (beispielsweise GNU Autoconf)
+erstellen zum Zeitpunkt von "<code class=verbatim>./configure</code>" viele kleine Testprogramme und
+lassen diese dann laufen. So stellen sie z.B. fest wie lange ein Integer ist,
+oder ob O_SYNC implementiert ist. Nur: wenn wir cross-compilieren, dann sind
+diese Testprogramme ja in ARM-Maschinensprache. Mein Entwicklungsrechner war
+aber i386. Also schlagen alle diese Tests fehl, "<code class=verbatim>./configure</code>" geht nicht. Und
+qemu-user-static existierte noch nicht. Also mussten wir die diversen
+Build-Systeme dazu überreden, von uns vorab erstellte Ergebnisse dieser Tests zu
+nehmen statt selbst zu testen.</p></div></div><div id=outline-container-headline-4 class=outline-3><h3 id=headline-4>Bitbake</h3><div id=outline-text-headline-4 class=outline-text-3><p>Diese Bau-Rezepte wurden von Bitbake ausgeführt. Die ersten 100-300 Commits
+(weiss ich nicht mehr genau) stammen von mir. Ebenso das Design der Rezepte und
+"<code class=verbatim>.bbclass</code>" Klassen.</p><p>Nachteilig von Bitbake damals war die lange Latenz beim Starten eines Build. So
+wie ich die Rezepte organisiert hatte, mussten sie im Prinzip alle eingelesen werden
+um einen Dependency-Graph aufzubauen. Und dieses Parsen war, auch wg. Python, nicht
+das schnellste. Ich selbst hatte das Problem damals nicht gelöst, bis ca. 500 Rezepte
+konnte man es auch noch aushalten. Aber als OpenEmbedded immer größer wurde, war es
+ein großes Problem. Deswegen würde ich Holger Freyther ("zecke" im IRC) noch mit
+aufnehmen: er hatte einen Cache des Graphen eingebaut.</p></div></div><div id=outline-container-headline-5 class=outline-3><h3 id=headline-5>BitKeeper</h3><div id=outline-text-headline-5 class=outline-text-3><p>Wir hatten den Source damals in einem "distributed source code versioning
+system" names <a href=https://en.wikipedia.org/wiki/Bitkeeper>BitKeeper</a> gehalten. Das war sozusagen der Vorgänger und Ideengeber
+zu Git — und der letzte Schrei. Die Firma "BitMover Inc" hatte BitKeeper für
+OpenSource-Projekte kostenlos gemacht. Auch der Linux-Kernel verwendete es.</p><p>Als dann aber das Verhältnis von "BitMover Inc" zur Kernel-Community sauer
+wurde, hat Linus Torvalds "<code class=verbatim>git</code>" entwickelt, in die Linux-Kernel-Community
+eingeführt. Und wir von OpenEmbedded sind nahezu zeitgleich umgestiegen.</p></div></div><div id=outline-container-headline-6 class=outline-3><h3 id=headline-6>Mein Ausstieg</h3><div id=outline-text-headline-6 class=outline-text-3><p>Leider hat sich der "MNCI" nicht gut verkauft — der Spediteur, für den wir den
+MCNI entwickelt haben, meinte auf einmal "Also ich bin international, und ihr
+seid eine kleine 30-Personen-Firma. Von euch kann ich das nicht kaufen". M&amp;N
+konnte die Entwicklungskosten nicht refinanzieren und meldete Insolvenz an.</p><p>Damit hatte es sich für mich erübrigt, an OpenEmbedded weiterzuarbeiten —
+Interesse an PDAs hatte ich nämlich nicht.</p><p>Später habe ich für andere ARM-Platformen kein OpenEmbedded mehr genommen,
+sondern mir direkt Debian ARM installiert. Das war um Größenordnungen schneller,
+da ja keinerlei Sourcen mehr compiliert werden müssen. Ich spreche hier von
+Minuten statt 16 Stunden um ein Image "from Scratch" neu zu bauen.</p><p>Aber das war ungefähr zu den Zeitpunkt, an dem Yocto entstand. Und so war die
+Zukunft von OpenEmbedded gegeben, auch ohne mich. Das war noch vor Entwicklung
+der "layers".</p></div></div><div id=outline-container-headline-7 class=outline-3><h3 id=headline-7>Verwandte Projekte</h3><div id=outline-text-headline-7 class=outline-text-3><p>Die folgenden Projekte verwenden OpenEmbedded::</p><ul><li>TODO(Artikel schreiben) MNCI</li></ul></div></div></div></div><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>0001-01-01</time></div></div></div></div></div><script src=../../../js/ui.js></script><script src=../../../js/menus.js></script></body></html>

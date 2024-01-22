@@ -1,0 +1,149 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.121.2"><title>&#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../../css/blackburn.css><link rel=stylesheet href=../../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../../index.xml><link rel="shortcut icon" href=../../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1></h1><h2></h2></div><div class=content><div id=outline-container-headline-1 class=outline-2><h2 id=headline-1>flexibler Hardware-Tester für x86-Systeme: hwtester</h2><div id=outline-text-headline-1 class=outline-text-2><p>Hier geht es darum, frisch produzierte Geräte der Klassen DLT-V83 und DLT-V72
+auf Herz und Nieren zu prüfen.</p><nav><ul><li><a href=#headline-1>flexibler Hardware-Tester für x86-Systeme: hwtester</a><ul><li><a href=#headline-2>Projekt-Info</a></li><li><a href=#headline-3>Anforderungen</a></li><li><a href=#headline-4>Image erstellen</a></li><li><a href=#headline-5>automatisiert USB-Stick erstellen</a></li><li><a href=#headline-6>Tests</a><ul><li><a href=#headline-7>Testplätze</a></li><li><a href=#headline-8>Testarten</a></li><li><a href=#headline-9>Geräte</a></li><li><a href=#headline-10>Aufbau der Tests</a></li></ul></li><li><a href=#headline-11>Kommunikation mit Test-Fixture</a></li><li><a href=#headline-12>Testreport abspeichern</a></li><li><a href=#headline-13>Verwandte Projekte</a></li></ul></li></ul></nav><div class=job-block><p>In Beiträgen der Kategorie <a href=../../../categories/job/>Job</a> trage ich Projekte zusammen, die ich im Rahmen
+meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
+Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+ja nicht berührt werden.</p></div><div id=outline-container-headline-2 class=outline-3><h3 id=headline-2>Projekt-Info</h3><div id=outline-text-headline-2 class=outline-text-3><p>Idee: Leiter der Elektronikentwicklung</p><p>Umsetzung: ich (Programmierung), allerdings mit viel Input von der Fertigung, Reparatur-Abteilung und Qualitätssicherung — ein echtes Team-Projekt</p><p>Nutzung: 2013 bis heute</p><p>Implementierung: Combined-Linux, Bash, Python, C, C++</p><p>Effizienzgewinn:</p><ul><li>erstmals wurden alle hergestellten Geräte systematisch und reproduzierbar getestet</li><li>viele Produktionsfehler wurden frühzeitig herausgefunden, teilweise schon beim
+Lieferanten der Hauptplatine</li><li>für jedes Gerät und Test gab es einen Testreport, da war die
+Qualitätssicherung sehr erfreut</li></ul></div></div><div id=outline-container-headline-3 class=outline-3><h3 id=headline-3>Anforderungen</h3><div id=outline-text-headline-3 class=outline-text-3><ul><li>bootet von einem USB-Stick beliebiger Größe</li><li>musst an verschiedenen Testorten verschiedene Tests (automatich) aktivieren bzw. deaktivieren</li><li>muss verbaute Hardware weitestgehend erkennen</li><li>32bit wg. externer Test-Tools</li><li>die kommerzielle Testsoftware "Toolstar TestLX" musste eingebunden werden</li><li><strong>keine</strong> Anbindung an die Auftragsverwaltung (wurde so nicht gewünscht)</li></ul></div></div><div id=outline-container-headline-4 class=outline-3><h3 id=headline-4>Image erstellen</h3><div id=outline-text-headline-4 class=outline-text-3><p>Das Image wird dem Tool</p><p></p><p>erstellt. Statt nur
+"<code class=verbatim>bin/run</code>" auszuführen wird gibt man einfach eine Konfurationsdatei an:</p><pre class=example>
+~/d/mkimage$ bin/run -c conf/hwtester.imgconf
+</pre></div></div><div id=outline-container-headline-5 class=outline-3><h3 id=headline-5>automatisiert USB-Stick erstellen</h3><div id=outline-text-headline-5 class=outline-text-3><p>Anschließend hat man das Image im Verzeichnis "<code class=verbatim>image.hwtester/</code>". Doch wie bringt man das nun auf einen Stick?
+Indem wir es eine Image verwandeln:</p><pre class=example>
+# make -n hda
+rm -f hda                                                                       (ref:rmhda)
+fallocate -l 640M hda                                                           (ref:fallocate)
+dd bs=440 conv=notrunc count=1 if=/usr/lib/EXTLINUX/gptmbr.bin of=hda.hwtester  (ref:dd)
+sgdisk hda --new 1::600M --typecode=1:8300   # 8300: Linux filesystem           (ref:part)
+sgdisk hda --change-name=1:&#34;Linux filesystem&#34;
+sgdisk hda --partition-guid=1:6f8f4e09-84df-3804-1c41-38f20001b6c8
+sgdisk hda --attributes 1:set:2
+losetup -D                                                                      (ref:losetupd)
+kpartx -sva hda                                                                 (ref:kpartx)
+losetup /dev/loop1 /dev/mapper/loop0p1                                          (ref:losetup)
+mke2fs -j /dev/loop1                                                            (ref:mke2fs)
+tune2fs -i 0 /dev/loop1                                                         (ref:tune)
+tune2fs -c 0 /dev/loop1
+sync
+losetup -d /dev/loop1
+kpartx -sd hda
+</pre><ul><li>Zeile <a href=(rmhda)>(rmhda)</a>: zuerst löschen wir eine eventualle alte "<code class=verbatim>hda</code>" Datei</li><li>Zeile <a href=(fallocate)>(fallocate)</a>: dann wird eine neue angelegt. 640 MB reichen dicke aus. Wir
+verwenden fallocate, weil es schneller als "<code class=verbatim>dd if=/dev/zero ...</code>" ist. Es
+alloziert nur die Blöcke, beschriebt sie aber nicht. Der Linux-Kernel selbst
+sorgt dafür, das nur 0x00 Bytes enthalten sind.</li><li>Zeile <a href=(dd)>(dd)</a>: nun wird aus dem Host-System der EXTLINUX Bootloader an die
+richtige Position der "<code class=verbatim>hda</code>"-Datei kopiert. "EXTLINUX" ist weniger komplex
+als Grub und für Industrieanwendungen vorzuziehen.</li><li>Zeile <a href=(part)>(part)</a>: nun wird mit "<code class=verbatim>sgdisk</code>" eine GPT-Partition <strong>in der Datei</strong> "<code class=verbatim>hda</code>"
+erstellt.</li><li>Zeile <a href=(losetupd)>(losetupd)</a>: falls man früher noch ein Loopback-Mount hat, wird dies hier
+zur Sicherheit mit <a href=https://manpages.debian.org/bookworm/mount/losetup.8.en.html>losetup</a> gelöscht</li><li>Zeile <a href=(kpartx)>(kpartx)</a>: der Befehl <a href=https://manpages.debian.org/bookworm/kpartx/kpartx.8.en.html>kpartx</a> macht nun die normale Datei "<code class=verbatim>hda</code>" dem
+Kernel bekannt. Er denkt nun sozusagen, das diese Datei ein Blockdevice ist.
+Der Kernel ließt die Partition von "<code class=verbatim>hda</code>" und erstellt
+für jede Partition ein Loopback-Device in "<code class=verbatim>/dev/mapper/</code>".</li><li>Zeile <a href=(losetup)>(losetup)</a>: dieses Partition-Loopback-Device mappen wir nun mit <a href=https://manpages.debian.org/bookworm/mount/losetup.8.en.html>losetup</a>, damit wir
+darauf zugreifen können: nun ist Filesystem erstellen oder auch Mounten möglich</li><li>Zeile <a href=(mke2fs)>(mke2fs)</a>: diese Partition wird nun mit ext4 formatiert. Nicht durch
+den Namen des Binaries, "<code class=verbatim>mke2fs</code>" beirren lassen: das "<code class=verbatim>-j</code>" sorgt dafür, das
+ein Journalling-Filesystem angelegt wird, und das ist schon seit Jahren per
+Default ext4.</li><li>Zeile <a href=(tune)>(tune)</a>: damit die Mitarbeiter in der Produktion nicht auf irgendwelche
+fsck's warten müssen, wird das Interval- und Zeitbasierte Prüfen des
+Filesystems ausgeschaltet. Es ist sowieso nicht möglich, da der Stick sowieso
+mit einem vor
+Schreibzugriffen geschützt ist</li><li>am Schluss löschen wir das loopback-Device und sagen dem Kernel, das "<code class=verbatim>hda</code>"
+nun nichts besonderes mehr ist … nur eine Datei</li></ul><p>Ein weiteres Makefile-Target …</p><pre class=example>
+# make -n image2hda
+...
+</pre><p>… nutzt ebenfalls <a href=https://manpages.debian.org/bookworm/mount/losetup.8.en.html>losetup</a> und <a href=https://manpages.debian.org/bookworm/kpartx/kpartx.8.en.html>kpartx</a>. Aber statt "<code class=verbatim>tune2fs</code>" wird dann "<code class=verbatim>/dev/loop1</code>"
+einfach nach "<code class=verbatim>/mnt</code>" gemounted und mit "<code class=verbatim>rsync</code>" wird alles von "<code class=verbatim>image.hwtester/</code>" dorthin
+synchronisiert. Da dies aber alles trivial ist, lasses ich es mal aus.</p><p>Übrigens: die Datei "<code class=verbatim>hda</code>" ist sehr klein, sie kann auf 1 GB bis 32 GB Sticks
+geschrieben werden:</p><pre class=example>
+# lsblk
+...
+# cat hda &gt;/dev/sdc
+</pre><p>Übrigens: zum Kopieren von Images auf Sticks braucht man kein "<code class=verbatim>dd</code>" unter
+Linux. Der ganz normale "<code class=verbatim>cat</code>" Befehl tut es auch. Und er hat eine durchaus
+nettere Syntax :-)</p><p>Übrigens 2: Beim ersten Booten wird passt der Stick seine eigene Partition
+dynamisch auf die echte Stickgröße an. USB-Sticks haben ja unterschiedliche
+echte Größen, bedingt durch Bad-Sector-Management direkt auf dem Stick. Uns
+stört das aber nicht.</p></div></div><div id=outline-container-headline-6 class=outline-3><h3 id=headline-6>Tests</h3><div id=outline-text-headline-6 class=outline-text-3><p>Nun haben wir also einen bootenden USB-Stick. Und dort befinden sich in
+"<code class=verbatim>/usr/local/hwtester</code>" alle Test-Scripte, -Binaries etc. Doch bevor wir auf die
+eigentlichen Tests eingehen, müssen wir erst einige Konzepte einführen.</p><div id=outline-container-headline-7 class=outline-4><h4 id=headline-7>Testplätze</h4><div id=outline-text-headline-7 class=outline-text-4><p>Hiermit ist nicht gemeint, ob in der Pruduktion 4 oder 8 Leute Geräte zusammenbauen.</p><p>Sondern die verschiedenen Orte, an denen wir Testen möchten:</p><ul><li>nach der Produktion der Hauptplatine — dies sollte schon beim Herstellungsort
+geschehen, um aufwändige Rückliefergen vorzubeugen. Zu diesem Zeitpunkt gibt es
+aber keine Front-Platine (Display, Fronttasten, Touch, Defroster). Daher dürfen
+Tests dafür hier nicht ablaufen</li><li>Endgerätefertigung nach Kundenwunsch: hier wird ein Mainboard mit der gewünschten
+Front zusammengeführt. Je nach Auftrag kann das 10", 12" oder 15" sein. Verschiedene
+LCD-Aufläsungen. Verschiedene Anzahl von Tasten auf der Front. Da diese Geräte hinterher
+an den Kunden gehen, gibt es auch Sichtprüfungen ("Hat die Lackierung einen Kratzer?")</li><li>Service: auch hier sollten Tests ausführbar, aber i.d.R. manuell. Auch dürfen diese Tests
+keinerlei Änderungen durchführen. Also nicht automatisch "Oh, das BIOS ist veraltet,
+ich flash da mal ein Neues drauf". Der Grund liegt darin, das manche Kunden die Geräte
+in EXAKT der abgenommenen Konfiguration haben wollen, einschließlich der BIOS-Version</li></ul><p>Man kann nun jeden Test einzeln an einen oder mehrere Testorte (auch an alle) binden.</p></div></div><div id=outline-container-headline-8 class=outline-4><h4 id=headline-8>Testarten</h4><div id=outline-text-headline-8 class=outline-text-4><p>Naturgemäß gibt es mehrere Tests</p><ul><li>automatische Tests: diese liebt der Leiter der Fertigung. Sie laufen
+vollautomatisch ab, oft in Sekundenbruchteilen. Sie sind daher (nahezu)
+kostenneutral. Nahezu, weil man für einige dieser Test vorher die passenden
+Teststecker einstecken muss. Beispiel: Prüfen der seriellen Schnittstelle.
+Automatische Tests werden einer nach den anderen ausgeführt.</li><li>manuelle Tests: hier geht es um Dinge, die man nicht automatisieren kann —
+oder deren Automatisierung zwar an sich möglich ist, sich aber aufgrund der
+Stückzahlen nicht lohnt. Beispiel: obige "Hat das Gehäuse einen Kratzer?"
+Abfrage. Auch manuelle Tests werden einer nach den anderen ausgeführt.</li><li>optionale Tests: manchmal ist eine Hardware nur für machen Kunden verbaut,
+aber nicht generell. Also muss z.B. der CAN-Test nicht immer ausgeführt
+werden. Diese Tests müssen per Menü per Hand ausgewählt werden.</li></ul><p>Man weist nun jeden Test eine Testart zu. Diese kann auch verschieden sein:
+viele automatische Tests der Produktion sind optionale Tests im Service.</p></div></div><div id=outline-container-headline-9 class=outline-4><h4 id=headline-9>Geräte</h4><div id=outline-text-headline-9 class=outline-text-4><p>Bedingt durch die Hardware-Erkennung des zugrundeliegenden
+"" läuft
+der Teststick auf viele Gerätetypen und Varianten. Aber ein i2c-Test für den
+DLT-V83 muss natürlich nach anderen Devices suchen als einer für den DLT-V72.</p><p>Man weist nun jeden Test eine oder mehrere Geräte zu.</p><p>Auch kann man einen Test an eine USB- oder PCI-ID binden.</p></div></div><div id=outline-container-headline-10 class=outline-4><h4 id=headline-10>Aufbau der Tests</h4><div id=outline-text-headline-10 class=outline-text-4><p>Jeder Test ist ein einzelnes File im "<code class=verbatim>tests/</code>" Verzeichnis, für sich abgeschlossen. Die
+Komplexität der Tests ist i.d.R. gering, zwischen 10 und 330 Programmzeilen. Je nach dem,
+was einfacher war, wurden sie in Bash oder Python geschrieben.</p><p>Jeder Test hat speziell formatierte Kommentare, die Testorte, Testarten und Geräte definieren.
+Hier ein Beispiel für "<code class=verbatim>report_cpu_snr.sh</code>":</p><div class="src src-sh"><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Test: auto everywhere G7I??C??</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>. lib.sh
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>head <span style=color:#e6db74>&#34;CPU board serial number&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>./amidelnx_26_32 /BS | grep Done <span style=color:#f92672>||</span> error <span style=color:#e6db74>&#34;cannot get SNR&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ok <span style=color:#e6db74>&#34;done&#34;</span></span></span></code></pre></div></div><p>Das ist ein automatischer Test, der an jedem Testort ausgeführt werden soll,
+jedoch nur für die Geräteklasse G7I??C??.</p><p>Derselbe "<code class=verbatim>^# Test:</code>"-Marker würde auch in einem Python-Test verwendet werden.
+Dort werden meist komplexere Dinge getestet, welche in Bash nicht so einfach zu
+lösen sind. Hier ein Beispiel:</p><div class="src src-python"><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>#!/usr/bin/python2.7</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># -*- coding: utf-8 -*-</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Test: auto everywhere M7I??A??</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Test: auto everywhere G7I?????</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> lib <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> glob <span style=color:#f92672>import</span> glob
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>head(<span style=color:#e6db74>&#34;CPU temperature in range?&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>WANTSMIN <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>
+</span></span><span style=display:flex><span>WANTSMAX <span style=color:#f92672>=</span> <span style=color:#ae81ff>65</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>acpitz</span>():
+</span></span><span style=display:flex><span>	<span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>coretemp</span>():
+</span></span><span style=display:flex><span>	<span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> hwmatch(<span style=color:#e6db74>&#34;M7I??A??&#34;</span>):
+</span></span><span style=display:flex><span>	value <span style=color:#f92672>=</span> acpitc()
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>	value <span style=color:#f92672>=</span> coretemp()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> value <span style=color:#f92672>&lt;</span> WANTSMIN:
+</span></span><span style=display:flex><span>        error(<span style=color:#e6db74>&#34;CPU temperature too low: </span><span style=color:#e6db74>%.1f</span><span style=color:#e6db74> °C&#34;</span> <span style=color:#f92672>%</span> value)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> value <span style=color:#f92672>&gt;</span> WANTSMAX:
+</span></span><span style=display:flex><span>        error(<span style=color:#e6db74>&#34;CPU temperature too high: </span><span style=color:#e6db74>%.1f</span><span style=color:#e6db74> °C&#34;</span> <span style=color:#f92672>%</span> value)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ok(<span style=color:#e6db74>&#34;CPU temperature between </span><span style=color:#e6db74>%d</span><span style=color:#e6db74> and </span><span style=color:#e6db74>%d</span><span style=color:#e6db74>: </span><span style=color:#e6db74>%.1f</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span> (WANTSMIN, WANTSMAX, value))</span></span></code></pre></div></div><p>Jaaaa, hier wird noch Python 2.7 verwendet. Bei Projektstart war Python 3 noch
+nicht soweit.</p></div></div></div></div><div id=outline-container-headline-11 class=outline-3><h3 id=headline-11>Kommunikation mit Test-Fixture</h3><div id=outline-text-headline-11 class=outline-text-3><p>Am Produktionsplatz der Hauptplatine für den DLT-V83 gab es auch ein
+Test-Fixture. Dieses hat mit dem Teststick über ein serielles Kabel
+kommunuziert. Die Testsoftware dort hat dann bei mir z.B. "Mach mal ordentlich
+CPU-Last" angefordert und dann z.B. den aufgenommenen Strom gemessen, während
+mein Testprogramm die Coretemp währenddessen gemessen hat.</p></div></div><div id=outline-container-headline-12 class=outline-3><h3 id=headline-12>Testreport abspeichern</h3><div id=outline-text-headline-12 class=outline-text-3><p>Nachdem alle Tests durchgeführt gab, hat der Produktionsmitarbeiter "Finalize
+Tests" ausgeführt. Damit wurde dann ein Testprotokoll per SMB oder FTP auf einem
+Server im Produktionsnetz (vom Firmennetz getrennt!) gespeichert.</p><p>Dort waren natürlich alle Testergebisse, aber man konnte auch nachvollziehen
+oder ein optionaler Test ausgeführt worden ist … oder nicht.</p><p>Neben reinen Testergebnissen wurden dort auch viele Informationen abgespeichert,
+beispielsweise die MAC-Adresse der Ethernet- und WIFI-Ports — so haben wir
+z.B. bemerkt, das wir einmal viele Mainboards mit identischen MAC-Adressen
+geliefert bekamen.</p></div></div><div id=outline-container-headline-13 class=outline-3><h3 id=headline-13>Verwandte Projekte</h3><div id=outline-text-headline-13 class=outline-text-3><p>Die folgenden Projekte sind mit dem "<code class=verbatim>hwtester</code>" verwandt, weil er entweder
+darauf aufbaut, es nutzt oder das Projekt extrem ähnlich ist.</p><ul><li></li><li></li><li></li><li>TODO(Artikel schreiben) Hardware-Teststick für DLT-V73</li></ul><p>Die Projekte, die mit diesem Tool erstellte Images verwenden zähle ich jetzt mal
+nicht auf :-)</p></div></div></div></div><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>0001-01-01</time></div></div></div></div></div><script src=../../../js/ui.js></script><script src=../../../js/menus.js></script><script src=../../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
