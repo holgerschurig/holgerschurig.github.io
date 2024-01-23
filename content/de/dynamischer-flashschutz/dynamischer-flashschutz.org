@@ -22,7 +22,7 @@
 :EXPORT_FILE_NAME: de/dynamischer-flashschutz.md
 :EXPORT_DATE: 2024-01-17
 :EXPORT_HUGO_CATEGORIES: job
-:EXPORT_HUGO_TAGS: linux aufs chroot flash
+:EXPORT_HUGO_TAGS: aufs chroot flash linux
 :END:
 
 Hier geht es darum, wie man den Flash-Speicher vor Wear-Out schützen kann,
