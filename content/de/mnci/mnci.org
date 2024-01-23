@@ -14,7 +14,7 @@
 :EXPORT_FILE_NAME: de/mnci.md
 :EXPORT_DATE: 2024-01-20
 :EXPORT_HUGO_CATEGORIES: job
-:EXPORT_HUGO_TAGS: arm bdi2000 boundary-scan c c++ libertas linux  openembedded pxa320 qt qt/embedded telnet tn5250 u-boot
+:EXPORT_HUGO_TAGS: arm bdi2000 boundary-scan c c++ embedded libertas linux openembedded pxa320 qt qt/embedded telnet tn5250 u-boot
 :END:
 
 Hier stelle ich ein komplexes Projekt vor, bei dem ich federführend die gesamte

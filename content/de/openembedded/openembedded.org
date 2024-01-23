@@ -14,7 +14,7 @@
 :EXPORT_FILE_NAME: de/openembedded.md
 :EXPORT_DATE: 2024-01-19
 :EXPORT_HUGO_CATEGORIES: job
-:EXPORT_HUGO_TAGS: arm linux openembedded opie pxa320 sa1110 zaurus
+:EXPORT_HUGO_TAGS: arm embedded linux openembedded opie pxa320 sa1110 zaurus
 :END:
 
 Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso
