@@ -1,0 +1,209 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.121.2"><title>&#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../../css/blackburn.css><link rel=stylesheet href=../../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../../index.xml><link rel="shortcut icon" href=../../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1></h1><h2></h2></div><div class=content><div id=outline-container-headline-1 class=outline-2><h2 id=headline-1>Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau</h2><div id=outline-text-headline-1 class=outline-text-2><p>Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.</p><p>Oder: Implementierung eines Linux-Images auf eine RISC-Platform für einen sehr
+rauhen Anwendungsfall.</p><nav><ul><li><a href=#headline-1>Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau</a><ul><li><a href=#headline-2>Projekt-Info</a></li><li><a href=#headline-3>Projekt-Background</a></li><li><a href=#headline-4>Komponentenauswahl</a></li><li><a href=#headline-5>Board-Bringup</a></li><li><a href=#headline-6>Images</a><ul><li><a href=#headline-7>Basis-Image: multistrap statt Debootstrap</a></li><li><a href=#headline-8>Wie man (nicht) cross-compiliert</a></li><li><a href=#headline-9>Kunden-Images</a></li></ul></li><li><a href=#headline-10>Linux-Kernel</a></li><li><a href=#headline-11>Kleinere Tools</a></li><li><a href=#headline-12>Projekt-Tracking</a></li><li><a href=#headline-13>Verwandte Projekte</a></li></ul></li></ul></nav><div class=job-block><p>In Beiträgen der Kategorie <a href=../../../categories/job/>Job</a> trage ich Projekte zusammen, die ich im Rahmen
+meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
+Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+ja nicht berührt werden.</p></div><div id=outline-container-headline-2 class=outline-3><h3 id=headline-2>Projekt-Info</h3><div id=outline-text-headline-2 class=outline-text-3><p>Idee: Kundenanforderung</p><p>Umsetzung: Barebox, Linux und Image: ich</p><p>Nutzung: US-amerikanischer Minenausrüster</p><p>Implementatierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static</p></div></div><div id=outline-container-headline-3 class=outline-3><h3 id=headline-3>Projekt-Background</h3><div id=outline-text-headline-3 class=outline-text-3><p>Ein US-amerikanischer Ausrüster von Minen (in Deutschland z.B. bei Kali & Salz)
+hat spezielle Terminals von uns genutzt — diese Terminals besonders Robust und halten
+auch starken und dauerhaften Erschütterungen stand.</p><p><img src=./ahs.jpg alt=./ahs.jpg title=./ahs.jpg></p><p>Auf dem Foto sieht der Truck ganz klein aus — tatsächlich ist aber ein Rad
+schon höher als die dicksten SUVs. In diesem Video wird das Projekt vorgestellt:
+<a href=https://youtu.be/6Nw7q0t2A9o.>https://youtu.be/6Nw7q0t2A9o.</a> Wer aufpasst, kann zum Zeitstempel 0.37 einmal
+kurz das Device sehen.</p><p>Der Kunde hatte auf ein Vorgängergerät WinCE eingesetzt — aber aufgrund massiver
+Fehler in Windows CE, die Microsoft nie behob, war er mit der Software sehr unzufrieden.</p><p>Nun sollte auf Linux umgestellt werden, wobei ich den Kunden half. Allerdings
+wurde auch eine neue Gerätegeneration entwickelt, um den geänderten
+Anforderungen entsprechen zu können.</p></div></div><div id=outline-container-headline-4 class=outline-3><h3 id=headline-4>Komponentenauswahl</h3><div id=outline-text-headline-4 class=outline-text-3><p>Viele Hersteller von ICs behaupten "Wir haben Linux-Support". Doch vor allem bei
+asiatischen Lieferanten haben die dann einmalig vor 4 Jahren von irgendwem einen
+Treiber entwickeln lassen, der dann auch nur mit einem seit 4 Jahren veralteten
+Linux-Kernel funktioniert.</p><p>Deswegen habe ich schon beim Projektdesign die Hardware-Entwicklung beraten,
+welche Chips oder Hersteller (Marvell und Broadcomm rücken kaum mit Infos raus!)
+man meiden sollte.</p></div></div><div id=outline-container-headline-5 class=outline-3><h3 id=headline-5>Board-Bringup</h3><div id=outline-text-headline-5 class=outline-text-3><p>Nachdem die ersten Prototypen PCBs da waren, ging es um den Board-Bringup.</p><p>Zunächst habe ich mit einem Freescale / NXP - Tool die Timing-Parameter des DRAM
+herausgefunden. Der leitende Elektronikingeneur tat dasselbe — und wir hatten komplett
+verschiedene Werte, die jeweils beim anderen nicht funktionierte. Dies stellte sich als
+Fertigungsprobleme heraus, die dann behoben werden.</p><p>Als Bootloader hatte ich diesmal nicht u-boot, sondern <a href=https://www.barebox.org>Barebox</a> genommen. Der war
+viel moderner programmiert, ähnlich wie der Linux-Kernel. Er hat sogar wie der
+Linux-Kernel ein "Kconfig" System, das damals bei u-boot noch nicht existierte.
+Auch hat er denselben Device-Tree genutzt, den ich dann auch für den
+Linux-Kernel genommen habe.</p></div></div><div id=outline-container-headline-6 class=outline-3><h3 id=headline-6>Images</h3><div id=outline-text-headline-6 class=outline-text-3><p>Das Image wurde mit einem ähnlichen System erstellt wie im Artikel
+beschrieben. Also <strong>nicht</strong> mit . Das
+führte zu einer erheblichen Zeitersparnis.</p><p>Das lag daran, das es keinerlei Cross-Compilation gab.</p><p>Doch wie geht das, wenn der Entwicklerrechner "i386" als Architektur hat, das
+Zielsystem aber "armhf"?</p><p>Ganz einfach: mit der Hilfe von QEMU. Viele Leute kennen dieses Tool, normal
+simuliert es komplette Rechner, also CPU, RAM, Flash, Devices. Aber es gibt auch
+<a href=https://github.com/multiarch/qemu-user-static>qemu-user-static</a>. Dieses simuliert nur die CPU. Keinerlei Hardware … sämtliche
+Aufrufe von Linux-Kernel-Funktionen wie "<code class=verbatim>open()</code>", "<code class=verbatim>read()</code>" etc werden
+stattdessen einfach an den Host-Kernel (also mein i386/amd64 -Kernel) übergeben.
+Der führt das dann ganz normal aus.</p><p>Damit das klappt, nutzt man "<code class=verbatim>binfmt-misc</code>". Das ist ein Subsystem des Kernels.
+Wenn ein Executable ausgeführt wird, schaut er sich die ersten Bytes an,
+vergleicht diese mit ihm vorher bekannt gemachten Signaturen und startet dann
+das Binary halt nicht direkt, sondern über ein Hilfsprogramm.</p><div id=outline-container-headline-7 class=outline-4><h4 id=headline-7>Basis-Image: multistrap statt Debootstrap</h4><div id=outline-text-headline-7 class=outline-text-4><p>… oder besser: multistrap. Das war damals besser für fremde Architekturen
+geeignet als debootstrap. Debootstrap selbst habe ich ja bereits
+beschrieben.</p><p>Also geht's hier mal um Multistap.</p><pre class=example>
+image.base:
+    @test `id -u` = 0 || { echo &#34;\n---&gt; You need to run this as root\n&#34;; exit 1; }
+    @# Make ARM binaries runnable with the help of qemu-user-static
+    update-binfmts --enable                                             (ref:binfmt)
+    @# create new base image
+    rm -rf image.base
+    multistrap --dir image.base -f conf/multistrap.conf
+    @# Create device nodes
+    bin/device-table.pl -f $(PWD)/conf/multistrap.devices -d image.base
+    @# Somehow the dash postinst script doesnt run because of debconf trouble
+    rm -f image.base/var/lib/dpkg/info/dash.postinst
+    echo /bin/dash &gt;&gt;image.base/etc/shell
+    @# We dont want to have services run automatically
+    ln -sf /bin/true image.base/usr/sbin/invoke-rc.d
+    @# This makes the armhf dpkg binary be executable in the following chroot command
+    cp /usr/bin/qemu-arm-static image.base/usr/bin                      (ref:qemustatic)
+    @# Mount needed system directory
+    mount -o bind /proc image.base/proc
+    mount -o bind /sys image.base/sys
+    mount -o bind /dev/pts image.base/dev/pts
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \   (ref:dpkg)
+        LC_ALL=C LANGUAGE=C LANG=C \
+        chroot image.base dpkg --configure -a
+    umount image.base/proc
+    umount image.base/sys
+    umount image.base/dev/pts
+</pre><p>Die Zeilen <a href=(binfmt)>(binfmt)</a> und <a href=(qemustatic)>(qemustatic)</a> sind hier die "Secret Sauce". Zunächst müssen wir
+ja dafür sorgen, das der Kernel "armhf" Binaries überhaupt ausführen kann — bei heutigen
+Debian-Versionen wird "<code class=verbatim>update-binfmts</code>" übrigens schon beim Booten ausgeführt.</p><p>Dann müssen wir natürlich noch das "<code class=verbatim>qemu-arm-static</code>" Binary (ein i386 btw
+amd64) Binary in das armhf-Image-Directory kopieren. Sonst wäre es ja nach dem
+"<code class=verbatim>chroot</code>" nicht erreichbar. Es ist, wie der Name schon andeutet, statisch
+kompiliert. Es lädt also keinerlei Libraries aus "<code class=verbatim>/lib</code>" bzw "<code class=verbatim>/usr/lib</code>"
+nach… denn im "<code class=verbatim>chroot</code>" wären die ja von der falschen Architektur und könnten
+sowieso nicht geladen werden.</p><p>Das besondere an "<code class=verbatim>multistrap</code>" war, das es alle Debian-Pakete zwar ausgepackt
+hat, dann aber die viele Scripte "<code class=verbatim>image.base/var/lib/dpkg/info/*.postinst</code>"
+<strong>nicht</strong> ausgeführt hat. Das hätte ja nicht geschehen können, da "<code class=verbatim>multistrap</code>"
+ja selbst noch unter i386/amd64 lief. Die Scripte aber rufen oft Binaries wie
+z.B. "<code class=verbatim>addgroup</code>" auf. Und in "<code class=verbatim>image.base/</code>" sind diese halt von der
+Architektur "<code class=verbatim>armhf</code>".</p><p>Die installierten Pakete sind also sozusagen noch nicht konfiguriert.</p><p>Deswegen wird in Zeile <a href=(dpkg)>(dpkg)</a> das Konfigurieren nachgeholt: "<code class=verbatim>dpkg --configure
+-a</code>" wird mit Hilfe von "<code class=verbatim>chroot</code>" innerhalb von "<code class=verbatim>image.base/</code>" aufgerufen.
+Dadurch werden alle "<code class=verbatim>*.post</code>" Scripte aufgerufen. Mittlerweile ist aber
+"<code class=verbatim>qemu-user-static</code>" im Image verfügbar, und die Scripte können nach Herzenslust
+"armhf" Binaries nutzen.</p></div></div><div id=outline-container-headline-8 class=outline-4><h4 id=headline-8>Wie man (nicht) cross-compiliert</h4><div id=outline-text-headline-8 class=outline-text-4><p>Will (oder muss) man dann aber doch compilieren, geht auch das sehr einfach.</p><p>Ich kann das Basis-Image von "<code class=verbatim>image.base/</code>" nach "<code class=verbatim>image.dev</code>" kopieren und
+dann dort alles installieren, was ich so zum Compilieren brauche: gcc, make,
+cmake, meson, ninja, diverse *-dev Libraries etc etc.</p><p>Und wenn ich dann mit "<code class=verbatim>chroot</code>" in dieses "<code class=verbatim>image.dev</code>" wechsle, kann ich
+dort "armhf" Binaries direkt compilieren — obwohl mein Host eigentlich
+"i386" oder "amd64" Architektur hat.</p><p>Das ist ein wenig langsamer als native zu compilieren. Denn der
+"<code class=verbatim>qemu-user-static</code>" emuliert schließlich eine CPU, dadurch wird der komplette
+Compilationsprozess ja emuliert.</p><p>Aber es ist immer noch schneller als mit OpenEmbedded, da man ja nicht erst ein
+Staging-Directory mir "armhf"-Libraries bevölkern muss.</p><p>Hier ist ein Beispiel, wie ich "<code class=verbatim>x11vnc</code>" (nicht) cross-compiliert habe:</p><pre class=example>
+VNC_VER=0.9.14
+VNC_TAR=x11vnc-$(VNC_VER)-dev.tar.gz
+PACKAGES += downloads/$(VNC_TAR)
+
+downloads/$(VNC_TAR):
+    wget -q -c -P downloads http://x11vnc.sourceforge.net/dev/$(VNC_TAR)
+
+image.dev/x11vnc-$(VNC_VER)/configure: downloads/$(VNC_TAR)
+    cd image.dev; tar xaf ../$&lt;
+    ln -sf ../../patches-x11vnc image.dev/x11vnc-$(VNC_VER)/patches
+    cd image.dev/x11vnc-$(VNC_VER); quilt push -a
+    touch --no-create $@
+
+image.dev/x11vnc-$(VNC_VER)/Makefile: image.dev/x11vnc-$(VNC_VER)/configure
+    chroot image.dev dash -c &#34;cd x11vnc-$(VNC_VER); ./configure \
+        --prefix=/usr \
+        --without-ipv6 \
+        --without-v4l \
+        --without-fbdev \
+        --without-uinput \
+        --without-macosx-native \
+        --without-crypt \
+        --without-crypto \
+        --without-ssl \
+        --without-gnutls \
+        --without-client-tls&#34;
+
+compvnc image.dev/x11vnc-$(VNC_VER)/x11vnc/x11vnc: image.dev/x11vnc-$(VNC_VER)/Makefile
+    chroot image.dev make -j4 -C x11vnc-$(VNC_VER)
+    chroot image.dev strip x11vnc-$(VNC_VER)/x11vnc/x11vnc
+
+cleanvnc:
+    rm -rf image.dev/x11vnc-$(VNC_VER)
+</pre><p>Mit obigen Makefile-Snippets reicht ein "<code class=verbatim>make compvnc</code>" aus, das</p><ul><li>eine bestimme Version der x11vnc-Sourcen heruntergeladen werden (falls sie noch nicht da sind)</li><li>dieser Source wird ausgepackt</li><li>mit lokalen Patches versehen (die ich also im eigenen GIT habe)</li><li>mit meinen Konfigurationsoptionen konfiguriert</li><li>und kompiliert</li></ul><p>Anschließend hat man in "<code class=verbatim>image.dev/x11vnc/x11vnc</code>" das Binarie, das ich dann z.B. ins Kundenimage
+kopieren kann.</p><p>Ich kann aber in "<code class=verbatim>image.dev</code>" auch reguläre Debian-Pakete erzeugen, aber das
+sprengt diesen Post.</p></div></div><div id=outline-container-headline-9 class=outline-4><h4 id=headline-9>Kunden-Images</h4><div id=outline-text-headline-9 class=outline-text-4><p>Mit dem nur leicht abgewandelten im Post wurden
+dann im Laufe der Jahre drei Kunden-Images erstellt:</p><ul><li>eines mit Java (der Kunde hatte seine Anwendung in Java geschrieben)</li><li>eines mit Mono (eine andere Anwendung wurde in C# geschrieben)</li><li>eines komplett ohne X11 und GUI (für eine Version des Gerätes ohne Display)</li></ul><p>Je nachdem, welches Image ich (reproduzierbar) erstellt habe, dauerte dies 3 bis
+6 Minuten.</p></div></div></div></div><div id=outline-container-headline-10 class=outline-3><h3 id=headline-10>Linux-Kernel</h3><div id=outline-text-headline-10 class=outline-text-3><p>Auch hier wurde ein Linux-Kernel "dem Gerät auf den Leib geschneidert", also vom Source compiliert.</p><p>Netterweise hat sowohl Freescale als auch NXP (kaufen Freescale auf) mit der
+Kernel-Community mitgearbeitet. Zwar hatten sie ihren eigenen Vendor-Kernel, wie
+üblich hoffnungslos veraltet. Aber: sie brachten jeden Treiber "upstream" in den
+offiziellen Linux-Kernel. Und dort haben dann die Subsysten-Maintainer immer ein Auge drauf
+geworfen und teils drastische Verbesserungen erreicht.</p><p>Ich entschied mich also, einfach einen Kernel von <a href=https://kernel.org>https://kernel.org</a> zu
+verwenden: alle vom Kunden i.mX6 Subsystem wurden von ihm unterstützt.</p><p>Eine Besonderheit gab es aber bei CAN-Bus: hier hatte der Kunde hohe Anforderungen. Und
+der CAN-Treiber vom offiziellen Linux-Kernel fiel durch. Der CAN-Treiber des Vendor-Kernels
+(der ziemlich anders aussah) … fiel auch durch. Hier habe ich mich dann in den Treiber
+eingefuchst und habe dann einen Patch gemacht, der die sog. "Mailboxes" verwendet.</p><p>Nachdem der Kunde das getestet und für gut befunden hatte … hat der
+Linux-CAN-Maintainer einen ähnliche Änderung im offiziellen Linux-Kernel
+eingebracht. Die haben wir dann übernommen — was im Upstream-Kernel ist, wird
+ja mit jeder Kernel-Version gepflegt. Was man "out-of-tree" hat, unterliegt
+hingegen immer dem "Bitrot". Man ist damit nie so zukunftssicher.</p></div></div><div id=outline-container-headline-11 class=outline-3><h3 id=headline-11>Kleinere Tools</h3><div id=outline-text-headline-11 class=outline-text-3><ul><li>uccomm (von µC-Communication): sprach mit den Microcontroller auf der
+Hauptplatine, um z.B. das Ein/Ausschaltverhalten zu steuern oder die Seriennummer
+auszulesen</li><li>Tool zum Einstellen des Hardware-Watchdog</li><li>Tool zur Device-Discovery (eine proprietäre Kundenlösung, kein mDNS oder SSDP)</li><li>ubloxcomm: von u-Blox gibt es tolle Einstellungsprogramme für ihre Chips …
+leider damals nur für Windows. Also habe ich ein Tool geschrieben, welches das
+von der Kommandozeile machen konnte, da ich nichts vergleichbares gefunden in
+der Open-Source-Community gefunden hatte. Die Besonderheit war, das ich
+basierend auf eine Konfigurationsdatei beliebige Kommandos senden konnte —
+auch für diesen Chip <a href=https://wiki.openstreetmap.org/wiki/U-blox_raw_format>undokumentierte</a>, die er aber anstandslos ausführte.
+Dieser Auszug aus der Konfigurationsdatei ermöglicht die Kommandos "<code class=verbatim>ubloxcomm
+sbas_on</code>", "<code class=verbatim>ubloxcomm sbas_off</code>" und "<code class=verbatim>ubloxcomm sbas_poll</code>":</li></ul><pre class=example>
+# Page 133: SBAS Configuration
+#
+#          CFG-SBAS
+#          |    mode: bit 0 (mode) no longer supported, use CFG-GNSS. Bit 1 (use testbed) is ok
+#          |    |  usage: use SBAS GEOs as ranging source, differential corrections, integrity informat
+#          |    |  |  maxSBAS: no longer supported, use field in CFG-GNSS
+#          |    |  |  |  scanmode2, scanmode1: if all are zero then search for all SBAS PRNs
+sbas_on:   0616 01 07 03 00 00000000
+sbas_off:  0616 00 00 03 00 00000000
+sbas_poll: 0616
+</pre><p>Die Zeilen konntena auch mehrfach auftauchen. Um z.B. den NMEA-Output via
+"<code class=verbatim>ubloxcomm nmea_off</code>" abzustellen, hat die Konfigurationsdatei dies vorgesehen:</p><pre class=example>
+# Page 107: Set Message Rate (for current port)
+#
+#              CFG-MSG
+#              |    msgClass
+#              |    |  msgId
+#              |    |  |  rate for serial port
+#              |    |  |  |  rate for other ports
+nmea_off:      0601 f0 0a 00 00000000  # Datum Reference
+nmea_off:      0601 f0 09 00 00000000  # GNSS Satellite Fault Detection
+nmea_off:      0601 f0 00 00 00000000  # Global positioning system fix data
+nmea_off:      0601 f0 01 00 00000000  # Latitude and longitude
+nmea_off:      0601 f0 0d 00 00000000  # GNSS fix data
+nmea_off:      0601 f0 06 00 00000000  # GNSS Range Residuals
+nmea_off:      0601 f0 02 00 00000000  # Active Satellites
+nmea_off:      0601 f0 07 00 00000000  # GNSS Pseudo Range Error Statistics
+nmea_off:      0601 f0 03 00 00000000  # Satellites in view
+nmea_off:      0601 f0 04 00 00000000  # Recommended Minimum data
+nmea_off:      0601 f0 0f 00 00000000  # Dual ground/water distance
+nmea_off:      0601 f0 05 00 00000000  # Course over ground and Ground speed
+nmea_off:      0601 f0 08 00 00000000  # Time and Date
+nmea_off:      0601 f1 00 00 00000000  # Lat/Long Position Data
+nmea_off:      0601 f1 03 00 00000000  # Satellite Status
+nmea_off:      0601 f1 04 00 00000000  # Time of Day and Clock Information
+</pre><p>Man kann aus diesen Auszügen auch sehe, das ich normalerweise immer gut
+dokumentiere. Im Header der Datei steht exakt der Name und die Version des PDF,
+auf die sich die Seitennummern beziehen.</p></div></div><div id=outline-container-headline-12 class=outline-3><h3 id=headline-12>Projekt-Tracking</h3><div id=outline-text-headline-12 class=outline-text-3><p>Es gab eine umfangreiche "Requirement Spec" vom Kunden, die sich allerdings
+recht häufig geändert hat. Der Grund war, das dem Kunden Linux neu war. Dinge
+wie "Priviledge Separation" waren ihm beispielsweise unbekannt. Wenn ich eine
+neue Spec bekam, habe ich das Word-Dokument immer mit der vorherigen Version
+verglichen, die Änderungen festgestellt — diese Kunde hat die
+Revisionshistorie nur unzureichend geführt —. Und dann habe ich manchmal
+gedacht "Also, so wie das gewünscht wird ist das nicht Best Practice".</p><p>In den wöchentlichen Telcos, oder manchmal zwischendurch per E-Mail, habe ich dann
+Änderungesvorschläge gemacht und die Gründe erläutert. Nahezu immer wurde dies
+dann berücksichtigt.</p><p>Um diese sich ändernden Anforderungen zu tracken habe ich das Kunden-Requirement
+in eine eigene Emacs <a href=https://orgmode.org/>org-mode</a> Datei überführt.</p><p>Ich habe auch eigene Sub-Punkte mit hineingenommen — dem Kunden war es
+beispielsweise egal, ob i2c im Bootloader geht oder nicht. Aber mir nicht, da
+ich schon im Bootloader auf diverse i2c-Geräte zugreifen wollte. Also habe ich
+dies dann mit einem eigenen TODO-Punkt versehen.</p><p>Org-mode kann man sich wie den Source eines Wiki vorstellen — man kann es also,
+da es Text ist (im Gegensatz zu einer Word-Datei) mit in "<code class=verbatim>git</code>" aufnehmen. Im Editor
+sieht das dann ungefähr so aus:</p><p><img src=./org-mode.png alt=./org-mode.png title=./org-mode.png></p><p>(Dies ist übrigens ein Auszug aus den Anforderungen des Bootloaders. Beispielsweise
+sollte er beim Booten piepsen, also mußte er den "Beeper" unterstützen).</p><p>Ich habe das dann aber dem Kunden in HTML umgewandelt, dann sah es so aus:</p><p><img src=./org-mode-html.png alt=./org-mode-html.png title=./org-mode-html.png></p><p>Man sieht in beiden Dokumenten, das da Links enthalten sind. Wenn man drauf klickt,
+kommt man erklärt, wie man das Testen kann. Das hat der Kunde genutzt, um zu prüfen,
+ob seine Anforderungen auch wirklich erfüllt sind:</p><p><img src=./barebox-beeper.png alt=./barebox-beeper.png title=./barebox-beeper.png></p><p>So nebenbei hat dann der Kunde alles über Linux-Utilities wie "<code class=verbatim>ifconfig</code>",
+"<code class=verbatim>candump</code>" etc gelernt :-) Außerdem hat der Kunde den "First-Level Support"
+selbst gemacht, also kaputte Geräte ausgetauscht und schonmal Fehlersuche
+gemacht. Da war es natürlich hilfreich, (fast) alle Low-Level-Dinge dokumentiert
+zu haben.</p></div></div><div id=outline-container-headline-13 class=outline-3><h3 id=headline-13>Verwandte Projekte</h3><div id=outline-text-headline-13 class=outline-text-3><p>Die folgenden Projekte sind mit diesem Projekt verwandt:</p><ul><li></li><li></li></ul></div></div></div></div><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>0001-01-01</time></div></div></div></div></div><script src=../../../js/ui.js></script><script src=../../../js/menus.js></script><script src=../../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
