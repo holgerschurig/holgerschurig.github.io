@@ -132,7 +132,7 @@ digraph G {
 [[file:mkimage.png]]
 
 
-*** debootstrap
+*** debootstrap<<debootstrap>>
 
 [[https://wiki.debian.org/de/Debootstrap][Debootstrap]] erzeugt ein  Debian-Basissystem in einem Unterverzeichnis. Es braucht
 keine Installations-CD, sondern lediglich Zugriff auf die Debian-Repositories.

@@ -312,7 +312,7 @@ Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image: <br/>
 
 -   [ Automatische Image-Erstellung ]({{< relref "mkimage" >}}) <br/>
 -   [ Dynamischer Flash-Schutz ]({{< relref "dynamischer-flashschutz" >}}) <br/>
--   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau <br/>
+-   [ Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau ]({{< relref "mkarm" >}}) <br/>
 -   TODO(Artikel schreiben) Linux Restore Stick <br/>
 -   [ Hardware-Teststick für DLT-V83/DLT-V72 ]({{< relref "hwtester" >}}) <br/>
 -   TODO(Artikel schreiben) Hardware-Teststick für DLT-V73 <br/>
