@@ -47,7 +47,7 @@ viele Rezepte erstellt bzw. verbessert hat.
 
 Nutzung: 2003 bis 2010, das Projekt dauert aber bis heute an
 
-Implementatierung: Make, Bash, Python, BitKeeper (zunächst), dann Git, Bitbake-Recipes
+Implementierung: Make, Bash, Python, BitKeeper (zunächst), dann Git, Bitbake-Recipes
 
 
 ## Geschichte {#geschichte}

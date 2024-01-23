@@ -14,12 +14,12 @@
 :EXPORT_FILE_NAME: de/mkarm.md
 :EXPORT_DATE: 2024-01-22
 :EXPORT_HUGO_CATEGORIES: job
-:EXPORT_HUGO_TAGS: arm can embedded imx6 linux openembedded qemu-user-status
+:EXPORT_HUGO_TAGS: arm can embedded imx6 linux openembedded qemu-user-static
 :END:
 
 Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.
 
-Oder: Implementierung eines Linux-Images auf eine RISC-Platform für einen sehr
+Oder: Implementierung eines Linux-Images für eine RISC-Platform für einen sehr
 rauhen Anwendungsfall.
 
 #+hugo: more
@@ -41,19 +41,19 @@ Umsetzung: Barebox, Linux und Image: ich
 
 Nutzung: US-amerikanischer Minenausrüster
 
-Implementatierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static
+Implementierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static
 
 
 ** Projekt-Background
 
 Ein US-amerikanischer Ausrüster von Minen (in Deutschland z.B. bei Kali & Salz)
-hat spezielle Terminals von uns genutzt --- diese Terminals besonders Robust und halten
-auch starken und dauerhaften Erschütterungen stand.
+hat spezielle Terminals von uns genutzt --- diese Terminals sind besonders
+Robust und halten auch starken und dauerhaften Erschütterungen stand.
 
 [[./ahs.jpg]]
 
 Auf dem Foto sieht der Truck ganz klein aus --- tatsächlich ist aber ein Rad
-schon höher als die dicksten SUVs. In diesem Video wird das Projekt vorgestellt:
+schon höher als ein Mensch. In diesem Video wird das Projekt vorgestellt:
 https://youtu.be/6Nw7q0t2A9o. Wer aufpasst, kann zum Zeitstempel 0.37 einmal
 kurz das Device sehen.
 
@@ -62,7 +62,8 @@ Fehler in Windows CE, die Microsoft nie behob, war er mit der Software sehr unzu
 
 Nun sollte auf Linux umgestellt werden, wobei ich den Kunden half. Allerdings
 wurde auch eine neue Gerätegeneration entwickelt, um den geänderten
-Anforderungen entsprechen zu können.
+Anforderungen entsprechen zu können. Es wurde ein Gerät auf Basis des Freescale
+(jetzt NXP) i.MX6Q erstellt, ein Quadcore ARM.
 
 
 ** Komponentenauswahl
@@ -107,7 +108,7 @@ Zielsystem aber "armhf"?
 
 Ganz einfach: mit der Hilfe von QEMU. Viele Leute kennen dieses Tool, normal
 simuliert es komplette Rechner, also CPU, RAM, Flash, Devices. Aber es gibt auch
-[[https://github.com/multiarch/qemu-user-static][qemu-user-static]]. Dieses simuliert nur die CPU. Keinerlei Hardware ... sämtliche
+[[https://www.qemu.org/docs/master/user/main.html][qemu-user-static]]. Dieses simuliert nur die CPU. Keinerlei Hardware ... sämtliche
 Aufrufe von Linux-Kernel-Funktionen wie "=open()=", "=read()=" etc werden
 stattdessen einfach an den Host-Kernel (also mein i386/amd64 -Kernel) übergeben.
 Der führt das dann ganz normal aus.
@@ -237,16 +238,15 @@ cleanvnc:
     rm -rf image.dev/x11vnc-$(VNC_VER)
 #+end_example
 
-Mit obigen Makefile-Snippets reicht ein "=make compvnc=" aus, das
+Mit obigen Makefile-Snippets reicht ein "=make compvnc=" aus, um ...
 
-- eine bestimme Version der x11vnc-Sourcen heruntergeladen werden (falls sie noch nicht da sind)
-- dieser Source wird ausgepackt
+- eine bestimme Version der x11vnc-Sourcen herunter zu laden werden (falls sie noch nicht da sind)
+- diesen Source auszupacken
 - mit lokalen Patches versehen (die ich also im eigenen GIT habe)
-- mit meinen Konfigurationsoptionen konfiguriert
-- und kompiliert
+- mit minimalen Konfigurationsoptionen zu konfigurieren
+- und dann alles zu compilieren
 
-Anschließend hat man in "=image.dev/x11vnc/x11vnc=" das Binarie, das ich dann z.B. ins Kundenimage
-kopieren kann.
+Anschließend hat man in "=image.dev/x11vnc/x11vnc=" das Binary.
 
 Ich kann aber in "=image.dev=" auch reguläre Debian-Pakete erzeugen, aber das
 sprengt diesen Post.

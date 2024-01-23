@@ -36,7 +36,7 @@ Idee & Umsetzung: ich
 
 Nutzung: 2012 bis heute
 
-Implementatierung: Make, Bash, Python
+Implementierung: Make, Bash, Python
 
 Effizienzgewinn:
 

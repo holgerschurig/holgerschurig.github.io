@@ -2,14 +2,14 @@
 title = "Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau"
 author = ["Holger Schurig"]
 date = 2024-01-22
-tags = ["arm", "can", "embedded", "imx6", "linux", "openembedded", "qemu-user-status"]
+tags = ["arm", "can", "embedded", "imx6", "linux", "openembedded", "qemu-user-static"]
 categories = ["job"]
 draft = false
 +++
 
 Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.
 
-Oder: Implementierung eines Linux-Images auf eine RISC-Platform für einen sehr
+Oder: Implementierung eines Linux-Images für eine RISC-Platform für einen sehr
 rauhen Anwendungsfall.
 
 <!--more-->
@@ -58,13 +58,13 @@ Implementatierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-
 ## Projekt-Background {#projekt-background}
 
 Ein US-amerikanischer Ausrüster von Minen (in Deutschland z.B. bei Kali &amp; Salz)
-hat spezielle Terminals von uns genutzt --- diese Terminals besonders Robust und halten
-auch starken und dauerhaften Erschütterungen stand.
+hat spezielle Terminals von uns genutzt --- diese Terminals sind besonders
+Robust und halten auch starken und dauerhaften Erschütterungen stand.
 
 {{< figure src="./ahs.jpg" >}}
 
 Auf dem Foto sieht der Truck ganz klein aus --- tatsächlich ist aber ein Rad
-schon höher als die dicksten SUVs. In diesem Video wird das Projekt vorgestellt:
+schon höher als ein Mensch. In diesem Video wird das Projekt vorgestellt:
 <https://youtu.be/6Nw7q0t2A9o>. Wer aufpasst, kann zum Zeitstempel 0.37 einmal
 kurz das Device sehen.
 
@@ -73,7 +73,8 @@ Fehler in Windows CE, die Microsoft nie behob, war er mit der Software sehr unzu
 
 Nun sollte auf Linux umgestellt werden, wobei ich den Kunden half. Allerdings
 wurde auch eine neue Gerätegeneration entwickelt, um den geänderten
-Anforderungen entsprechen zu können.
+Anforderungen entsprechen zu können. Es wurde ein Gerät auf Basis des Freescale
+(jetzt NXP) i.MX6Q erstellt, ein Quadcore ARM.
 
 
 ## Komponentenauswahl {#komponentenauswahl}
@@ -118,7 +119,7 @@ Zielsystem aber "armhf"?
 
 Ganz einfach: mit der Hilfe von QEMU. Viele Leute kennen dieses Tool, normal
 simuliert es komplette Rechner, also CPU, RAM, Flash, Devices. Aber es gibt auch
-[qemu-user-static](https://github.com/multiarch/qemu-user-static). Dieses simuliert nur die CPU. Keinerlei Hardware ... sämtliche
+[qemu-user-static](https://www.qemu.org/docs/master/user/main.html). Dieses simuliert nur die CPU. Keinerlei Hardware ... sämtliche
 Aufrufe von Linux-Kernel-Funktionen wie "`open()`", "`read()`" etc werden
 stattdessen einfach an den Host-Kernel (also mein i386/amd64 -Kernel) übergeben.
 Der führt das dann ganz normal aus.
@@ -250,16 +251,15 @@ cleanvnc:
     rm -rf image.dev/x11vnc-$(VNC_VER)
 ```
 
-Mit obigen Makefile-Snippets reicht ein "`make compvnc`" aus, das
+Mit obigen Makefile-Snippets reicht ein "`make compvnc`" aus, um ...
 
--   eine bestimme Version der x11vnc-Sourcen heruntergeladen werden (falls sie noch nicht da sind)
--   dieser Source wird ausgepackt
+-   eine bestimme Version der x11vnc-Sourcen herunter zu laden werden (falls sie noch nicht da sind)
+-   diesen Source auszupacken
 -   mit lokalen Patches versehen (die ich also im eigenen GIT habe)
--   mit meinen Konfigurationsoptionen konfiguriert
--   und kompiliert
+-   mit minimalen Konfigurationsoptionen zu konfigurieren
+-   und dann alles zu compilieren
 
-Anschließend hat man in "`image.dev/x11vnc/x11vnc`" das Binarie, das ich dann z.B. ins Kundenimage
-kopieren kann.
+Anschließend hat man in "`image.dev/x11vnc/x11vnc`" das Binary.
 
 Ich kann aber in "`image.dev`" auch reguläre Debian-Pakete erzeugen, aber das
 sprengt diesen Post.

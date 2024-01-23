@@ -38,7 +38,7 @@ Umsetzung: im Prinzip mit ein Kernteam von nur 3 Leuten: ein externer
 Elektronikentwickler, jemand der die gesamte Mechanik (Gehäuse, Tastatur,
 Finishing) und Produktionsplanung machte. Und ich für die gesamte Software.
 
-Implementatierung: C, C++, Qt/Embedded, OpenEmbedded
+Implementierung: C, C++, Qt/Embedded, OpenEmbedded
 
 ** Vorgeschichte
 
