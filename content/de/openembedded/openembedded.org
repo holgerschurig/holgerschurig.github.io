@@ -1,5 +1,5 @@
 #+AUTHOR: Holger Schurig
-#+OPTIONS: ^:nil \n:t
+#+OPTIONS: ^:nil
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
 #+HUGO_BASE_DIR: ~/src/hpg/
 
@@ -30,6 +30,7 @@ Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 #+end_job
 
+
 ** Projekt-Info
 
 Idee: Chris Larson, Michael Lauer, ich
@@ -42,6 +43,7 @@ viele Rezepte erstellt bzw. verbessert hat.
 Nutzung: 2003 bis 2010, das Projekt dauert aber bis heute an
 
 Implementatierung: Make, Bash, Python, BitKeeper (zunächst), dann Git, Bitbake-Recipes
+
 
 ** Geschichte
 
@@ -87,6 +89,7 @@ qemu-user-static existierte noch nicht. Also mussten wir die diversen
 Build-Systeme dazu überreden, von uns vorab erstellte Ergebnisse dieser Tests zu
 nehmen statt selbst zu testen.
 
+
 ** Bitbake
 
 Diese Bau-Rezepte wurden von Bitbake ausgeführt. Die ersten 100-300 Commits
@@ -101,6 +104,7 @@ konnte man es auch noch aushalten. Aber als OpenEmbedded immer größer wurde, w
 ein großes Problem. Deswegen würde ich Holger Freyther ("zecke" im IRC) noch mit
 aufnehmen: er hatte einen Cache des Graphen eingebaut.
 
+
 ** Von BitKeeper zu Git
 
 Wir hatten den Source damals in einem "distributed source code versioning
@@ -111,6 +115,7 @@ OpenSource-Projekte kostenlos gemacht. Auch der Linux-Kernel verwendete es.
 Als dann aber das Verhältnis von "BitMover Inc" zur Kernel-Community sauer
 wurde, hat Linus Torvalds "=git=" entwickelt, in die Linux-Kernel-Community
 eingeführt. Und wir von OpenEmbedded sind nahezu zeitgleich umgestiegen.
+
 
 ** Mein Ausstieg
 

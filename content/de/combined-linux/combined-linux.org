@@ -1,5 +1,5 @@
 #+AUTHOR: Holger Schurig
-#+OPTIONS: ^:nil \n:t
+#+OPTIONS: ^:nil
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
 #+HUGO_BASE_DIR: ~/src/hpg/
 

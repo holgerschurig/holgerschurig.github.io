@@ -1,5 +1,5 @@
 #+AUTHOR: Holger Schurig
-#+OPTIONS: ^:nil \n:t
+#+OPTIONS: ^:nil
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
 #+HUGO_BASE_DIR: ~/src/hpg/
 
@@ -32,6 +32,7 @@ Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 #+end_job
 
+
 ** Projekt-Info
 
 Idee: Kundenanforderung
@@ -41,6 +42,7 @@ Umsetzung: Barebox, Linux und Image: ich
 Nutzung: US-amerikanischer Minenausrüster
 
 Implementatierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static
+
 
 ** Projekt-Background
 
@@ -62,6 +64,7 @@ Nun sollte auf Linux umgestellt werden, wobei ich den Kunden half. Allerdings
 wurde auch eine neue Gerätegeneration entwickelt, um den geänderten
 Anforderungen entsprechen zu können.
 
+
 ** Komponentenauswahl
 
 Viele Hersteller von ICs behaupten "Wir haben Linux-Support". Doch vor allem bei
@@ -73,20 +76,22 @@ Deswegen habe ich schon beim Projektdesign die Hardware-Entwicklung beraten,
 welche Chips oder Hersteller (Marvell und Broadcomm rücken kaum mit Infos raus!)
 man meiden sollte.
 
+
 ** Board-Bringup
 
 Nachdem die ersten Prototypen PCBs da waren, ging es um den Board-Bringup.
 
 Zunächst habe ich mit einem Freescale / NXP - Tool die Timing-Parameter des DRAM
-herausgefunden. Der leitende Elektronikingeneur tat dasselbe --- und wir hatten komplett
-verschiedene Werte, die jeweils beim anderen nicht funktionierte. Dies stellte sich als
-Fertigungsprobleme heraus, die dann behoben werden.
+herausgefunden. Der leitende Elektronikingeneur tat dasselbe --- und wir hatten
+komplett verschiedene Werte, die jeweils beim anderen nicht funktionierten. Dies
+stellte sich als Fertigungsprobleme heraus, die dann behoben werden.
 
 Als Bootloader hatte ich diesmal nicht u-boot, sondern [[https://www.barebox.org][Barebox]] genommen. Der war
 viel moderner programmiert, ähnlich wie der Linux-Kernel. Er hat sogar wie der
 Linux-Kernel ein "Kconfig" System, das damals bei u-boot noch nicht existierte.
 Auch hat er denselben Device-Tree genutzt, den ich dann auch für den
 Linux-Kernel genommen habe.
+
 
 ** Images
 
@@ -258,6 +263,7 @@ dann im Laufe der Jahre drei Kunden-Images erstellt:
 Je nachdem, welches Image ich (reproduzierbar) erstellt habe, dauerte dies 3 bis
 6 Minuten.
 
+
 ** Linux-Kernel
 
 Auch hier wurde ein Linux-Kernel "dem Gerät auf den Leib geschneidert", also vom Source compiliert.
@@ -345,6 +351,7 @@ Man kann aus diesen Auszügen auch sehe, das ich normalerweise immer gut
 dokumentiere. Im Header der Datei steht exakt der Name und die Version des PDF,
 auf die sich die Seitennummern beziehen.
 
+
 ** Projekt-Tracking
 
 Es gab eine umfangreiche "Requirement Spec" vom Kunden, die sich allerdings
@@ -391,6 +398,7 @@ So nebenbei hat dann der Kunde alles über Linux-Utilities wie "=ifconfig=",
 selbst gemacht, also kaputte Geräte ausgetauscht und schonmal Fehlersuche
 gemacht. Da war es natürlich hilfreich, (fast) alle Low-Level-Dinge dokumentiert
 zu haben.
+
 
 ** Verwandte Projekte
 

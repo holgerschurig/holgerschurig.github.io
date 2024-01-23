@@ -1,5 +1,5 @@
 #+AUTHOR: Holger Schurig
-#+OPTIONS: ^:nil \n:t
+#+OPTIONS: ^:nil
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
 #+HUGO_BASE_DIR: ~/src/hpg/
 
@@ -46,6 +46,7 @@ Effizienzgewinn:
 - extrem schneller Image build (600 MB Image in 23 Sekunden) bedeutet einen
   schnellen Turnaround bedeutet das neue Features schneller getestet werden können
 
+
 ** Anforderungen
 
 - das Ergebnis sollte *eine Standard-Distribution* sein (hier: Debian), nicht etwas
@@ -57,6 +58,7 @@ Effizienzgewinn:
 - *keine Client/Server-Architektur*: das Image soll in einem Verzeichnis gebaut werden
 - *keine Artefakte im Image* vom eigentlichen Build-Prozesses --- Kunden
   mögen es nicht, wenn irgendwelche Daemons offene Ports haben (außer vielleich SSH).
+
 
 ** Vorgehensweise
 
@@ -130,7 +132,6 @@ digraph G {
 
 #+RESULTS:
 [[file:mkimage.png]]
-
 
 *** debootstrap<<debootstrap>>
 
@@ -426,6 +427,7 @@ Geräte initialisieren.
 Man kann es auch mir "=rsync=" direkt per Ethernet oder WLAN auf ein Gerät
 syncen --- das ist erheblich schneller: nach wenigen Sekunden ist das neue
 erstellte Image testbar.
+
 
 ** Verwandte Projekte
 

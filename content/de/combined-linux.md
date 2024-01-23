@@ -7,15 +7,15 @@ categories = ["job"]
 draft = false
 +++
 
-Hier ging es darum, ein und dasselbe Linux-Image auf eine Vielzahl von Geräte zu portieren. <br/>
+Hier ging es darum, ein und dasselbe Linux-Image auf eine Vielzahl von Geräte zu portieren.
 
-Dies stand im Gegensatz zu den Windows- und Windows-Embedded-Images. Hier wurde <br/>
-für jedes Gerät ein eigenes Image erstellt. Gab es eine Innovation, mussten alle <br/>
-diese Image jeweils neu erstellt werden --- ein zeitraubender Prozess. <br/>
+Dies stand im Gegensatz zu den Windows- und Windows-Embedded-Images. Hier wurde
+für jedes Gerät ein eigenes Image erstellt. Gab es eine Innovation, mussten alle
+diese Image jeweils neu erstellt werden --- ein zeitraubender Prozess.
 
-Ich wollte ein "Combined Linux" machen: eine Image, das alle Features in sich <br/>
-enthält. Das man überall installieren kann. Das die Hardware erkennt und die <br/>
-jeweils eingebaute Hardware passend anspricht und zur Verfügung stellt. <br/>
+Ich wollte ein "Combined Linux" machen: eine Image, das alle Features in sich
+enthält. Das man überall installieren kann. Das die Hardware erkennt und die
+jeweils eingebaute Hardware passend anspricht und zur Verfügung stellt.
 
 <!--more-->
 
@@ -44,156 +44,156 @@ jeweils eingebaute Hardware passend anspricht und zur Verfügung stellt. <br/>
 
 <div class="job">
 
-In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen <br/>
-meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit <br/>
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen <br/>
-ja nicht berührt werden. <br/>
+In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen
+meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
+Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+ja nicht berührt werden.
 
 </div>
 
 
 ## Projekt-Info {#projekt-info}
 
-Idee: Kunden (das es Linux-Images geben sollte), ich (das man alle Gerätetypen <br/>
-in ein Image kombinieren sollte) <br/>
+Idee: Kunden (das es Linux-Images geben sollte), ich (das man alle Gerätetypen
+in ein Image kombinieren sollte)
 
-Zuarbeit: Zusatz-Ideen kamen von PSS (Product Support Services), FAE (Field <br/>
-Application Engineers), PMs (Produkt/Project Manager, allerdings eher wenig) und <br/>
-auch direkt von Kunden <br/>
+Zuarbeit: Zusatz-Ideen kamen von PSS (Product Support Services), FAE (Field
+Application Engineers), PMs (Produkt/Project Manager, allerdings eher wenig) und
+auch direkt von Kunden
 
-Umsetzung: ich <br/>
+Umsetzung: ich
 
-Nutzung: 2012 bis heute <br/>
+Nutzung: 2012 bis heute
 
-Effizienzgewinn: <br/>
+Effizienzgewinn:
 
--   ein Image statt über 20 Images erstellen ist ein erheblicher Zeitgewinn <br/>
--   (man könnte argumentieren, das es beim Test eine kombinatorische Explosion <br/>
-    gibt. Das ist aber nicht der Fall, da vor Auslieferung von Gerät+Linux-Image <br/>
-    dies sowieso von FAE und Kunden geprüft und dann in einer spezifischen <br/>
-    Hardware/Softwareversion freigegeben und festgezurrt wurde) <br/>
+-   ein Image statt über 20 Images erstellen ist ein erheblicher Zeitgewinn
+-   (man könnte argumentieren, das es beim Test eine kombinatorische Explosion
+    gibt. Das ist aber nicht der Fall, da vor Auslieferung von Gerät+Linux-Image
+    dies sowieso von FAE und Kunden geprüft und dann in einer spezifischen
+    Hardware/Softwareversion freigegeben und festgezurrt wurde)
 
 
 ## Basis: Debian-Linux {#basis-debian-linux}
 
-Basis war Debian-Linux. <br/>
+Basis war Debian-Linux.
 
-Heutzutage ist Ubuntu viel bekannter, aber bei Projektstart war dies nicht der <br/>
-Fall. Außerdem ist Ubuntu auf das Desktop-Metapher optimiert. In <br/>
-Industrie-Anwendungen will man aber z.B. keinen Start-Button haben. Man möchte <br/>
-(i.d.R.) nicht, das beim Einstecken eines USB-Sticks ein Dialog aufpoppt. Im <br/>
-Prinzip braucht man überhaupt nichts aus der Desktop-Metapher. <br/>
+Heutzutage ist Ubuntu viel bekannter, aber bei Projektstart war dies nicht der
+Fall. Außerdem ist Ubuntu auf das Desktop-Metapher optimiert. In
+Industrie-Anwendungen will man aber z.B. keinen Start-Button haben. Man möchte
+(i.d.R.) nicht, das beim Einstecken eines USB-Sticks ein Dialog aufpoppt. Im
+Prinzip braucht man überhaupt nichts aus der Desktop-Metapher.
 
-Stattdessen möchte man fast immer nur einige einzige Anwendung haben, exclusiv, <br/>
-im "Kiosk-Modus". Also nicht abbrechbar und ohne Wechselmöglichkeit. Also warum <br/>
-ein Icon haben, das man anklicken muss, wenn die Applikation auch direkt <br/>
-gestartet werden kann? <br/>
+Stattdessen möchte man fast immer nur einige einzige Anwendung haben, exclusiv,
+im "Kiosk-Modus". Also nicht abbrechbar und ohne Wechselmöglichkeit. Also warum
+ein Icon haben, das man anklicken muss, wenn die Applikation auch direkt
+gestartet werden kann?
 
-Schließlich will niemand, das Lagerarbeiter Tetris spielen ... <br/>
+Schließlich will niemand, das Lagerarbeiter Tetris spielen ...
 
 
 ## Anpassen ... aber an was? {#anpassen-dot-dot-dot-aber-an-was}
 
-Die unterstützten Geräte (siehe unten) habe unterschiedliche ... <br/>
+Die unterstützten Geräte (siehe unten) habe unterschiedliche ...
 
--   Anzahl Ethernet-Karten: 0 bis 2 <br/>
--   Anzahl WLAN-Karten: 0 bis 1 <br/>
--   Anzahl WWAN-Karten (GSM, UMTS etc): 0 bis 1 <br/>
--   Anzahl NFC-Interfaces: 0 bis 1 <br/>
--   Anzahl Bluetooth-Interfaces: 0 bis 1 <br/>
--   unterschiedliche Auflösungen <br/>
--   unterschiedliche Tasten auf der Frontplatte <br/>
--   unterschiedliche Touchscreen-Technologien (resistiv, kapazitiv) und Touchscreen-Controller-ICs <br/>
--   unterschiedliche Beleuchtungskonzepte (Backlight, Keyboard ...) <br/>
--   unterschiedliche Barcode-Scanner (keine, Symbol, Intermec, Honeywell, seriell, Bluetooth) <br/>
--   ... und viele Unterschiede mehr <br/>
+-   Anzahl Ethernet-Karten: 0 bis 2
+-   Anzahl WLAN-Karten: 0 bis 1
+-   Anzahl WWAN-Karten (GSM, UMTS etc): 0 bis 1
+-   Anzahl NFC-Interfaces: 0 bis 1
+-   Anzahl Bluetooth-Interfaces: 0 bis 1
+-   unterschiedliche Auflösungen
+-   unterschiedliche Tasten auf der Frontplatte
+-   unterschiedliche Touchscreen-Technologien (resistiv, kapazitiv) und Touchscreen-Controller-ICs
+-   unterschiedliche Beleuchtungskonzepte (Backlight, Keyboard ...)
+-   unterschiedliche Barcode-Scanner (keine, Symbol, Intermec, Honeywell, seriell, Bluetooth)
+-   ... und viele Unterschiede mehr
 
-Jedoch sollte die Software im "Combined-Linux" Image sich dynamisch auf die <br/>
-Gegenheiten anpassen, beispielsweise welche Einstellungsmöglichkeit im <br/>
-"`config`" GUI-Programm angezeigt werden. <br/>
+Jedoch sollte die Software im "Combined-Linux" Image sich dynamisch auf die
+Gegenheiten anpassen, beispielsweise welche Einstellungsmöglichkeit im
+"`config`" GUI-Programm angezeigt werden.
 
-Hier Beispiele für die Geräteklassen: <br/>
+Hier Beispiele für die Geräteklassen:
 
 
 ### Stapler-Terminals {#stapler-terminals}
 
-{{< figure src="./staplerterminals.jpg" >}} <br/>
+{{< figure src="./staplerterminals.jpg" >}}
 
--   IPC7 (DLoG) <br/>
--   MPC6 (DLoG) <br/>
--   MTC6 (DLoG) <br/>
--   MTC6 mit AMD CPU <br/>
--   DLT-V83 (DLoG) <br/>
--   DLT-V83 Atom (DLoG) <br/>
--   DLT-V83 Celeron (DLoG) <br/>
--   DLT-V83 Facelift (Advantech) <br/>
--   DLT-V83 i5 (DLoG) <br/>
--   DLT-V72 (DLoG) <br/>
--   DLT-V72 Facelift (Advantech) <br/>
--   DLT-V72 mit voller Tastatur (DLoG) <br/>
--   DLT-V73 x86 (Advantech) <br/>
--   DLT-V62 (Advantech) <br/>
--   DLT-M81 (Advantech) <br/>
+-   IPC7 (DLoG)
+-   MPC6 (DLoG)
+-   MTC6 (DLoG)
+-   MTC6 mit AMD CPU
+-   DLT-V83 (DLoG)
+-   DLT-V83 Atom (DLoG)
+-   DLT-V83 Celeron (DLoG)
+-   DLT-V83 Facelift (Advantech)
+-   DLT-V83 i5 (DLoG)
+-   DLT-V72 (DLoG)
+-   DLT-V72 Facelift (Advantech)
+-   DLT-V72 mit voller Tastatur (DLoG)
+-   DLT-V73 x86 (Advantech)
+-   DLT-V62 (Advantech)
+-   DLT-M81 (Advantech)
 
-Werden in Stapler- oder Kommissionierfahrzeuge eingebaut. Manchmal auch in <br/>
-Hochregal-Bedienfahrzeuge, Logistik-Hängebahnen, Portalkräne etc. <br/>
+Werden in Stapler- oder Kommissionierfahrzeuge eingebaut. Manchmal auch in
+Hochregal-Bedienfahrzeuge, Logistik-Hängebahnen, Portalkräne etc.
 
 
 ### Tragbare Terminals {#tragbare-terminals}
 
-{{< figure src="./handterminals.jpg" >}} <br/>
+{{< figure src="./handterminals.jpg" >}}
 
--   DT362 (Digital Research) <br/>
--   S10A (Advantech) <br/>
--   PWS-770 (Advantech) <br/>
--   PWS-870 (Advantech) <br/>
+-   DT362 (Digital Research)
+-   S10A (Advantech)
+-   PWS-770 (Advantech)
+-   PWS-870 (Advantech)
 
-Diese Geräte nimmt man in die Hand und kann sich damit frei bewegen. Auf den <br/>
-Fotos sieht man das nicht, aber sie haben einen eingebauten Barcode-Scanner. <br/>
+Diese Geräte nimmt man in die Hand und kann sich damit frei bewegen. Auf den
+Fotos sieht man das nicht, aber sie haben einen eingebauten Barcode-Scanner.
 
 
 ### Fahrzeug-Computer {#fahrzeug-computer}
 
-{{< figure src="./fahrzeugcomputer.jpg" >}} <br/>
+{{< figure src="./fahrzeugcomputer.jpg" >}}
 
--   TREK-753 (Advantech) <br/>
+-   TREK-753 (Advantech)
 
-Diese sind dazu gedacht, in KFZ eingebaut zu werden, beispielsweise in Bussen, <br/>
-als Steuergerät für "Vehicle Smart Displays". Aber mit Linux drauf kann man sie <br/>
-auch für andere Dinge einsetzen ... <br/>
+Diese sind dazu gedacht, in KFZ eingebaut zu werden, beispielsweise in Bussen,
+als Steuergerät für "Vehicle Smart Displays". Aber mit Linux drauf kann man sie
+auch für andere Dinge einsetzen ...
 
 
 ### Industrie-Panel-PCs {#industrie-panel-pcs}
 
-{{< figure src="./panelpcs.jpg" >}} <br/>
+{{< figure src="./panelpcs.jpg" >}}
 
--   UTC-210 (Advantech) <br/>
--   UTC-520 (Advantech) <br/>
+-   UTC-210 (Advantech)
+-   UTC-520 (Advantech)
 
-Werden in der Industrie zum Anzeigen allgemeiner Informationen genutzt, <br/>
-beispielsweise an den Fließbändern von Auto-Herstellern. <br/>
+Werden in der Industrie zum Anzeigen allgemeiner Informationen genutzt,
+beispielsweise an den Fließbändern von Auto-Herstellern.
 
 
 ## Hardware erkennen {#hardware-erkennen}
 
-Man muß nun den Gerätetyp einwandfrei erkennen. Wie macht man das am besten, damit <br/>
-man keine Falscherkennungen hat? <br/>
+Man muß nun den Gerätetyp einwandfrei erkennen. Wie macht man das am besten, damit
+man keine Falscherkennungen hat?
 
-{{< figure src="hwdetect.png" >}} <br/>
+{{< figure src="hwdetect.png" >}}
 
 
 ### String im BIOS {#string-im-bios}
 
-Die von DLoG oder Advantech (sie haben DLoG aufgekauft) selbst produzierten Geräte <br/>
-hatten im BIOS einen speziell formatieren String hinterlegt. Der hat das Gerät, <br/>
-aber auch die Version des BIOS kodiert. <br/>
+Die von DLoG oder Advantech (sie haben DLoG aufgekauft) selbst produzierten Geräte
+hatten im BIOS einen speziell formatieren String hinterlegt. Der hat das Gerät,
+aber auch die Version des BIOS kodiert.
 
-Eine Wildcard-Suche prüfte dann in einem definierten physikalischen Speicherbereich, ob <br/>
-es einen String wie z.B. "M6I??C??" gibt. <br/>
+Eine Wildcard-Suche prüfte dann in einem definierten physikalischen Speicherbereich, ob
+es einen String wie z.B. "M6I??C??" gibt.
 
-Das hat ein Linux-Kernel-Modul gemacht, da hierbei einfach auf physikalischen <br/>
-Speicher zugegriffen werden kann. Ein Linux-Userspace-Programm kann das zwar <br/>
-auch, müsste aber als "root" laufen. <br/>
+Das hat ein Linux-Kernel-Modul gemacht, da hierbei einfach auf physikalischen
+Speicher zugegriffen werden kann. Ein Linux-Userspace-Programm kann das zwar
+auch, müsste aber als "root" laufen.
 
 ```text
   // Mem start, length,  Wildcard + len, Device,  Human text
@@ -201,43 +201,43 @@ auch, müsste aber als "root" laufen. <br/>
   { 0xfff40000, 0x80000, "G6A??C??",  8, IS_DEVB, "Device A mit AMD" },
 ```
 
-Das Kernelmodul wird automatisch geladen und stellt sein Ergebnis via <br/>
-"`/proc/...`" Pseudo-Datei zur Verfügung. Darauf können alle Programme <br/>
-zugreifen, "root" oder nicht. <br/>
+Das Kernelmodul wird automatisch geladen und stellt sein Ergebnis via
+"`/proc/...`" Pseudo-Datei zur Verfügung. Darauf können alle Programme
+zugreifen, "root" oder nicht.
 
-Bei den Geräten, die einen BIOS-String haben, kamen wir auf 100% Erkennungsrate <br/>
-und 0% Fehlerrate. <br/>
+Bei den Geräten, die einen BIOS-String haben, kamen wir auf 100% Erkennungsrate
+und 0% Fehlerrate.
 
 
 ### DMI {#dmi}
 
-Leider gab es Hardware, bei der das nicht funktionierte: Geräte die nicht unter den <br/>
-Einfluss von DLoG designed wurden (beispielsweise die Treks, die UTCs, die PWS). <br/>
+Leider gab es Hardware, bei der das nicht funktionierte: Geräte die nicht unter den
+Einfluss von DLoG designed wurden (beispielsweise die Treks, die UTCs, die PWS).
 
-Aber in einigen Fällen sind die Informationen des [DMI](https://de.wikipedia.org/wiki/Desktop_Management_Interface) brauchbar. Als Kernel-Modul kommt <br/>
-man da recht einfach dran: <br/>
+Aber in einigen Fällen sind die Informationen des [DMI](https://de.wikipedia.org/wiki/Desktop_Management_Interface) brauchbar. Als Kernel-Modul kommt
+man da recht einfach dran:
 
 ```c
   vendor  = dmi_get_system_info(DMI_SYS_VENDOR);
   product = dmi_get_system_info(DMI_PRODUCT_NAME);
 ```
 
-Das Ergebnis kann man gegen Soll-Werte vergleichen und weiß dann, auf welcher Hardware <br/>
-man ist. <br/>
+Das Ergebnis kann man gegen Soll-Werte vergleichen und weiß dann, auf welcher Hardware
+man ist.
 
-Bei den Geräten, die einen DMI-String haben, kamen wir auf 100% Erkennungsrate <br/>
-und 0% Fehlerrate. <br/>
+Bei den Geräten, die einen DMI-String haben, kamen wir auf 100% Erkennungsrate
+und 0% Fehlerrate.
 
 
 ### PCI-IDs testen {#pci-ids-testen}
 
-Erstaunlicherweise gibt es viel DMIs, die schlecht gepflegt sind. Da steht dann <br/>
-z.B. "to be filled by O.E.M.", womit man nichts anfangen kann. Außer vielleicht <br/>
-darauf schließen, das der Hersteller keine Liebe zum Detail hat und <br/>
-unvollständige Arbeit abliefert. <br/>
+Erstaunlicherweise gibt es viel DMIs, die schlecht gepflegt sind. Da steht dann
+z.B. "to be filled by O.E.M.", womit man nichts anfangen kann. Außer vielleicht
+darauf schließen, das der Hersteller keine Liebe zum Detail hat und
+unvollständige Arbeit abliefert.
 
-Man braucht als leider eine Rückfalloption. Dazu dienten PCI-IDs. Im Linux-Userspace <br/>
-kann man diese mit "`lspci -nn`" sehen --- und selbstverständlich kommt ein <br/>
+Man braucht als leider eine Rückfalloption. Dazu dienten PCI-IDs. Im Linux-Userspace
+kann man diese mit "`lspci -nn`" sehen --- und selbstverständlich kommt ein
 
 ```text
   // Host bridge
@@ -255,15 +255,15 @@ kann man diese mit "`lspci -nn`" sehen --- und selbstverständlich kommt ein <br
   ...
 ```
 
-Wie man gut sieht, reicht die Host-Bridge 8086:0a04 nicht aus, um ein Gerät <br/>
-eindeutig zu indentifizieren. Denn sie kommt auf mehreren Geräten vor. <br/>
+Wie man gut sieht, reicht die Host-Bridge 8086:0a04 nicht aus, um ein Gerät
+eindeutig zu indentifizieren. Denn sie kommt auf mehreren Geräten vor.
 
-Wenn man jedoch die Informationen der anderen PCI-IDs hinzufügt (mit "..." <br/>
-angedeutet), klappt es evtl doch. <br/>
+Wenn man jedoch die Informationen der anderen PCI-IDs hinzufügt (mit "..."
+angedeutet), klappt es evtl doch.
 
-Damit konnte ich dann die Hardware-Erkennung für all die Geräte "erschlagen", <br/>
-die weder BIOS-Strings noch DMI-Strings hatten. Jedoch ... wird das Image auf <br/>
-einem unbekanntem Gerät ausgeführt, kann es Fehlerkennungen geben. <br/>
+Damit konnte ich dann die Hardware-Erkennung für all die Geräte "erschlagen",
+die weder BIOS-Strings noch DMI-Strings hatten. Jedoch ... wird das Image auf
+einem unbekanntem Gerät ausgeführt, kann es Fehlerkennungen geben.
 
 
 ## Userspace {#userspace}
@@ -271,15 +271,15 @@ einem unbekanntem Gerät ausgeführt, kann es Fehlerkennungen geben. <br/>
 
 ### GUI anpassen {#gui-anpassen}
 
-Nachdem die Hardware einmal erkannt ist, ist es leicht, darauf zu reagieren. <br/>
+Nachdem die Hardware einmal erkannt ist, ist es leicht, darauf zu reagieren.
 
-Das "`config`" GUI ist in C++/Qt geschrieben. <br/>
+Das "`config`" GUI ist in C++/Qt geschrieben.
 
-Darauf aufsetzend wurden Funktionen definiert die mit "`isXXX()`" bzw "`hasXXXX()`" <br/>
-anfangen. Die is-Funktionen prüfen auf eine Gerät, die has-Funktionen prüfen <br/>
-auf eine Funktion (hat Bluetooth, hat Backlight, hat USB-Gerät XXXX:YYYY). <br/>
+Darauf aufsetzend wurden Funktionen definiert die mit "`isXXX()`" bzw "`hasXXXX()`"
+anfangen. Die is-Funktionen prüfen auf eine Gerät, die has-Funktionen prüfen
+auf eine Funktion (hat Bluetooth, hat Backlight, hat USB-Gerät XXXX:YYYY).
 
-Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach: <br/>
+Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach:
 
 ```text
     if (isDevA() || isDevE() || isDemo())
@@ -289,8 +289,8 @@ Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach: <br
 
 ### Daemons anpassen {#daemons-anpassen}
 
-Auch Daemons müssen sich an die sehr unterschiedlicher Hardware anpassen. Dort <br/>
-geht dies genauso einfach, hier am Beispiel des "`scannerd`": <br/>
+Auch Daemons müssen sich an die sehr unterschiedlicher Hardware anpassen. Dort
+geht dies genauso einfach, hier am Beispiel des "`scannerd`":
 
 ```text
     if (isDevA()) {
@@ -308,13 +308,12 @@ geht dies genauso einfach, hier am Beispiel des "`scannerd`": <br/>
 
 ## Verwandte Projekte {#verwandte-projekte}
 
-Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image: <br/>
+Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image:
 
--   [ Automatische Image-Erstellung ]({{< relref "mkimage" >}}) <br/>
--   [ Dynamischer Flash-Schutz ]({{< relref "dynamischer-flashschutz" >}}) <br/>
--   [ Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau ]({{< relref "mkarm" >}}) <br/>
--   TODO(Artikel schreiben) Linux Restore Stick <br/>
--   [ Hardware-Teststick für DLT-V83/DLT-V72 ]({{< relref "hwtester" >}}) <br/>
--   TODO(Artikel schreiben) Hardware-Teststick für DLT-V73 <br/>
--   TODO(Artikel schreiben) Aufräumen in Fukushima <br/>
-
+-   [ Automatische Image-Erstellung ]({{< relref "mkimage" >}})
+-   [ Dynamischer Flash-Schutz ]({{< relref "dynamischer-flashschutz" >}})
+-   [ Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau ]({{< relref "mkarm" >}})
+-   TODO(Artikel schreiben) Linux Restore Stick
+-   [ Hardware-Teststick für DLT-V83/DLT-V72 ]({{< relref "hwtester" >}})
+-   TODO(Artikel schreiben) Hardware-Teststick für DLT-V73
+-   TODO(Artikel schreiben) Aufräumen in Fukushima

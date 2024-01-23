@@ -1,5 +1,5 @@
 #+AUTHOR: Holger Schurig
-#+OPTIONS: ^:nil \n:t
+#+OPTIONS: ^:nil
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
 #+HUGO_BASE_DIR: ~/src/hpg/
 
@@ -30,6 +30,7 @@ meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
 Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 #+end_job
+
 
 ** Projekt-Info
 
@@ -72,6 +73,7 @@ erstellt. Statt nur
 #+begin_example
 ~/d/mkimage$ bin/run -c conf/hwtester.imgconf
 #+end_example
+
 
 ** automatisiert USB-Stick erstellen
 
