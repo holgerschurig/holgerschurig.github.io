@@ -2,7 +2,7 @@
 title = "Combined-Linux: ein Image für viele Geräte"
 author = ["Holger Schurig"]
 date = 2024-01-16
-tags = ["linux", "kernel", "c++", "Qt"]
+tags = ["qt", "c++", "linux"]
 categories = ["job"]
 draft = false
 +++

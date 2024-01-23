@@ -2,12 +2,13 @@
 title = "OpenEmbedded"
 author = ["Holger Schurig"]
 date = 2024-01-19
-tags = ["linux", "kernel", "arm", "zaurus", "sa1110", "pxa320", "opie"]
+tags = ["arm", "linux", "openembedded", "opie", "pxa320", "sa1110", "zaurus"]
 categories = ["job"]
 draft = false
 +++
 
-TODO <br/>
+Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso <br/>
+ich später eine bessere Lösung im Embedded-Linux-Bereich eingesetzt habe. <br/>
 
 <!--more-->
 
@@ -18,7 +19,7 @@ TODO <br/>
 - [Projekt-Info](#projekt-info)
 - [Geschichte](#geschichte)
 - [Bitbake](#bitbake)
-- [BitKeeper](#bitkeeper)
+- [Von BitKeeper zu Git](#von-bitkeeper-zu-git)
 - [Mein Ausstieg](#mein-ausstieg)
 - [Verwandte Projekte](#verwandte-projekte)
 
@@ -66,8 +67,9 @@ Michael und Chris beispielsweise hatten diese Geräte und wollten dafür Images 
 erstellen. <br/>
 
 Ich selbst hatte aus beruflichen Gründen den Wunsch, Images für ARM-Geräte zu <br/>
-erstellen. Mein damaliger Arbeitgeber hatte den "MNCI" auf Basis des PXA320 <br/>
-entwickelt, und dafür mußte Software her --- und zwar kein Windows CE. <br/>
+erstellen. Mein damaliger Arbeitgeber hatte den [ MNCI ]({{< relref "mnci" >}}) auf <br/>
+Basis des PXA320 entwickelt, und dafür mußte Software her --- und zwar kein <br/>
+Windows CE. <br/>
 
 Wir trafen uns auf IRC und beratschlagten, wie man so ein Image bauen könnte. <br/>
 Es müsste mit den diversen Zaurus-Hardware-Versionen (Collie, Poodle etc) <br/>
@@ -108,7 +110,7 @@ ein großes Problem. Deswegen würde ich Holger Freyther ("zecke" im IRC) noch m
 aufnehmen: er hatte einen Cache des Graphen eingebaut. <br/>
 
 
-## BitKeeper {#bitkeeper}
+## Von BitKeeper zu Git {#von-bitkeeper-zu-git}
 
 Wir hatten den Source damals in einem "distributed source code versioning <br/>
 system" names [BitKeeper](https://en.wikipedia.org/wiki/Bitkeeper) gehalten. Das war sozusagen der Vorgänger und Ideengeber <br/>
@@ -136,13 +138,15 @@ da ja keinerlei Sourcen mehr compiliert werden müssen. Ich spreche hier von <br
 Minuten statt 16 Stunden um ein Image "from Scratch" neu zu bauen. <br/>
 
 Aber das war ungefähr zu den Zeitpunkt, an dem Yocto entstand. Und so war die <br/>
-Zukunft von OpenEmbedded gegeben, auch ohne mich. Das war noch vor Entwicklung <br/>
-der "layers". <br/>
+Zukunft von OpenEmbedded gesichert. Wenn ich mir heute Stellenanzeigen in <br/>
+"Embedded" Bereich anschaue, wird OpenEmbedded sehr häufig erwähnt: das Projekt <br/>
+"brummt". <br/>
 
 
 ## Verwandte Projekte {#verwandte-projekte}
 
-Die folgenden Projekte verwenden OpenEmbedded:: <br/>
+Die folgenden Projekte verwenden OpenEmbedded: <br/>
 
--   TODO(Artikel schreiben) MNCI
+-   [ MNCI: Handterminal mit ARM (Intel PXA320) ]({{< relref "mnci" >}}) <br/>
+-   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau
 

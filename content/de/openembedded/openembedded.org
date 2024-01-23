@@ -14,7 +14,7 @@
 :EXPORT_FILE_NAME: de/openembedded.md
 :EXPORT_DATE: 2024-01-19
 :EXPORT_HUGO_CATEGORIES: job
-:EXPORT_HUGO_TAGS: linux kernel arm zaurus sa1110 pxa320 opie
+:EXPORT_HUGO_TAGS: arm linux openembedded opie pxa320 sa1110 zaurus
 :END:
 
 Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso
@@ -60,8 +60,9 @@ Michael und Chris beispielsweise hatten diese Geräte und wollten dafür Images
 erstellen.
 
 Ich selbst hatte aus beruflichen Gründen den Wunsch, Images für ARM-Geräte zu
-erstellen. Mein damaliger Arbeitgeber hatte den "MNCI" auf Basis des PXA320
-entwickelt, und dafür mußte Software her --- und zwar kein Windows CE.
+erstellen. Mein damaliger Arbeitgeber hatte den {{{relref(MNCI,mnci)}}} auf
+Basis des PXA320 entwickelt, und dafür mußte Software her --- und zwar kein
+Windows CE.
 
 Wir trafen uns auf IRC und beratschlagten, wie man so ein Image bauen könnte.
 Es müsste mit den diversen Zaurus-Hardware-Versionen (Collie, Poodle etc)
@@ -100,7 +101,7 @@ konnte man es auch noch aushalten. Aber als OpenEmbedded immer größer wurde, w
 ein großes Problem. Deswegen würde ich Holger Freyther ("zecke" im IRC) noch mit
 aufnehmen: er hatte einen Cache des Graphen eingebaut.
 
-** BitKeeper
+** Von BitKeeper zu Git
 
 Wir hatten den Source damals in einem "distributed source code versioning
 system" names [[https://en.wikipedia.org/wiki/Bitkeeper][BitKeeper]] gehalten. Das war sozusagen der Vorgänger und Ideengeber
@@ -127,14 +128,17 @@ da ja keinerlei Sourcen mehr compiliert werden müssen. Ich spreche hier von
 Minuten statt 16 Stunden um ein Image "from Scratch" neu zu bauen.
 
 Aber das war ungefähr zu den Zeitpunkt, an dem Yocto entstand. Und so war die
-Zukunft von OpenEmbedded gegeben, auch ohne mich. Das war noch vor Entwicklung
-der "layers".
+Zukunft von OpenEmbedded gesichert. Wenn ich mir heute Stellenanzeigen in
+"Embedded" Bereich anschaue, wird OpenEmbedded sehr häufig erwähnt: das Projekt
+"brummt".
+
 
 ** Verwandte Projekte
 
-Die folgenden Projekte verwenden OpenEmbedded::
+Die folgenden Projekte verwenden OpenEmbedded:
 
-- TODO(Artikel schreiben) MNCI
+- {{{relref(MNCI: Handterminal mit ARM (Intel PXA320),mnci)}}}
+- TODO(Artikel schreiben) Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau
 
 
 * File locals :noexport:

@@ -13,7 +13,7 @@
 :EXPORT_HUGO_SECTION: de
 :EXPORT_FILE_NAME: de/combined-linux.md
 :EXPORT_DATE: 2024-01-16
-:EXPORT_HUGO_TAGS: linux kernel c++ Qt
+:EXPORT_HUGO_TAGS: qt c++ linux
 :EXPORT_HUGO_CATEGORIES: job
 :END:
 
@@ -310,30 +310,32 @@ Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image:
 ** Alle Projekte :noexport:
 
 - {{{relref(OpenEmbedded,openembedded)}}}
+- {{{relref(MNCI: Handterminal mit ARM (Intel PXA320),mnci)}}}
 - {{{relref(Combined-Linux: ein Image für viele Geräte,combined-linux)}}}
-- Anbindung an Microcontroller
+- TODO(Artikel schreiben) Anbindung an Microcontroller
 - {{{relref(Automatische Image-Erstellung,mkimage)}}}
 - {{{relref(Dynamischer Flash-Schutz,dynamischer-flashschutz)}}}
-- Schnelles WLAN-Roaming
-- GUI Konfiguration: config + configwriter
-- Virtuelle On-Screen-Tastatur für die Industrie
-- Anbindung von Barcode-Scannern
-- Screenblanking für die USA
-- Touchscreen-Daemon
-- Power-Daemon
-- Image-Verteilung mit SSDP-Agent
-- WLAN-Monitor
-- Systemd für Embedded-Devices
-- Aufräumen in Fukushima
-- CAN für Java-Programmierer
-- RS485 für Java-Programmierer
-- Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau
-- Einstelltool für u-Blox GNSS (GPS)
-- Linux Restore Stick
+- TODO(Artikel schreiben) WLAN-Treiber "Libertas"
+- TODO(Artikel schreiben) Schnelles WLAN-Roaming
+- TODO(Artikel schreiben) GUI Konfiguration: config + configwriter
+- TODO(Artikel schreiben) Virtuelle On-Screen-Tastatur für die Industrie
+- TODO(Artikel schreiben) Anbindung von Barcode-Scannern
+- TODO(Artikel schreiben) Screenblanking für die USA
+- TODO(Artikel schreiben) Touchscreen-Daemon
+- TODO(Artikel schreiben) Power-Daemon
+- TODO(Artikel schreiben) Image-Verteilung mit SSDP-Agent
+- TODO(Artikel schreiben) WLAN-Monitor
+- TODO(Artikel schreiben) Systemd für Embedded-Devices
+- TODO(Artikel schreiben) Aufräumen in Fukushima
+- TODO(Artikel schreiben) CAN für Java-Programmierer
+- TODO(Artikel schreiben) RS485 für Java-Programmierer
+- TODO(Artikel schreiben) Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau
+- TODO(Artikel schreiben) Einstelltool für u-Blox GNSS (GPS)
+- TODO(Artikel schreiben) Linux Restore Stick
 - {{{relref(Hardware-Teststick für DLT-V83/DLT-V72,hwtester)}}}
-- Hardware-Teststick für DLT-V73
-- Lagerschalter
-- tcp2serial
+- TODO(Artikel schreiben) Hardware-Teststick für DLT-V73
+- TODO(Artikel schreiben) Lagerschalter
+- TODO(Artikel schreiben) tcp2serial
 
 * File locals :noexport:
 
