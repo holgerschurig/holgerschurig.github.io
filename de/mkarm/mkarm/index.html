@@ -17,9 +17,9 @@ Treiber entwickeln lassen, der dann auch nur mit einem seit 4 Jahren veralteten
 Linux-Kernel funktioniert.</p><p>Deswegen habe ich schon beim Projektdesign die Hardware-Entwicklung beraten,
 welche Chips oder Hersteller (Marvell und Broadcomm rücken kaum mit Infos raus!)
 man meiden sollte.</p></div></div><div id=outline-container-headline-5 class=outline-3><h3 id=headline-5>Board-Bringup</h3><div id=outline-text-headline-5 class=outline-text-3><p>Nachdem die ersten Prototypen PCBs da waren, ging es um den Board-Bringup.</p><p>Zunächst habe ich mit einem Freescale / NXP - Tool die Timing-Parameter des DRAM
-herausgefunden. Der leitende Elektronikingeneur tat dasselbe — und wir hatten komplett
-verschiedene Werte, die jeweils beim anderen nicht funktionierte. Dies stellte sich als
-Fertigungsprobleme heraus, die dann behoben werden.</p><p>Als Bootloader hatte ich diesmal nicht u-boot, sondern <a href=https://www.barebox.org>Barebox</a> genommen. Der war
+herausgefunden. Der leitende Elektronikingeneur tat dasselbe — und wir hatten
+komplett verschiedene Werte, die jeweils beim anderen nicht funktionierten. Dies
+stellte sich als Fertigungsprobleme heraus, die dann behoben werden.</p><p>Als Bootloader hatte ich diesmal nicht u-boot, sondern <a href=https://www.barebox.org>Barebox</a> genommen. Der war
 viel moderner programmiert, ähnlich wie der Linux-Kernel. Er hat sogar wie der
 Linux-Kernel ein "Kconfig" System, das damals bei u-boot noch nicht existierte.
 Auch hat er denselben Device-Tree genutzt, den ich dann auch für den
