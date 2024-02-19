@@ -26,7 +26,7 @@ Software erstellt habe.
 #+begin_job
 In Beiträgen der Kategorie [[/categories/job/][Job]] trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 #+end_job
 
@@ -34,9 +34,11 @@ ja nicht berührt werden.
 
 Idee: Frau Wienkötter, eine großer Süddeutscher Spediteur
 
-Umsetzung: im Prinzip mit ein Kernteam von nur 3 Leuten: ein externer
-Elektronikentwickler, jemand der die gesamte Mechanik (Gehäuse, Tastatur,
-Finishing) und Produktionsplanung machte. Und ich für die gesamte Software.
+Umsetzung: im Prinzip mit ein Kernteam von nur 3 Leuten:
+
+- Klaus, ein externer Elektronikentwickler
+- Wolfgang, machte die gesamte Mechanik (Gehäuse, Tastatur, Finishing) und Produktionsplanung
+- Ich, für die gesamte Software (Bootloader, Kernel, Filesystem, Terminal-Applikation Telnet und 5250)
 
 Implementierung: C, C++, Qt/Embedded, OpenEmbedded
 
@@ -250,4 +252,5 @@ Die folgenden Projekte sind verwandt mit diesem Projekt:
 # Local Variables:
 # mode: org
 # org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
 # End:

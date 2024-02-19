@@ -10,7 +10,7 @@ draft = false
 Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.
 
 Oder: Implementierung eines Linux-Images für eine RISC-Platform für einen sehr
-rauhen Anwendungsfall.
+rauen Anwendungsfall.
 
 <!--more-->
 
@@ -38,7 +38,7 @@ rauhen Anwendungsfall.
 
 In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 
 </div>
@@ -52,7 +52,7 @@ Umsetzung: Barebox, Linux und Image: ich
 
 Nutzung: US-amerikanischer Minenausrüster
 
-Implementatierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static
+Implementierung: Make, Bash, Python, Meson, C, C++, Qt, Git, Emacs, qemu-user-static
 
 
 ## Projekt-Background {#projekt-background}
@@ -94,7 +94,7 @@ man meiden sollte.
 Nachdem die ersten Prototypen PCBs da waren, ging es um den Board-Bringup.
 
 Zunächst habe ich mit einem Freescale / NXP - Tool die Timing-Parameter des DRAM
-herausgefunden. Der leitende Elektronikingeneur tat dasselbe --- und wir hatten
+herausgefunden. Der leitende Elektronikingenieur tat dasselbe --- und wir hatten
 komplett verschiedene Werte, die jeweils beim anderen nicht funktionierten. Dies
 stellte sich als Fertigungsprobleme heraus, die dann behoben werden.
 
@@ -334,8 +334,9 @@ sbas_off:  0616 00 00 03 00 00000000
 sbas_poll: 0616
 ```
 
-Die Zeilen konntena auch mehrfach auftauchen. Um z.B. den NMEA-Output via
-"`ubloxcomm nmea_off`" abzustellen, hat die Konfigurationsdatei dies vorgesehen:
+Die Zeilen könnten auch mehrfach mit gleichen Keyword auftauchen. Um z.B. den
+NMEA-Output via "`ubloxcomm nmea_off`" abzustellen, hat die Konfigurationsdatei
+dies vorgesehen:
 
 ```text
 # Page 107: Set Message Rate (for current port)
@@ -397,7 +398,7 @@ sieht das dann ungefähr so aus:
 {{< figure src="./org-mode.png" >}}
 
 (Dies ist übrigens ein Auszug aus den Anforderungen des Bootloaders. Beispielsweise
-sollte er beim Booten piepsen, also mußte er den "Beeper" unterstützen).
+sollte er beim Booten piepsen, also musste er den "Beeper" unterstützen).
 
 Ich habe das dann aber dem Kunden in HTML umgewandelt, dann sah es so aus:
 

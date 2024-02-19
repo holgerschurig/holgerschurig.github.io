@@ -30,7 +30,7 @@ ich später eine bessere Lösung im Embedded-Linux-Bereich eingesetzt habe.
 
 In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 
 </div>
@@ -41,8 +41,8 @@ ja nicht berührt werden.
 Idee: Chris Larson, Michael Lauer, ich
 
 Umsetzung: (Programm) ich, (Träger-Verein) Michael Lauer, (Kommunikation) Chris
-Larson. Später haben noch viele andere Leute mitgebracht, hervorheben mächte ich
-Holger Freyther (der "`bitbake`" verbessert hat und Marcin Juskiecz, der viele,
+Larson. Später haben noch viele andere Leute mitgebracht. Hervorheben möchte ich
+Holger Freyther, der "`bitbake`" verbessert hat, und Marcin Juskiecz, der viele,
 viele Rezepte erstellt bzw. verbessert hat.
 
 Nutzung: 2003 bis 2010, das Projekt dauert aber bis heute an
@@ -68,7 +68,7 @@ erstellen.
 
 Ich selbst hatte aus beruflichen Gründen den Wunsch, Images für ARM-Geräte zu
 erstellen. Mein damaliger Arbeitgeber hatte den [ MNCI ]({{< relref "mnci" >}}) auf
-Basis des PXA320 entwickelt, und dafür mußte Software her --- und zwar kein
+Basis des PXA320 entwickelt, und dafür musste Software her --- und zwar kein
 Windows CE.
 
 Wir trafen uns auf IRC und beratschlagten, wie man so ein Image bauen könnte.
@@ -79,12 +79,13 @@ ich auf die Idee, das man "Rezepte" zum Bauen von Paketen haben sollte. Wer gana
 hinschaut wird merken, das sie an die "`.ebuild`" von gentoo erinnern.
 
 Ein großer Unterschied zu Gentoo ist natürlich die Cross-Compilierung und daher
-das "Staging"-Konzept. Um beispielsweise libpng für ARM cross-compilieren zu
-können, muß die glibc ebenfalls für ARM vorliegen. Sie kann aber nicht da stehen,
-wo meine normale glibc für meinen Linux-Entwicklungsrechner steht. Sondern muß davon
-getrennt sein, eben im "Staging"-Bereich.
+das "Staging"-Konzept (Vorgänger von sysroot). Um beispielsweise libpng für ARM
+cross-compilieren zu können, muß die glibc ebenfalls für ARM vorliegen. Sie kann
+aber nicht da stehen, wo meine normale glibc für meinen
+Linux-Entwicklungsrechner steht. Sondern muss davon getrennt sein, eben im
+"Staging"-Bereich.
 
-Was wir auch machen mußten: viele Buildsystem (beispielsweise GNU Autoconf)
+Was wir auch machen mussten: viele Buildsystem (beispielsweise GNU Autoconf)
 erstellen zum Zeitpunkt von "`./configure`" viele kleine Testprogramme und
 lassen diese dann laufen. So stellen sie z.B. fest wie lange ein Integer ist,
 oder ob O_SYNC implementiert ist. Nur: wenn wir cross-compilieren, dann sind
@@ -113,7 +114,7 @@ aufnehmen: er hatte einen Cache des Graphen eingebaut.
 ## Von BitKeeper zu Git {#von-bitkeeper-zu-git}
 
 Wir hatten den Source damals in einem "distributed source code versioning
-system" names [BitKeeper](https://en.wikipedia.org/wiki/Bitkeeper) gehalten. Das war sozusagen der Vorgänger und Ideengeber
+system" namens [BitKeeper](https://en.wikipedia.org/wiki/Bitkeeper) gehalten. Das war sozusagen der Vorgänger und Ideengeber
 zu Git --- und der letzte Schrei. Die Firma "BitMover Inc" hatte BitKeeper für
 OpenSource-Projekte kostenlos gemacht. Auch der Linux-Kernel verwendete es.
 

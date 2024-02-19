@@ -34,7 +34,7 @@ ohne die Usability allzu sehr einzuschränken.
 #+begin_job
 In Beiträgen der Kategorie [[/categories/job/][Job]] trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 #+end_job
 
@@ -49,7 +49,7 @@ Effizienzgewinn:
 
 - das Filesystem bleibt auf den Kundengeräten über Jahre intakt
 - hebt die Kundenzufriedenheit deutlich --- nichts ist frustiger als ein Kunde,
-  bei dem die auf Accord arbeitenden Mitarbeiter Zwangspausen haben weil man
+  bei dem die auf Akkord arbeitenden Mitarbeiter Zwangspausen haben, weil man
   erst die CFast-Karte wechseln muss
 - Ausbrechen aus dem Flash-Schutz jederzeit ohne Reboot möglich --- wenn man
   weiss, wie :-)
@@ -81,7 +81,7 @@ Windows selbst hatte damals keine Lösung.
 
 Aber Windows Embedded hatte einen Modus, in dem man die Partition auf "read-only" setzen
 konnte. Das bedeutete aber einen Reboot --- was unter Windows Embedded 7 eine Ewigkeit dauerte.
-Auch mußte die Applikation damit klarkommen.
+Auch musste die Applikation damit klarkommen.
 
 Auch Windows EWF bedingte (idealerweise), das die Anwendung sich dessen bewusst ist.
 
@@ -157,7 +157,7 @@ Gerät aus- und wieder einschaltet (oder rebootet), dann sind sämtliche
 
 Bei dem bisher beschriebenem System könnte man den Nameserver im Flash nie
 ändern. Das ist ein wenig suboptimal: wenn der Kunde von DHCP auf statische
-IP-Adressen umstellen wollte, hätter er Pech.
+IP-Adressen umstellen wollte, hätte er Pech.
 
 Allerdings habe ich oben ein wenig geschummelt und --- der Didaktik wegen ---
 ein Detail ausgelassen: das Flash ist direkt per "=/media/realroot=" zu erreichen.
@@ -207,7 +207,7 @@ umount /media/realroot/dev/pts
 umount /media/realroot/dev
 #+end_src
 
-Ein Script names "=in_realroot=" erledigt das schnell und einfach :-)
+Ein Script namens "=in_realroot=" erledigt das schnell und einfach :-)
 
 
 ** Verwandte Projekte
@@ -229,4 +229,5 @@ Die folgenden Projekte verwenden den Flash-Schutz bzw. gehen auf ihn ein:
 # Local Variables:
 # mode: org
 # org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
 # End:

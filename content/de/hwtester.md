@@ -36,7 +36,7 @@ auf Herz und Nieren zu prüfen.
 
 In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 
 </div>
@@ -64,7 +64,7 @@ Effizienzgewinn:
 ## Anforderungen {#anforderungen}
 
 -   bootet von einem USB-Stick beliebiger Größe
--   musst an verschiedenen Testorten verschiedene Tests (automatich) aktivieren bzw. deaktivieren
+-   musst an verschiedenen Testorten verschiedene Tests (automatisch) aktivieren bzw. deaktivieren
 -   muss verbaute Hardware weitestgehend erkennen
 -   32bit wg. externer Test-Tools
 -   die kommerzielle Testsoftware "Toolstar TestLX" musste eingebunden werden
@@ -78,7 +78,7 @@ Das Image wird dem Tool
 [ automatisch Images erstellen ]({{< relref "mkimage" >}})
 
 erstellt. Statt nur
-"`bin/run`" auszuführen wird gibt man einfach eine Konfurationsdatei an:
+"`bin/run`" auszuführen wird gibt man einfach eine Konfigurationsdatei an:
 
 ```text
 ~/d/mkimage$ bin/run -c conf/hwtester.imgconf
@@ -110,7 +110,7 @@ losetup -d /dev/loop1
 kpartx -sd hda
 ```
 
--   Zeile [2](#org-coderef--0a417f-2): zuerst löschen wir eine eventualle alte "`hda`" Datei
+-   Zeile [2](#org-coderef--0a417f-2): zuerst löschen wir eine eventuelle alte "`hda`" Datei
 -   Zeile [3](#org-coderef--0a417f-3): dann wird eine neue angelegt. 640 MB reichen dicke aus. Wir
     verwenden fallocate, weil es schneller als "`dd if=/dev/zero ...`" ist. Es
     alloziert nur die Blöcke, beschriebt sie aber nicht. Der Linux-Kernel selbst
@@ -149,7 +149,7 @@ Ein weiteres Makefile-Target ...
 
 ... nutzt ebenfalls  [losetup](https://manpages.debian.org/bookworm/mount/losetup.8.en.html) und  [kpartx](https://manpages.debian.org/bookworm/kpartx/kpartx.8.en.html). Aber statt "`tune2fs`" wird dann "`/dev/loop1`"
 einfach nach "`/mnt`" gemounted und mit "`rsync`" wird alles von "`image.hwtester/`" dorthin
-synchronisiert. Da dies aber alles trivial ist, lasses ich es mal aus.
+synchronisiert. Da dies aber alles trivial ist, lasse ich es mal aus.
 
 Übrigens: die Datei "`hda`" ist sehr klein, sie kann auf 1 GB bis 32 GB Sticks
 geschrieben werden:

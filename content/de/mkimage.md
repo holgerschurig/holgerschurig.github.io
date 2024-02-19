@@ -41,7 +41,7 @@ OpenEmbedded, Puppet, Ansible etc).
 
 In Beiträgen der Kategorie [Job](/categories/job/) trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.
 
 </div>
@@ -53,7 +53,7 @@ Idee &amp; Umsetzung: ich
 
 Nutzung: 2012 bis heute
 
-Implementatierung: Make, Bash, Python
+Implementierung: Make, Bash, Python
 
 Effizienzgewinn:
 
@@ -74,7 +74,7 @@ Effizienzgewinn:
     TODO(Artikel schreiben) "OpenEmbedded"
 -   **keine Client/Server-Architektur**: das Image soll in einem Verzeichnis gebaut werden
 -   **keine Artefakte im Image** vom eigentlichen Build-Prozesses --- Kunden
-    mögen es nicht, wenn irgendwelche Daemons offene Ports haben (außer vielleich SSH).
+    mögen es nicht, wenn irgendwelche Daemons offene Ports haben (außer vielleicht SSH).
 
 
 ## Vorgehensweise {#vorgehensweise}
@@ -116,7 +116,7 @@ sys     0m0.036s
 
 #### Erwähnenswert {#erwähnenswert}
 
--   [eatmydata](https://www.flamingspork.com/projects/libeatmydata/) reduziert das excessive "`fsync()`" von "`dpkg`". Das Filesystem
+-   [eatmydata](https://www.flamingspork.com/projects/libeatmydata/) reduziert das exzessive "`fsync()`" von "`dpkg`". Das Filesystem
     syncen ist gänzlich unnötig, wenn man sich das
 -   ein Cache-Directory "`downloads/apt.bookworm.amd64`" schont die Debian-Server und erhöht die
     Geschwindigkeit --- dies ist einer der Bereich, die Docker bis heute nicht gut gelöst hat.
@@ -125,11 +125,11 @@ sys     0m0.036s
 
 #### Ergebnis {#ergebnis}
 
-Anschließend hat man eine Minimales Debian in einem Directory, welches man für
+Anschließend hat man eine minimales Debian in einem Directory, welches man für
 
 -   [ Combined-Linux ]({{< relref "" >}})
 -   TODO(Artikel schreiben) Linux Restore Stick
--   TODO(Artikel schreiben) Teststick
+-   [ Teststick ]({{< relref "hwtester" >}})
 -   TODO(Artikel schreiben) Teststick UEFI
 
 einsetzen kann.
@@ -294,12 +294,12 @@ sys     0m0.019s
     einen vorherigen "`make image`" mit Ctrl-C abbricht -- dies lässt sich in
     Makefiles nicht abfangen (die Bash könnte es).
 -   Zeile [12](#org-coderef--b14937-12) bedeutet, das wir mit ein vorheriges "`image/`" Directory
-    löschen. Dorthinein wird unser Image generiert. Das ist ähnlich wie oben bei
+    löschen. Dort hinein wird unser Image generiert. Das ist ähnlich wie oben bei
     Debootstrap, das ein "`image.debootstrap.bookworm.amd/`" erstellt hatte.
 -   Zeile [13](#org-coderef--b14937-13) schließlich führt das "`bin/run`" Programm aus, welches rekursive
     Scriptlets in "`base/*`" ausführen kann
 -   das erste Scriptlet wird in Zeile [16](#org-coderef--b14937-16) ausgeführt. Es legt ein frisches
-    "`image/`" Directory an und kopiert erstmal das Debootstrap-Image dort hinein.
+    "`image/`" Directory an und kopiert erst mal das Debootstrap-Image dort hinein.
 -   danach werden viele weitere Scriptslets ausgeführt auf die ich nicht weiter
     eingehe
 -   die meisten Schritte hatten schon die nötigen Debian-Pakete im .deb Cache
@@ -307,20 +307,21 @@ sys     0m0.019s
     noch fehlende Debian-Pakete automatisch heruntergeladen werden. Das erledigt
     ein kleines Python-Script, "`bin/get_deb.py`".
 -   am Schluss wird es in Zeile [30](#org-coderef--b14937-30) wieder etwas besonders: da wir Images für
-    Embedded Devices erstellen, können wir viele Dinge löschen. Beispiel: es ist sowas
-    kein "`man`" Binary installiert. Also kann man auch einfach alle Manpages löschen.
+    Embedded Devices erstellen, können wir viele Dinge löschen. Beispiel: es ist
+    sowieso kein "`man`" Binary installiert. Also kann man auch einfach alle
+    Manpages löschen. Sie könnten ja doch nicht angeschaut werden.
 
 
 #### Erwähnenswert {#erwähnenswert}
 
-Wer jemals ein Docker-Image auf Debian-Basis erstellt hat, wird sich evtl die
+Wer jemals ein Docker-Image auf Debian-Basis erstellt hat, wird sich evtl. die
 Augen reiben: wie kann man ein Image in gerade mal 23 Sekunden bauen? Allein die
 Docker-Zeile "apt-get update; apt-get install foo bar baz; apt-get clean"
 braucht wesentlich länger?
 
 Der Trick ist hier ist:
 
--   einerseite die Installation von "`eatmydata`" ins Image hinein (siehe Zeile
+-   einerseits die Installation von "`eatmydata`" ins Image hinein (siehe Zeile
     [17](#org-coderef--b14937-17) oben. Es wird dann beim Installieren von "`.deb`"-Paketen kein
     "`fsync()`" or "`open(...,O_SYNC)`" ausgeführt.
 -   manuelles Dependency-Resolving. Hier in Beispiel: um BlueZ (den Linux-Bluetooth-Daemon)
@@ -359,7 +360,7 @@ Das bedeutet im einzelnen:
     angelegt werden. Das liegt daran, das wir diesen User mit "`addgroup`" in die Gruppe
     "bluetooth=" aufnehmen wollen (Zeile [19](#org-coderef--2afbaf-19)).
 -   dann brauchen wir noch systemd vorher im Image, da wir ein Drop-In Konfigurationsfile
-    reintun, welches Teile des Debian-BlueZ-Unit überschriebt (Zeile [16](#org-coderef--2afbaf-16)).
+    installieren, welches Teile des Debian-BlueZ-Unit überschriebt (Zeile [16](#org-coderef--2afbaf-16)).
 -   BlueZ braucht wie viele andere Programm die glib. Statt also alle .deb unten
     anzuführen, die glib installieren, habe ich das in ein eigenes
     "`base/lib-glib`" ausgelagert (Zeile [3](#org-coderef--2afbaf-3)).
