@@ -1,11 +1,11 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.121.2"><title>OpenEmbedded &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.122.0"><title>OpenEmbedded &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
 <link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>OpenEmbedded</h1><h2></h2></div><div class=content><p>Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso
 ich später eine bessere Lösung im Embedded-Linux-Bereich eingesetzt habe.</p><div class="ox-hugo-toc toc"><div class=heading>Table of Contents</div><ul><li><a href=#projekt-info>Projekt-Info</a></li><li><a href=#geschichte>Geschichte</a></li><li><a href=#bitbake>Bitbake</a></li><li><a href=#von-bitkeeper-zu-git>Von BitKeeper zu Git</a></li><li><a href=#mein-ausstieg>Mein Ausstieg</a></li><li><a href=#verwandte-projekte>Verwandte Projekte</a></li></ul></div><div class=job><p>In Beiträgen der Kategorie <a href=../../categories/job/>Job</a> trage ich Projekte zusammen, die ich im Rahmen
 meiner beruflichen Karriere federführend durchgeführt habe. Ich gehe dabei mit
-Absicht nicht allzusehr auf Details an: die Interessen meiner Arbeitgeber sollen
+Absicht nicht allzu sehr auf Details an: die Interessen meiner Arbeitgeber sollen
 ja nicht berührt werden.</p></div><h2 id=projekt-info>Projekt-Info</h2><p>Idee: Chris Larson, Michael Lauer, ich</p><p>Umsetzung: (Programm) ich, (Träger-Verein) Michael Lauer, (Kommunikation) Chris
-Larson. Später haben noch viele andere Leute mitgebracht, hervorheben mächte ich
-Holger Freyther (der &ldquo;<code>bitbake</code>&rdquo; verbessert hat und Marcin Juskiecz, der viele,
+Larson. Später haben noch viele andere Leute mitgebracht. Hervorheben möchte ich
+Holger Freyther, der &ldquo;<code>bitbake</code>&rdquo; verbessert hat, und Marcin Juskiecz, der viele,
 viele Rezepte erstellt bzw. verbessert hat.</p><p>Nutzung: 2003 bis 2010, das Projekt dauert aber bis heute an</p><p>Implementierung: Make, Bash, Python, BitKeeper (zunächst), dann Git, Bitbake-Recipes</p><h2 id=geschichte>Geschichte</h2><p>Im Jahr 2003 gab es noch keine Smartphones. Aber ungefähr zu diesem Zeitpunkt tauchte
 der Sharp Zaurus auf. Das war ein kleiner PDA mit Intel StrongARM SA1100 CPU.</p><figure><img src=./sharp_zaurus.jpg></figure><p>Auf diesem Bild, kopiert von <a href=https://en.wikipedia.org/wiki/Sharp_Zaurus>https://en.wikipedia.org/wiki/Sharp_Zaurus</a> (Lizenz
 <a href=https://creativecommons.org/licenses/by-sa/3.0/deed.en>CC BY-SA 3.0 Deed</a>) sieht man einen Zaurus, auf dem <a href=https://en.wikipedia.org/wiki/OpenEmbedded>OpenEmbedded</a> und Opie (später
@@ -14,17 +14,18 @@ nicht konnte &mdash; und hatte z.B. Terminkalender, Adressbuch, TODO-Liste etc
 integriert.</p><p>Michael und Chris beispielsweise hatten diese Geräte und wollten dafür Images
 erstellen.</p><p>Ich selbst hatte aus beruflichen Gründen den Wunsch, Images für ARM-Geräte zu
 erstellen. Mein damaliger Arbeitgeber hatte den <a href=../../de/mnci/>MNCI </a>auf
-Basis des PXA320 entwickelt, und dafür mußte Software her &mdash; und zwar kein
+Basis des PXA320 entwickelt, und dafür musste Software her &mdash; und zwar kein
 Windows CE.</p><p>Wir trafen uns auf IRC und beratschlagten, wie man so ein Image bauen könnte.
 Es müsste mit den diversen Zaurus-Hardware-Versionen (Collie, Poodle etc)
 klarkommen, aber auch mit meinem Industriegerät. In der Firma setzte ich damals
 Red Hat ein, privat hatte ich aber gerade mit Gentoo experimentiert. Und so kam
 ich auf die Idee, das man &ldquo;Rezepte&rdquo; zum Bauen von Paketen haben sollte. Wer ganau
 hinschaut wird merken, das sie an die &ldquo;<code>.ebuild</code>&rdquo; von gentoo erinnern.</p><p>Ein großer Unterschied zu Gentoo ist natürlich die Cross-Compilierung und daher
-das &ldquo;Staging&rdquo;-Konzept. Um beispielsweise libpng für ARM cross-compilieren zu
-können, muß die glibc ebenfalls für ARM vorliegen. Sie kann aber nicht da stehen,
-wo meine normale glibc für meinen Linux-Entwicklungsrechner steht. Sondern muß davon
-getrennt sein, eben im &ldquo;Staging&rdquo;-Bereich.</p><p>Was wir auch machen mußten: viele Buildsystem (beispielsweise GNU Autoconf)
+das &ldquo;Staging&rdquo;-Konzept (Vorgänger von sysroot). Um beispielsweise libpng für ARM
+cross-compilieren zu können, muß die glibc ebenfalls für ARM vorliegen. Sie kann
+aber nicht da stehen, wo meine normale glibc für meinen
+Linux-Entwicklungsrechner steht. Sondern muss davon getrennt sein, eben im
+&ldquo;Staging&rdquo;-Bereich.</p><p>Was wir auch machen mussten: viele Buildsystem (beispielsweise GNU Autoconf)
 erstellen zum Zeitpunkt von &ldquo;<code>./configure</code>&rdquo; viele kleine Testprogramme und
 lassen diese dann laufen. So stellen sie z.B. fest wie lange ein Integer ist,
 oder ob O_SYNC implementiert ist. Nur: wenn wir cross-compilieren, dann sind
@@ -41,7 +42,7 @@ das schnellste. Ich selbst hatte das Problem damals nicht gelöst, bis ca. 500 R
 konnte man es auch noch aushalten. Aber als OpenEmbedded immer größer wurde, war es
 ein großes Problem. Deswegen würde ich Holger Freyther (&ldquo;zecke&rdquo; im IRC) noch mit
 aufnehmen: er hatte einen Cache des Graphen eingebaut.</p><h2 id=von-bitkeeper-zu-git>Von BitKeeper zu Git</h2><p>Wir hatten den Source damals in einem &ldquo;distributed source code versioning
-system&rdquo; names <a href=https://en.wikipedia.org/wiki/Bitkeeper>BitKeeper</a> gehalten. Das war sozusagen der Vorgänger und Ideengeber
+system&rdquo; namens <a href=https://en.wikipedia.org/wiki/Bitkeeper>BitKeeper</a> gehalten. Das war sozusagen der Vorgänger und Ideengeber
 zu Git &mdash; und der letzte Schrei. Die Firma &ldquo;BitMover Inc&rdquo; hatte BitKeeper für
 OpenSource-Projekte kostenlos gemacht. Auch der Linux-Kernel verwendete es.</p><p>Als dann aber das Verhältnis von &ldquo;BitMover Inc&rdquo; zur Kernel-Community sauer
 wurde, hat Linus Torvalds &ldquo;<code>git</code>&rdquo; entwickelt, in die Linux-Kernel-Community
