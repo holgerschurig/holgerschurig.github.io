@@ -15,6 +15,7 @@ This blog post shows how to setup a Zephyr project that you can use for several 
 
 <div class="heading">Table of Contents</div>
 
+- [Changelog](#changelog)
 - [Why multiple boards in one project?](#why-multiple-boards-in-one-project)
 - [(Ab)use of Makefiles](#ab--use-of-makefiles)
 - [This blog post is based on ...](#this-blog-post-is-based-on-dot-dot-dot)
@@ -30,6 +31,11 @@ This blog post shows how to setup a Zephyr project that you can use for several 
 
 </div>
 <!--endtoc-->
+
+
+## Changelog {#changelog}
+
+-   2024-03-03 added an ESP32-C3 board <br/>
 
 
 ## Why multiple boards in one project? {#why-multiple-boards-in-one-project}
@@ -373,16 +379,18 @@ init                  do all of these steps:
    west               install and configure the 'west' tool
    zephyr             clone Zephyr
    modules            install Zeyphr modules (e.g. ST and STM32 HAL, CMSIS ...)
-     module_stm32     update only STM32 HAL
-     module_st        update only ST HAL
      module_cmsis     update only CMSIS
+     module_espressif update only ESPRESSIF (ESP-32)
+     module_st        update only ST HAL
+     module_stm32     update only STM32 HAL
 
 all                   compile for current board
 menuconfig            run menuconfig for current board
 xconfig               run xconfig for current board
 
+esp32c3               configure and compile for ESP32-C3 DevKit M
+local                 configure and compile for locally defined board
 native                configure and compile for native (used for unit-tests)
 nucleo                configure and compile for STM32 Nucleo
-local                 configure and compile for locally defined board
 ```
 
