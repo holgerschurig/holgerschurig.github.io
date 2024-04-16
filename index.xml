@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Holger Schurig's Computer Calisthenics &amp; Orthodontia</title><link>https://holgerschurig.github.io/</link><description>Recent content on Holger Schurig's Computer Calisthenics &amp; Orthodontia</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 22 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://holgerschurig.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau</title><link>https://holgerschurig.github.io/de/mkarm/</link><pubDate>Mon, 22 Jan 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/mkarm/</guid><description>&lt;p>Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Holger Schurig's Computer Calisthenics &amp; Orthodontia</title><link>https://holgerschurig.github.io/</link><description>Recent content on Holger Schurig's Computer Calisthenics &amp; Orthodontia</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://holgerschurig.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Dotfiles (and setup)</title><link>https://holgerschurig.github.io/en/dotfiles/</link><pubDate>Tue, 16 Apr 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/en/dotfiles/</guid><description>&lt;p>Normally dotfile repositories contain:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>configuration&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>This dotfiles project also allow you to:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>group&lt;/strong> the configurations&lt;/li>
+&lt;li>install only a &lt;strong>select configs&lt;/strong>&lt;/li>
+&lt;li>can &lt;strong>disable&lt;/strong> installation (e.g. battery support not on Desktop)&lt;/li>
+&lt;li>&lt;strong>install Debian packages&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>run&lt;/strong> shell scripts&lt;/li>
+&lt;/ul>
+&lt;p>It is therefore a step into the &amp;ldquo;reproducible build&amp;rdquo; direction.&lt;/p></description></item><item><title>Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau</title><link>https://holgerschurig.github.io/de/mkarm/</link><pubDate>Mon, 22 Jan 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/mkarm/</guid><description>&lt;p>Wie man sich das zeitaufwändige Cross-Compilieren mit OpenEmbedded spart.&lt;/p>
 &lt;p>Oder: Implementierung eines Linux-Images für eine RISC-Platform für einen sehr
 rauen Anwendungsfall.&lt;/p></description></item><item><title>MNCI: Handterminal mit ARM (Intel PXA320)</title><link>https://holgerschurig.github.io/de/mnci/</link><pubDate>Sat, 20 Jan 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/mnci/</guid><description>&lt;p>Hier stelle ich ein komplexes Projekt vor, bei dem ich federführend die gesamte &lt;br/>
 Software erstellt habe. &lt;br/>&lt;/p></description></item><item><title>OpenEmbedded</title><link>https://holgerschurig.github.io/de/openembedded/</link><pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/openembedded/</guid><description>&lt;p>Ein kleiner Abriss, wie OpenEmbedded entstand, was mein Beitrag war und wieso

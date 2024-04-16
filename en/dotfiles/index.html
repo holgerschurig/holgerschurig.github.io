@@ -1,0 +1,91 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.124.1"><title>Dotfiles (and setup) &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>Dotfiles (and setup)</h1><h2></h2></div><div class=content><p>Normally dotfile repositories contain:</p><ul><li><strong>configuration</strong></li></ul><p>This dotfiles project also allow you to:</p><ul><li><strong>group</strong> the configurations</li><li>install only a <strong>select configs</strong></li><li>can <strong>disable</strong> installation (e.g. battery support not on Desktop)</li><li><strong>install Debian packages</strong></li><li><strong>run</strong> shell scripts</li></ul><p>It is therefore a step into the &ldquo;reproducible build&rdquo; direction.</p><p>You find the project at <a href=https://github.com/holgerschurig/dotfiles>https://github.com/holgerschurig/dotfiles</a></p><div class="ox-hugo-toc toc"><div class=heading>Table of Contents</div><ul><li><a href=#nomenclature>Nomenclature</a></li><li><a href=#stow-directories>Stow directories</a></li><li><a href=#apply-scripts>Apply scripts</a><ul><li><a href=#apply-check>apply_check()</a></li><li><a href=#apply-run>apply_run()</a></li></ul></li><li><a href=#data-directories>Data directories</a></li><li><a href=#usable-variables-and-functions>Usable variables and functions</a><ul><li><a href=#apply-unit>$APPLY_UNIT</a></li><li><a href=#apply-dir>$APPLY_DIR</a></li><li><a href=#apply-force>$APPLY_FORCE</a></li><li><a href=#apply-debug>$APPLY_DEBUG</a></li><li><a href=#debug>debug()</a></li><li><a href=#info>info()</a></li><li><a href=#warning>warning()</a></li><li><a href=#error>error()</a></li><li><a href=#install-deb>install_deb()</a></li><li><a href=#apply-stow>apply_stow()</a></li></ul></li></ul></div><h2 id=nomenclature>Nomenclature</h2><dl><dt>apply unit</dt><dd>installs or executes shell scripts: config files, Debian
+packages, other apply units. Example: &ldquo;<code>wayland-wofi</code>&rdquo;, &ldquo;<code>x11-openbox</code>&rdquo;. You
+start installation of them with the &ldquo;<code>./apply</code>&rdquo; script: &ldquo;./apply
+wayland-wofi=&rdquo;. Can have one (or all) of the this: apply script, stow
+directory, data directory.</dd><dt>apply script</dt><dd>can disable the apply unit based on shell script logic. Use
+this to install some things only on some computers. But more importantly, it
+can execute arbitrary shell commands. Use this if installing a config file
+would be cumbersome, e.g. to add a user to a specific group. We don&rsquo;t want
+to put &ldquo;<code>group</code>&rdquo; and &ldquo;<code>gshadow</code>&rdquo; for that into this project and overwrite
+the system ones &mdash; wouldn&rsquo;t work if some Debian package also create groups!</dd><dt>&ldquo;<code>.stow</code>&rdquo; directory</dt><dd>contain configuration files that are installed using
+<a href=https://www.gnu.org/software/stow/>GNU stow</a>.</dd><dt>&ldquo;<code>.data</code>&rdquo; directory</dt><dd>contain other data files that you want to handle
+without <a href=https://www.gnu.org/software/stow/>GNU stow</a>. Usually because because applications like &ldquo;<code>sudo</code>&rdquo; will barf
+on config files that are symlinks.</dd></dl><h2 id=stow-directories>Stow directories</h2><p>The &ldquo;<code>*.stow</code>&rdquo; directories contain file system trees. With the help of <a href=https://www.gnu.org/software/stow/>GNU stow</a> they
+are copied to either &ldquo;<code>/</code>&rdquo; or &ldquo;<code>$HOME</code>&rdquo;. But &mldr; actually GNU stow doesn&rsquo;t copy them.
+That would create redundancy. Instead it symlinks them. Let&rsquo;s give you an example:</p><p>The directory <a href=https://github.com/holgerschurig/dotfiles/tree/master/wayland-ironbar>wayland-ironbar</a> contains this tree:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>$ find wayland-ironbar.stow/
+</span></span><span style=display:flex><span>wayland-ironbar.stow/
+</span></span><span style=display:flex><span>wayland-ironbar.stow/.config
+</span></span><span style=display:flex><span>wayland-ironbar.stow/.config/ironbar
+</span></span><span style=display:flex><span>wayland-ironbar.stow/.config/ironbar/config.yaml
+</span></span><span style=display:flex><span>wayland-ironbar.stow/.config/ironbar/style.css
+</span></span></code></pre></div><p>When you run</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>$ ./apply wayland-ironbar
+</span></span></code></pre></div><p>The following files will be created:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>$ ls -lR ~/.config/ironbar
+</span></span><span style=display:flex><span>/home/holger/.config/ironbar:
+</span></span><span style=display:flex><span>total 8
+</span></span><span style=display:flex><span>lrwxrwxrwx 1 holger holger 63 Apr 16 11:28 config.yaml -&gt; ../../dotfiles/wayland-ironbar.stow/.config/ironbar/config.yaml
+</span></span><span style=display:flex><span>lrwxrwxrwx 1 holger holger 61 Apr 16 11:28 style.css -&gt; ../../dotfiles/wayland-ironbar.stow/.config/ironbar/style.css
+</span></span></code></pre></div><p>So Ironbar can access it&rsquo;s config.yaml file just as normal. But in reality they continue to exist in the &ldquo;<code>dotfiles/wayland-ironbar/</code>&rdquo; directory.</p><p>This is nice, because if you now change &ldquo;<code>~/.config/ironbar/config.yaml</code>&rdquo; you
+see in the dotfiles project (via git) that and what you changed. And then you
+can commit this, never ever forgetting to commit and push your changes.</p><h2 id=apply-scripts>Apply scripts</h2><p>For each apply unit, you can have an optional shell script. These scripts are
+sourced from the &ldquo;<code>apply</code>&rdquo; script. So they aren&rsquo;t executable by themselves. They
+can however access any function / variable defined in &ldquo;<code>apply</code>&rdquo;.</p><p>The idea here is that the scripts can define two functions:</p><h3 id=apply-check>apply_check()</h3><p>This function checks if the apply unit should be executed at all.</p><p>For example, to make an apply unit only run in the Podman container with the
+hostname &ldquo;apply&rdquo;, we can do this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>apply_check()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        # &#34;apply&#34; is the hostname of the container
+</span></span><span style=display:flex><span>        test &#34;$HOSTNAME&#34; = &#34;apply&#34;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>If &ldquo;<code>apply_check()</code>&rdquo; returns false, the whole apply unit will not be applied.</p><h3 id=apply-run>apply_run()</h3><p>The other function you can define is &ldquo;<code>apply_run()". Everything in it is executed if "=apply_check()</code>&rdquo; is missong or returns true.</p><p>Usually you use that to install Debian packages. Or to add a user to some group.
+Or to install files that you cannot stow (e.g. because a program would ignore
+symlinks, see <a href=#org-target--data>Data directories</a>).</p><p>Here is an example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>apply_run()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    apt-get install -y openbox
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>I have some apply units that are used to group others. For example, the &ldquo;<code>root</code>&rdquo;
+apply unit applies lots of others:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>apply_run()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    apply root-apt
+</span></span><span style=display:flex><span>    apply root-bash
+</span></span><span style=display:flex><span>    apply root-inputrc
+</span></span><span style=display:flex><span>    apply root-joe
+</span></span><span style=display:flex><span>    apply root-tools
+</span></span><span style=display:flex><span>    apply root-aptitude
+</span></span><span style=display:flex><span>    apply root-sudo
+</span></span><span style=display:flex><span>    apply root-user
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>So running &ldquo;<code>./apply root</code>&rdquo; will apply all of these apply units to the system.</p><h2 id=data-directories>Data directories<span class=org-target id=org-target--data></span></h2><p>A few programs check their config files. E.g. &ldquo;<code>sudo</code>&rdquo; will ignore a &ldquo;<code>sudoers</code>&rdquo;
+file if it doesn&rsquo;t have a suitable permission. Or if it is a symlink. That not
+really compatible with <a href=https://www.gnu.org/software/stow/>GNU stow</a>, so we need a workaround.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>apply_run()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>   # So we use &#34;install&#34; for this :-)
+</span></span><span style=display:flex><span>   # note that if a .data file exists, then ./apply will automatically switch into it
+</span></span><span style=display:flex><span>   install -m644 -o0 -g0 sudoers /etc/sudoers
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>This &ldquo;<code>sudoers</code>&rdquo; file is then taken from &ldquo;<code>root-sudo.data/sudoers</code>&rdquo;.</p><p>Note that the source parameter of the &ldquo;<code>install</code>&rdquo; command didn&rsquo;t specify a
+directory. This works because &ldquo;<code>./apply</code>&rdquo; cd&rsquo;ed into this directory before
+running the apply script.</p><h2 id=usable-variables-and-functions>Usable variables and functions</h2><p>&ldquo;<code>apply</code>&rdquo; defines several variables and functions useful for apply scripts:</p><h3 id=apply-unit>$APPLY_UNIT</h3><p>If you run &ldquo;<code>./apply root-sudo</code>&rdquo; then &ldquo;<code>$APPLY_UNIT</code>&rdquo; will be set to &ldquo;<code>root-sudo</code>&rdquo;.</p><h3 id=apply-dir>$APPLY_DIR</h3><p>This contains the directory of where the &ldquo;<code>apply</code>&rdquo; script resides, e.g. &ldquo;<code>/home/schurig/dotfiles</code>&rdquo;.</p><h3 id=apply-force>$APPLY_FORCE</h3><p>Set to &ldquo;1&rdquo; if you call &ldquo;<code>apply</code>&rdquo; with the &ldquo;<code>-f</code>&rdquo; command line switch. Otherwise &ldquo;0&rdquo;. Used if an apply
+unit is called another time (basically making it ignore stamp files in the &ldquo;<code>.stamps</code>&rdquo; directory).</p><h3 id=apply-debug>$APPLY_DEBUG</h3><p>Set to &ldquo;1&rdquo; if you call &ldquo;<code>apply</code>&rdquo; with the &ldquo;<code>-d</code>&rdquo; command line switch. Otherwise &ldquo;0&rdquo;.</p><h3 id=debug>debug()</h3><p>Usage is like echo:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>debug &#34;This is a test, APPLY_DIR is $APPLY_DIR&#34;
+</span></span></code></pre></div><p>However, the text is only emitted if &ldquo;<code>apply</code>&rdquo; is called with the &ldquo;<code>-d</code>&rdquo; command line switch.</p><h3 id=info>info()</h3><p>Usage is like echo, too.</p><p>However, the text is shown with a green &ldquo;Info: " prefix to make it stand out.</p><h3 id=warning>warning()</h3><p>Usage is like echo, too.</p><p>However, the text is shown with a blue &ldquo;Warning: " prefix to make it stand out.</p><h3 id=error>error()</h3><p>Usage is like echo, too.</p><p>However, the text is shown with a red &ldquo;Error: " prefix to make it stand out.</p><p>Also, &ldquo;<code>apply</code>&rdquo; is automatically aborted with an error level of 1.</p><h3 id=install-deb>install_deb()</h3><p>Installs Debian packages. It is however a bit faster than normal &ldquo;<code>apt-get</code>&rdquo; in finding
+out if the package is already installed, since it checks files in &ldquo;<code>/var/lib/dpkg/info/</code>&rdquo; first. &ldquo;<code>apt-get</code>&rdquo;
+first loads the complete package cache.</p><p>&ldquo;<code>install_deb()</code>&rdquo; also uses &ldquo;<code>eatmydata</code>&rdquo; to make installation MUCH faster. This
+basically turns off all the &ldquo;=sync(2)&rdquo; calls.</p><p>And finally, should you run &ldquo;<code>./apply</code>&rdquo; as user, then it will use &ldquo;<code>sudo</code>&rdquo; to
+become root for the actual installation.</p><p>Example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>apply_run()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    install_deb \
+</span></span><span style=display:flex><span>        xserver-common \
+</span></span><span style=display:flex><span>        xserver-xorg-core \
+</span></span><span style=display:flex><span>        xserver-xorg-video-intel \
+</span></span><span style=display:flex><span>        xserver-xorg-input-evdev \
+</span></span><span style=display:flex><span>        x11-utils \
+</span></span><span style=display:flex><span>        x11-xserver-utils \
+</span></span><span style=display:flex><span>        xinput \
+</span></span><span style=display:flex><span>        xinit
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=apply-stow>apply_stow()<span class=org-target id=org-target--applystow></span></h3><p>This calls either &ldquo;<code>stow -t /</code>&rdquo; or &ldquo;<code>stow -t $HOME</code>&rdquo;, depending if we execute a
+root or user apply unit.</p><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>2024-04-16</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../categories/config>config</a>
+<a class=rss type=application/rss+xml href=../../categories/config/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/linux>linux</a>
+<a class=rss type=application/rss+xml href=../../tags/linux/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
