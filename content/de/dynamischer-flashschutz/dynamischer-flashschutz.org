@@ -8,7 +8,6 @@
 #+AUTHOR: Holger Schurig
 #+OPTIONS: ^:nil \n:t
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
-#+HUGO_BASE_DIR: ~/src/hpg/
 
 
 # Copyright (c) 2024 Holger Schurig
