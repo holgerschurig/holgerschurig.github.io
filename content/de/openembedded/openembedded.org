@@ -143,7 +143,7 @@ Zukunft von OpenEmbedded gesichert. Wenn ich mir heute Stellenanzeigen in
 Die folgenden Projekte verwenden OpenEmbedded:
 
 - {{{relref(MNCI: Handterminal mit ARM (Intel PXA320),mnci)}}}
-- TODO(Artikel schreiben) Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau
+- TODO(Artikel schreiben) Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau
 
 
 * File locals :noexport:

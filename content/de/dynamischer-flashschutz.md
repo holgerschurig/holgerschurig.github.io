@@ -227,7 +227,7 @@ Die folgenden Projekte verwenden den Flash-Schutz bzw. gehen auf ihn ein: <br/>
 -   [ Combined-Linux: ein Image für viele Geräte ]({{< relref "combined-linux" >}}) <br/>
 -   TODO(Artikel schreiben) GUI Konfiguration: config + configwriter <br/>
 -   TODO(Artikel schreiben) Image-Verteilung mit SSDP-Agent <br/>
--   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau <br/>
+-   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau <br/>
 -   TODO(Artikel schreiben) Linux Restore Stick <br/>
 -   TODO(Artikel schreiben) Hardware-Teststick für DLT-V83/DLT-V72 <br/>
 -   TODO(Artikel schreiben) Hardware-Teststick für DLT-V73 <br/>

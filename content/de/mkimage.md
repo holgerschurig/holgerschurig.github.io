@@ -398,7 +398,7 @@ erstellte Image testbar.
 Die folgenden Projekte verwenden mkimage direkt oder ähnlich:
 
 -   [ Combined-Linux: ein Image für viele Geräte ]({{< relref "combined-linux" >}})
--   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX&amp; RISC Prozessor für den Tagebau
+-   TODO(Artikel schreiben) Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau
 -   TODO(Artikel schreiben) Linux Restore Stick
 -   [ Hardware-Teststick für DLT-V83/DLT-V72 ]({{< relref "hwtester" >}})
 -   TODO(Artikel schreiben) Hardware-Teststick für DLT-V73

@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
 
-* Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau
+* Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: de
 :EXPORT_FILE_NAME: de/mkarm.md

@@ -1,5 +1,5 @@
 +++
-title = "Linux-Image auf Basis von i.MX& RISC Prozessor für den Tagebau"
+title = "Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau"
 author = ["Holger Schurig"]
 date = 2024-01-22
 tags = ["arm", "can", "embedded", "imx6", "linux", "openembedded", "qemu-user-static"]
