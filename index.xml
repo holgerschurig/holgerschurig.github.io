@@ -3,30 +3,8 @@ Der Aufkleber von Aldi nennt sie auch &amp;ldquo;WS 0306-W&amp;rdquo;. und wie m
 (bzw. den externen Sensor) in Home-Assistant einbinden kann.&lt;/p></description></item><item><title>Home-Assistant: Bresser Außensensor</title><link>https://holgerschurig.github.io/de/bresser-eurochron/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/bresser-eurochron/</guid><description>&lt;p>Hier geht es um eine 433 MHz Sensor für Temperatur / Luftfeuchte
 &amp;ldquo;BRESSER 8-Kanal-Thermo-Hygro-Sensor&amp;rdquo;&lt;/p>
 &lt;p>&amp;hellip; und auch darum, wie man einen Außensensor durch einen
-Template-Senser in Zusammenarbeit mit dem Home-Assistant &amp;ldquo;Weather
-Forecast&amp;rdquo; ersetzen kann :-)&lt;/p></description></item><item><title>Home-Assistant: IKEA Steckdose Tradfri E1703</title><link>https://holgerschurig.github.io/de/ikea-steckdose-e1703/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/ikea-steckdose-e1703/</guid><description>&lt;p>Hier geht es um den IKEA Steckdose &amp;ldquo;Tradfri&amp;rdquo; E1703.&lt;/p>
-&lt;p>morek&lt;/p>
-&lt;div class="ox-hugo-toc toc">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;a href="#abmessungen-zu-gro%C3%9F">Abmessungen - zu groß!&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#einkauf">Einkauf&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#einbindung-in-home-assistant-problemlos">Einbindung in Home-Assistant - problemlos!&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#schaltverhalten-gut">Schaltverhalten - gut!&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#verbrauchsmessung-fehlt">Verbrauchsmessung - fehlt!&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#zigbee-mesh">Zigbee Mesh&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#kaufempfehlung">Kaufempfehlung?&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;h2 id="abmessungen-zu-groß">Abmessungen - zu groß!&lt;/h2>
-&lt;p>Die Steckdose ist ein Koloss:&lt;/p>
-&lt;figure>&lt;img src="./ox-hugo/e1703_unten.jpeg">
-&lt;/figure>
-
-&lt;p>Sie ist 5 x 10 cm (breit x lang). Wer sie in eine Mehrfachsteckdose
-reinsteckt hat &amp;mdash; der hat links und rechts von ihr ein Problem. Oder,
-je nach Lage der Steckdosenlöcher gleich mehrere Dosen abgedeckt.&lt;/p></description></item><item><title>Home-Assistant: Neo Steckdose WR10B</title><link>https://holgerschurig.github.io/de/neo-steckdose-wr10bh/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/neo-steckdose-wr10bh/</guid><description>&lt;p>Hier geht es um den Steckdose von mediarath.de, genannt &amp;ldquo;Neo WR10BH&amp;rdquo;.&lt;/p></description></item><item><title>Home-Assistant: Tuya Temperature Humidity Sensor</title><link>https://holgerschurig.github.io/de/tuya-wsd500a/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/tuya-wsd500a/</guid><description>&lt;p>Hier geht es um den &amp;ldquo;Tuya Temperature Humidity Sensor&amp;rdquo;&lt;/p></description></item><item><title> Home-Assistant: Heizkörper-Thermostat "Moes BRT-100-TRV"</title><link>https://holgerschurig.github.io/de/moes-thermostat-brt100trv/</link><pubDate>Mon, 02 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/moes-thermostat-brt100trv/</guid><description>&lt;p>Hier geht es um den Zigbee-Heizkörper-Thermostat (&amp;ldquo;TRV&amp;rdquo;) Moes
+Template-Sensor in Zusammenarbeit mit dem Home-Assistant &amp;ldquo;Weather
+Forecast&amp;rdquo; ersetzen kann :-)&lt;/p></description></item><item><title>Home-Assistant: IKEA Steckdose Tradfri E1703</title><link>https://holgerschurig.github.io/de/ikea-steckdose-e1703/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/ikea-steckdose-e1703/</guid><description>&lt;p>Hier geht es um den IKEA Steckdose &amp;ldquo;Tradfri&amp;rdquo; E1703.&lt;/p></description></item><item><title>Home-Assistant: Neo Steckdose WR10B</title><link>https://holgerschurig.github.io/de/neo-steckdose-wr10bh/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/neo-steckdose-wr10bh/</guid><description>&lt;p>Hier geht es um den Steckdose von mediarath.de, genannt &amp;ldquo;Neo WR10BH&amp;rdquo;.&lt;/p></description></item><item><title>Home-Assistant: Tuya Temperature Humidity Sensor</title><link>https://holgerschurig.github.io/de/tuya-wsd500a/</link><pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/tuya-wsd500a/</guid><description>&lt;p>Hier geht es um den &amp;ldquo;Tuya Temperature Humidity Sensor&amp;rdquo;&lt;/p></description></item><item><title> Home-Assistant: Heizkörper-Thermostat "Moes BRT-100-TRV"</title><link>https://holgerschurig.github.io/de/moes-thermostat-brt100trv/</link><pubDate>Mon, 02 Dec 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/de/moes-thermostat-brt100trv/</guid><description>&lt;p>Hier geht es um den Zigbee-Heizkörper-Thermostat (&amp;ldquo;TRV&amp;rdquo;) Moes
 BRT-100-TRV. Also Zigbee-Modell wird &amp;ldquo;TS0601&amp;rdquo; angezeigt.&lt;/p>
 &lt;p>Vor allem aber geht es darum, warum man es nicht kaufen sollte :-/&lt;/p></description></item><item><title>Dotfiles (and setup)</title><link>https://holgerschurig.github.io/en/dotfiles/</link><pubDate>Tue, 16 Apr 2024 00:00:00 +0000</pubDate><guid>https://holgerschurig.github.io/en/dotfiles/</guid><description>&lt;p>Normally dotfile repositories contain:&lt;/p>
 &lt;ul>
