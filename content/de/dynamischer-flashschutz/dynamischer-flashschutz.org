@@ -1,10 +1,3 @@
-:PROPERTIES:
-:EXPORT_HUGO_SECTION: en
-:EXPORT_FILE_NAME: filename
-:EXPORT_DATE: 2024-01-17
-:EXPORT_HUGO_TAGS:
-:EXPORT_HUGO_CATEGORIES:
-:END:
 #+AUTHOR: Holger Schurig
 #+OPTIONS: ^:nil \n:t
 #+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
