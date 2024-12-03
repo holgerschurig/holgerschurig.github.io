@@ -11,7 +11,7 @@ Hier geht es um eine 433 MHz Sensor für Temperatur / Luftfeuchte
 "BRESSER 8-Kanal-Thermo-Hygro-Sensor"
 
 ... und auch darum, wie man einen Außensensor durch einen
-Template-Senser in Zusammenarbeit mit dem Home-Assistant "Weather
+Template-Sensor in Zusammenarbeit mit dem Home-Assistant "Weather
 Forecast" ersetzen kann :-)
 
 <!--more-->

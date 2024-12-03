@@ -279,14 +279,14 @@ WANTSMIN = 20
 WANTSMAX = 65
 
 def acpitz():
-	...
+  ...
 def coretemp():
-	...
+  ...
 
 if hwmatch("M7I??A??"):
-	value = acpitc()
+  value = acpitc()
 else:
-	value = coretemp()
+  value = coretemp()
 
 if value < WANTSMIN:
         error("CPU temperature too low: %.1f °C" % value)

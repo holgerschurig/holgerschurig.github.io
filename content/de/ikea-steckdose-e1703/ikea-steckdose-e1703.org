@@ -16,7 +16,7 @@
 
 Hier geht es um den IKEA Steckdose "Tradfri" E1703.
 
-#+hugo: morek
+#+hugo: more
 #+toc: headlines 3
 
 ** Abmessungen - zu groß!

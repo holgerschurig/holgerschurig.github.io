@@ -122,14 +122,6 @@ Werten übertragen, sondern abgestufter:
 Und da die relative Luftfeuchte direkt mit der Temperatur
 zusammenhängt machen die Abstufungen auch Sinn.
 
-Hier mal aus der Historie nach einem Stoßlüften:
-
-{{< figure src="/ox-hugo/wsd500a-luftfeuchte_stosslüften.png" >}}
-
-Hier ist nach dem Stoßlüften vermutlich Luftfeuchte vom Rest-Haus in
-den Hobby-Raum gekommen. Dessen Tür war ja auf und ich habe eine
-Gemüsesuppe gekocht.
-
 Insgesamt habe ich derzeit 5 Sensoren installiert:
 
 -   Hobbyraum (Keller, beheizt)

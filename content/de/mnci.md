@@ -261,5 +261,5 @@ Erfolg stellte sich nicht ein. <br/>
 Die folgenden Projekte sind verwandt mit diesem Projekt: <br/>
 
 -   [ OpenEmbedded ]({{< relref "openembedded" >}}) <br/>
--   TODO(Artikel schreiben) WLAN-Treiber "Libertas"
+-   TODO(Artikel schreiben) WLAN-Treiber "Libertas" <br/>
 
