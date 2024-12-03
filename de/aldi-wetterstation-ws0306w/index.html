@@ -1,0 +1,119 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.139.3"><title>Home-Assistant: Aldi Wetterstation WS0306W &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>Home-Assistant: Aldi Wetterstation WS0306W</h1><h2></h2></div><div class=content><p>Hier geht es um eine Wetterstation &ldquo;Krontaler Digitale Wetterstation&rdquo;.
+Der Aufkleber von Aldi nennt sie auch &ldquo;WS 0306-W&rdquo;. und wie man sie
+(bzw. den externen Sensor) in Home-Assistant einbinden kann.</p><div class="ox-hugo-toc toc"><div class=heading>Table of Contents</div><ul><li><a href=#einkauf>Einkauf</a></li><li><a href=#anzeige-schlecht>Anzeige - schlecht!</a></li><li><a href=#uhrzeit>Uhrzeit</a></li><li><a href=#batterien>Batterien</a></li><li><a href=#anbindung-an-home-assistant>Anbindung an Home-Assistant</a><ul><li><a href=#proxmoxx>Proxmoxx</a></li><li><a href=#rtl-433-nur-zum-testen>rtl_433 - nur zum Testen</a></li><li><a href=#rtl-433-addon>rtl_433 Addon</a></li><li><a href=#mosquitto-broker--mqtt-server>Mosquitto Broker (MQTT Server)</a></li><li><a href=#rtl-433-mqtt-auto-discovery-nicht-aktivieren>rtl_433 MQTT Auto Discovery - nicht aktivieren!</a></li><li><a href=#entities-in-home-assistant-erzeugen>Entities in Home-Assistant erzeugen</a></li></ul></li><li><a href=#temperaturmesser-zu-oft>Temperaturmesser - zu oft!</a></li><li><a href=#feuchtigkeitsmesser-zu-oft>Feuchtigkeitsmesser - zu oft!</a></li><li><a href=#batteriekapazit%C3%A4tsmesser-unbrauchbar>Batteriekapazitätsmesser - unbrauchbar!</a></li><li><a href=#nutzung>Nutzung</a></li><li><a href=#kaufempfehlung>Kaufempfehlung?</a></li></ul></div><h2 id=einkauf>Einkauf</h2><p>Ich habe die unten abgebildete Wetterstation selbst bei Aldi gekauft
+(kein Artikel bei mir ist irgendwie gesponsort).</p><p>Das war im Frühjahr, wenn ich mich recht erinnere. Leider erinnere ich
+mich auch nicht an den Preis, aber teuer war es nicht. Eine ähnliche
+Wetterstation findet man aktuell für 13 EUR im Online-Shop von Aldi.</p><p>Hier sieht man die Basisstation und den zweiten, externen Sensor. Und
+dieser machte das Gerät für Home-Assistant interessant!</p><figure><img src=../../ox-hugo/ws0306w.jpeg></figure><h2 id=anzeige-schlecht>Anzeige - schlecht!</h2><p>Was ist der Unterschied zwischen dem vorherigen Bild und den nächsten?
+Der Aufnahmewinkel.</p><p>Die Anzeige ist gut zu lesen, wenn man von schräg oben guckt.
+Beispielsweise wenn man steht und die Wetterstation auf einem
+Sideboard steht.</p><p>Man kann sie auch an die Wand hängen &mldr; aber tut man das in
+Augenhöhe, kann man die angezeigten Daten nur sehr schlecht sehen.
+Eine Kontrast-Einstellung, die manche Geräte mit LCD-Display haben,
+fehlt hier leider.</p><p>Mit einer nagelneuen Batterie ist die Anzeige besser &mdash; aber nur für
+3 Woche. Danach ist die Anzeige Monatelang mau:</p><figure><img src=../../ox-hugo/ws0306w-mau.jpeg></figure><p>Die Batterien innen sind übrigens gleich frisch wie die im
+Batterietester steckende.</p><p>Außerdem sieht man unschwer, das das Display stark spiegelt. Die
+Kamera verstärkt dies zwar, aber auch in echt ist das ebenfalls
+deutlich.</p><p>An sich sind zu viele Elemente auf dem Display. Wenn man nur mal immer
+wieder mal draufguckt, braucht es Zeit, um sich bei den vielen
+angezeigten Dingen zu orientieren. Im Gegenuhrzeigersinn:</p><ul><li>Datum (via DCF77)</li><li>Tag (via DCF77)</li><li>Uhrzeit (via DCF77)</li><li>Sonnenaufgang (errechnet)</li><li>Sonnenuntergang (errechnet)</li><li>Stadt</li><li>Mondphase (errechnet)</li><li>Temperatur / Luftfeuchte innen</li><li>irgendein Grinsegesicht</li><li>Temperatur / Luftfeuchte vom zweiten Sensor</li><li>Kanal des zweiten Sensors</li></ul><h2 id=uhrzeit>Uhrzeit</h2><p>In beiden Fotos ist Datum und Uhrzeit noch falsch. Für die Fotos habe
+ich erst zwei nagelneue Batterien eingestzt (um gescheiten Kontrast
+hinzukriegen) und dann wieder die vorherigen (um den &ldquo;Normalzustand&rdquo;
+zu dokumentieren).</p><p>Ich habe dann aber nicht die ein, zwei Minuten gewartet, bis (via
+DCF77) <strong>die Uhrzeit automatisch gesetzt</strong> wird.</p><p>Auch bei Sommerzeit / Winterzeit musste ich nicht machen. Ein
+deutlicher Vorteil z.B. gegen meinem Herd von &ldquo;Bosch&rdquo;.</p><h2 id=batterien>Batterien</h2><p>Es werden 2 AAA Batterien gebraucht.</p><p>Diese müssen für optimale Anzeige vollgeladen sein. Sonst wird die
+Anzeige mau.</p><p>Vollgeladene NiMH-Akkus haben eine leicht geringere Zellenspannung als
+Wegwerfbatterien. Auch mit ihnen sieht die Anzeige mau aus.</p><h2 id=anbindung-an-home-assistant>Anbindung an Home-Assistant</h2><h3 id=proxmoxx>Proxmoxx</h3><p>Der RTL-SDR Stick ist ein USB-Gerät. Da ich mein Home-Assistant unter
+Proxmoxx auf einem Intel-NUC laufen lasse, muss ich die USB-Adresse
+des Sticks erst noch in die Home-Assistant VM durchleiten.</p><p>Das geht unter Datacenter -> proxmoxx -> ha VM -> Hardware -> Add USB
+Device -> 0bda:2832</p><p>Danach muss man die VM einmal neu starten.</p><h3 id=rtl-433-nur-zum-testen>rtl_433 - nur zum Testen</h3><p>Nun habe ich mal <a href=https://github.com/merbanan/rtl_433>rtl_433</a> darauf angesetzt. Und siehe da, da kommt ja
+was:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>$ rtl_433 -F log
+</span></span><span style=display:flex><span>rtl_433 version 24.10 (2024-10-30) inputs file rtl_tcp RTL-SDR SoapySDR
+</span></span><span style=display:flex><span>Reading conf from &#34;/home/holger/.config/rtl_433/rtl_433.conf&#34;.
+</span></span><span style=display:flex><span>Detached kernel driver
+</span></span><span style=display:flex><span>Found Rafael Micro R820T tuner
+</span></span><span style=display:flex><span>SDR: Using device 0: Generic, RTL2832U, SN: 77771111153705700, &#34;Generic RTL2832U&#34;
+</span></span><span style=display:flex><span>Exact sample rate is: 250000.000414 Hz
+</span></span><span style=display:flex><span>[R82XX] PLL not locked!
+</span></span><span style=display:flex><span>Allocating 15 zero-copy buffers
+</span></span><span style=display:flex><span>c{&#34;time&#34; : &#34;2024-12-03T12:07:29.766387+0100&#34;, &#34;model&#34; : &#34;Nexus-TH&#34;, &#34;id&#34; : 23, &#34;channel&#34; : 1, &#34;battery_ok&#34; : 1, &#34;temperature_C&#34; : 23.100, &#34;humidity&#34; : 39}
+</span></span></code></pre></div><h3 id=rtl-433-addon>rtl_433 Addon</h3><p>Addons sind Docker-Container für Home-Assistants &ldquo;HAOS&rdquo; bzw. dessen
+Supervisor.</p><p>Man findet das Addon auf
+<a href=https://github.com/pbkhrv/rtl_433-hass-addons/>https://github.com/pbkhrv/rtl_433-hass-addons/</a> &mdash; dort ist auch die
+Installation beschrieben.</p><p>Ich habe mir das aber viel einfacher gemacht. Ich habe nämlich meine
+Konfigurationsdatei angelegt und dementsprechend auch keine
+Konfigurationsdatei im Konfigurations-Screen vom rtl_433 Addon
+eingegeben:</p><figure><img src=../../ox-hugo/ws0306w-rtl-sdr-addon.png></figure><p>Damit werden schon Daten das externen Senders empfangen. Man braucht
+dann aber noch den &mldr;</p><h3 id=mosquitto-broker--mqtt-server>Mosquitto Broker (MQTT Server)</h3><p>Dieser wird gemäß
+<a href=https://github.com/home-assistant/addons/tree/master/mosquitto>https://github.com/home-assistant/addons/tree/master/mosquitto</a>
+installiert &mdash; wahrscheinlich hat man das aber sowieso schon, wenn
+man Zigbee2MQTT verwendet.</p><h3 id=rtl-433-mqtt-auto-discovery-nicht-aktivieren>rtl_433 MQTT Auto Discovery - nicht aktivieren!</h3><p>&mldr; sollte <strong>nicht</strong> installiert werden. Zumindest dann nicht, wenn man
+nicht irgendwelche Ghost-Entities von vorbeifahrenden Autos in
+Home-Assistant haben möchte.</p><p>Wenn ich beispielsweise mit dem <a href=https://mqtt-explorer.com/>MQTT Explorer</a> installiere, dann sehe
+kann ich in Home-Assistant in allen veröffentlichten Topics browsen:</p><figure><img src=../../ox-hugo/ws0306w-mqtt-explorer.png></figure><p>Man sieht dort jede Menge von Geräten. Nun könnte ich zwar rtl_433 via
+Konfigurationsdatei beibringen, nur bestimmte Protokolle zu machen.
+Ich mag aber diese Liste von erkannten Geräten &ndash; zumindest in
+Mosquitto.</p><h3 id=entities-in-home-assistant-erzeugen>Entities in Home-Assistant erzeugen</h3><p>Aber wie gelangt dann das &ldquo;richige&rdquo; Topic nach Home-Assistant? Mit
+diesem Eintrag in <code>configuration.yaml</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>homeassistant:
+</span></span><span style=display:flex><span>  packages: !include_dir_named packages
+</span></span></code></pre></div><p>und einer Datei =packages/device_temphum_nexus_th1.yaml:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span># https://www.home-assistant.io/integrations/sensor.mqtt/
+</span></span><span style=display:flex><span># https://www.home-assistant.io/integrations/binary_sensor.mqtt/
+</span></span><span style=display:flex><span># https://pictogrammers.com/library/mdi/
+</span></span><span style=display:flex><span>mqtt:
+</span></span><span style=display:flex><span>  - sensor:
+</span></span><span style=display:flex><span>    - name: &#34;Nexus TH1 Temperatur&#34;
+</span></span><span style=display:flex><span>      state_topic: &#34;rtl_433/9b13b3f4-rtl433/devices/Nexus-TH/1/23/temperature_C&#34;
+</span></span><span style=display:flex><span>      unit_of_measurement: &#34;°C&#34;
+</span></span><span style=display:flex><span>      payload_available: &#34;online&#34;
+</span></span><span style=display:flex><span>      payload_not_available: &#34;offline&#34;
+</span></span><span style=display:flex><span>    - name: &#34;Nexus TH1 Luftfeuchte&#34;
+</span></span><span style=display:flex><span>      state_topic: &#34;rtl_433/9b13b3f4-rtl433/devices/Nexus-TH/1/23/humidity&#34;
+</span></span><span style=display:flex><span>      unit_of_measurement: &#34;%&#34;
+</span></span><span style=display:flex><span>      icon: &#34;mdi:water-percent&#34;
+</span></span><span style=display:flex><span>    - name: &#34;Nexus TH1 Batterie:&#34;
+</span></span><span style=display:flex><span>      state_topic: &#34;rtl_433/9b13b3f4-rtl433/devices/Nexus-TH/1/23/battery_ok&#34;
+</span></span><span style=display:flex><span>      icon: &#34;mdi:battery&#34;
+</span></span></code></pre></div><p>Dies &ldquo;per Hand&rdquo; zu machen hat noch einen zweiten wichtigen Vorteil:
+beim Batteriewechsel des externen Sensors ändert sich dessen Adresse.
+Es wird dann nicht mehr &ldquo;9b13b3f4-rtl433&rdquo; veröffentlicht, sondern mit
+einem anderen Hexwert.</p><p>Dadürch würde bei einer Auto-Erkennung die Entität in Home-Assistant
+sich ändern.</p><p>History-Daten und Automationen wären kaputt.</p><p>Mit meiner Lösung sehe ich im MQTT-Explorer das neue Topic, passe die
+YAML-Datei an und lade diese dann neu.</p><h2 id=temperaturmesser-zu-oft>Temperaturmesser - zu oft!</h2><p>Ich beurteile hier mal nur die Temperaturanzeige des externen Sensors.
+Die Wetterstation selbst sendet ja nicht!</p><figure><img src=../../ox-hugo/ws0306w-temperatur.png></figure><p>Der externe Sensor sendet als nicht nur volle Wärmegrade, sondern
+abgestuft auf 0.1 °C. Allerdings hat er wenig (oder keine?) Hysterese
+einprogrammiert, er sendet also u.U. sehr kurz hintereinander 22.1,
+22.0, 22.1, 22.0, 22.1 &mdash; das wird nicht so gut für die
+Batterielaufzeit sein.</p><p>Im Vergleich mit anderen Thermometern erscheinen die Werte genau.</p><h2 id=feuchtigkeitsmesser-zu-oft>Feuchtigkeitsmesser - zu oft!</h2><figure><img src=../../ox-hugo/ws0306w-luftfeuchte.png></figure><p>Hier wird in vollen Schritten übertragen, was vollkommen in Ordnung
+ist.</p><p>Aber auch hier werden oft sehr kurz hintereinander Updates geschickt,
+ohne Hysterese. Das könnte man besser machen!</p><h2 id=batteriekapazitätsmesser-unbrauchbar>Batteriekapazitätsmesser - unbrauchbar!</h2><p>Diese ist <strong>total unbrauchbar</strong>. Sie kennt nur &ldquo;battery_ok: 1&rdquo;. Also
+100%.</p><p>Auch mit ziemlich leeren Batterien aus der Grabbelkiste habe ich kein
+&ldquo;battery_ok: 0&rdquo; hinbekommen.</p><figure><img src=../../ox-hugo/ws0306w-batterie.png></figure><p>Ich ziehe Angaben zwischen 0 und 100% da deutlich vor. Sogar wenn die
+Prozentangabe bei NiMH-Akkus nicht stimmen sollte.</p><h2 id=nutzung>Nutzung</h2><p>Ich nutze</p><ul><li>die Daten dieses Sensors</li><li>zusammen mit einem Außensensor</li><li>und dem HACS-Plugin &ldquo;Thermal Comfort&rdquo;</li></ul><p>zur Entscheidung &ldquo;Lüften oder nicht?&rdquo;. Das HACS-Plugin erlaubt es
+recht einfach, aus Temperatur + relativer Luftfeuchtigkeit die
+absolute Luftfeuchtigkeit bzw. den Taupunkt zu berechnen. Und wenn man
+diese beiden für innen und außen berechneten Werte vergleicht, kann
+man sehr gut feststellen, ob man sich mit Lüften Feuchtigkeit ins Haus
+holen würde.</p><h2 id=kaufempfehlung>Kaufempfehlung?</h2><p>Wenn man spielen will: ja</p><p>Wenn man eine Anzeige auch ohne Home-Assistant haben will und mit dem
+schlechtem Display leben kann: ja</p><p>Wenn man noch keinen RTL-SDR Stick hat: nein</p><p>Stattdessen besser den Zigbee <a href>Tuya Temperature Humidity Sensor </a>nutzen.</p><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>2024-12-03</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../categories/home-assistant>home-assistant</a>
+<a class=rss type=application/rss+xml href=../../categories/home-assistant/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/wetterstation>Wetterstation</a>
+<a class=rss type=application/rss+xml href=../../tags/wetterstation/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/temperatur>Temperatur</a>
+<a class=rss type=application/rss+xml href=../../tags/temperatur/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/luftfeuchte>Luftfeuchte</a>
+<a class=rss type=application/rss+xml href=../../tags/luftfeuchte/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/rtl_433>rtl_433</a>
+<a class=rss type=application/rss+xml href=../../tags/rtl_433/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/rtl-sdr>rtl-sdr</a>
+<a class=rss type=application/rss+xml href=../../tags/rtl-sdr/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/home-assistant>Home-Assistant</a>
+<a class=rss type=application/rss+xml href=../../tags/home-assistant/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script><script src=../../js/math-code.js></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

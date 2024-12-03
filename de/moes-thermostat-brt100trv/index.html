@@ -1,0 +1,87 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.139.3"><title>Home-Assistant: Heizkörper-Thermostat "Moes BRT-100-TRV"
+&#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>Home-Assistant: Heizkörper-Thermostat "Moes BRT-100-TRV"</h1><h2></h2></div><div class=content><p>Hier geht es um den Zigbee-Heizkörper-Thermostat (&ldquo;TRV&rdquo;) Moes
+BRT-100-TRV. Also Zigbee-Modell wird &ldquo;TS0601&rdquo; angezeigt.</p><p>Vor allem aber geht es darum, warum man es nicht kaufen sollte :-/</p><div class="ox-hugo-toc toc"><div class=heading>Table of Contents</div><ul><li><a href=#einkauf-seltsamer-h%C3%A4ndler>Einkauf - seltsamer Händler!</a></li><li><a href=#einbindung-in-home-assistant-problemlos>Einbindung in Home-Assistant - problemlos!</a></li><li><a href=#anzeige>Anzeige</a></li><li><a href=#batterien-flexibel>Batterien - flexibel!</a></li><li><a href=#heizk%C3%B6rper-anschluss>Heizkörper-Anschluss</a></li><li><a href=#justierung-unklar>Justierung - unklar</a></li><li><a href=#temperaturmesser-unbrauchbar>Temperaturmesser &mdash; unbrauchbar!</a></li><li><a href=#sensor-f%C3%BCr-l%C3%BCftung-fenster%C3%B6ffnung-funktionslos>Sensor für Lüftung / Fensteröffnung: funktionslos!</a></li><li><a href=#lautst%C3%A4rke-super>Lautstärke - super!</a></li><li><a href=#stellverhalten-nutzlos-wg-dot-daten>Stellverhalten - nutzlos wg. Daten!</a></li><li><a href=#firmware-update>Firmware-Update</a></li><li><a href=#kaufempfehlung>Kaufempfehlung?</a></li></ul></div><p>&ldquo;TRV&rdquo; steht übrigens für &ldquo;Thermostatic Radiator Valve&rdquo;.</p><h2 id=einkauf-seltsamer-händler>Einkauf - seltsamer Händler!</h2><p>Ich habe den Thermostat bei Aliexpress im Shop &ldquo;MoesHouse Official
+Store&rdquo; gekauft. Ein TRV hat hat mich ungefähr 28.99 EUR gekostet.</p><p>In der folgenden Kommunikation von GLS (dem Paketdienstleister) und
+auch auf dem Versandlabel des Paketes stand dann nur &ldquo;Online Seller&rdquo;.
+<strong>Ohne jede Adresse</strong>.</p><h2 id=einbindung-in-home-assistant-problemlos>Einbindung in Home-Assistant - problemlos!</h2><p>Das Gerät wird per Zigbee angebunden.</p><p>Ich verwende nicht ZHA, sondern Zigbee2MQTT und das hat den Thermostat
+<strong>problemlos erkannt</strong>.</p><p>Die Assoziation startet übrigens automatisch sobald Batteriestrom da
+ist. Also sollte man u.U. Zigbee2MQTT via Handy auf &ldquo;Anlernen&rdquo;
+schalten, bevor man die Batterie einsetzt. (Generell sollte man
+Zigbee-Devices ja nur an ihrem echten Einsatzort in das Netzwerk
+einbinden, so werden sie gleich von Anfang an an die passende
+Zigbee-Bridge angeflanscht.)</p><p>Siehe auch: <a href=https://www.zigbee2mqtt.io/devices/BRT-100-TRV.html>https://www.zigbee2mqtt.io/devices/BRT-100-TRV.html</a></p><h2 id=anzeige>Anzeige</h2><figure><img src=../../ox-hugo/brt100trv-montiert.jpeg></figure><p>Man sieht, das die <strong>Anzeige an der Stirnseite</strong> ist. Das wäre für die
+meisten Haushalte wohl eher schlecht. Da wäre eine um 180° drehbare
+Anzeige an der Rundung wohl besser.</p><p>Für mich persönlich ist das aber nicht schlimm. Denn die Anzeige wird
+m.E. durch Zigbee &ldquo;mehr als ersetz&rdquo;, man hat mit Zigbee +
+Home-Assistent viel mehr, als man durch die Anzeige hätte (wenn das
+Gerät denn richtig messen würde, siehe unten &mldr;).</p><ul><li>man hat <strong>bessere Einstellmöglichkeiten</strong>, ohne sich durch
+Setup-Menüs quälen zu müssen</li><li>da die Entitäten nach Home-Assistant exportiert werden, hat
+man dort volle Gestaltungsmöglichkeiten in Dashboards. Oder
+Skipten. Oder Automatisierungen.</li><li>dort hat man auch Statistikfunktionen, und sei es nur der eingebaute
+Zeitreihen-Graph</li></ul><p>Auszug aus Zigbee2MQTT:</p><figure><img src=../../ox-hugo/brt100trv-zigbee2mqtt.png></figure><p>Es kommt noch etwa eine halbe Bildschirmseite weiterer
+Einstellmöglichkeiten, also das Gerät exportiert wirklich recht
+umfangreich!</p><p>Auch im Home-Assistant sind es viele, dort tauchen 17 Entitäten auf.
+Ich verwende davon allerdings bisher nur ein Bruchteil &mdash; und
+verglichen mit den heftigen Nachteilen dieses TRV wird sich da wohl
+auch nicht ändern.</p><h2 id=batterien-flexibel>Batterien - flexibel!</h2><p>Es werden 3 Batterien vom Typ &ldquo;AA&rdquo; benötigt. Was ich für einen Vorteil
+erachte gegenüber Sonderformen. Denn diese Batterien bekommt man nicht
+nur als Wegwerfartikel, sondern auch aufladbar (z.B. als NiMH).</p><p>Leider hatte ich gerade keine NiMH da, also kamen drei
+Wegwerfbatterien rein.</p><p>LiIon-Akkus, über USB wären vielleicht auch ganz gut &mldr; ich will von
+denen aber nicht zuviele im Haus haben, weil diese ja ein gewissen
+Brandrisiko in sich bergen.</p><p>Die Batteriekapazität wird in Protent übertragen, mit einer
+Schrittweite von einem halben Prozent, was ich <strong>positiv</strong> sehe:</p><figure><img src=./batterie.png></figure><p>(andere Geräte etwa wechseln zwischen 0% und 100% in einem Schritt)</p><h2 id=heizkörper-anschluss>Heizkörper-Anschluss</h2><p>Ich habe von meinem alten Heizkörper den Thermostat abgeschraubt und
+mir das Ventil angeschaut.</p><figure><img src=../../ox-hugo/brt100trv-ventil.jpeg></figure><p>Und im Handbuch vom BRT-100-TRV sind auch einige Ventile abgebildet.
+Jedoch &mldr; sie sehen nicht so aus, wie mein Ventil:</p><figure><img src=../../ox-hugo/brt100trv-ventile.jpeg></figure><p>Für diese 6 Typen gibt es auch Plastikadapter. Ich ich habe total
+geschwommen, was denn nun der richtige wäre.</p><figure><img src=../../ox-hugo/brt100trv-ventile2.jpeg></figure><p>Am ehesten passte dann die &ldquo;Herz&rdquo; - Variante &mldr; aber welche der
+beiden unterschiedlich langen Plastiknippel? Dieser Teil im Handbuch
+ist <strong>schlecht beschrieben</strong>, finde ich.</p><h2 id=justierung-unklar>Justierung - unklar</h2><p>Der Thermostat muss also sich auf die Länge des Ventil-Nippels
+einstellen. Aber wie? Justiert sich der Thermostat von selbst ein? Wie
+startet man diese Justage? Wie überprüft man sie? Beim Einschalten
+redet das Handbuch von &ldquo;F1&rdquo; auf dem Display, und dann &ldquo;F2&rdquo; ebendort.</p><p>Ist der &ldquo;F1&rdquo;-Modus dies der Justage-Modes? Oder &ldquo;F2&rdquo;-Modus?</p><p>Das Englisch der Anleitung ganz okay (also kein Chenglisch) &mldr; aber
+<strong>solche Details werden nicht erklärt</strong>.</p><h2 id=temperaturmesser-unbrauchbar>Temperaturmesser &mdash; unbrauchbar!</h2><p>Die Temperatur wird nur in vollen Graden gemessen, nicht in
+Zehntelgrad. Das finde ich schonmal <strong>schlecht</strong>.</p><p>Aber, schlimmer noch: vermutlich wird die Temperatur <strong>falsch</strong> gemessen:</p><figure><img src=../../ox-hugo/brt100trv-temperatur.png></figure><ul><li>der Messwort soll angeblich 19°C sein. Das zeigt keines meiner
+anderen Thermometer im Esszimmer oder Wohnzimmer (derselbe Raum).
+Die zeigen ca 22°C an. Das Haus hat ein Wärmedämmverbundsystem, also
+wird es auch an der Außenwand nicht gleich 3 Kelvin kälter sein &mdash;
+zumal in unmittelbarer Nähe zum Heizkörper.</li><li>sicher, es gibt eine &mdash; vom Hersteller vollkommen undokumentierte!
+&mdash; Temperatur-Kalibration in Zigbee2MQTT. Aber an sich erwarte ich,
+das ein Gerät ab Werk korrekte Temperaturwerte anzeigt. &ldquo;Tante Erna&rdquo;
+wird schwerlich über Zigbee das Gerät kalibrieren können. Das sie es
+überhaupt muss ist an sich schon <strong>schlecht</strong>.</li><li>laut Zigbee2MQTT wurde das Gerät zuletzt vor 3 Stunden gesehen &mldr;</li><li>&mldr; aber die 19°C bestehen angeblich seit 17 Stunden??! Der
+Thermostat meint also, seit 17 Stunde wäre nie gelüftet worden, die
+Tag/Nachtregelung der Heizung wäre nicht aktiv? (andere Thermometer
+zeigen durchaus Temperaturänderungen von mehr als 1 Kelvin an)</li></ul><p><strong>Das ganze ist so unerquicklich das ein mechanischer Thermostat mit
+Bimetall eigentlich besser ist</strong>.</p><h2 id=sensor-für-lüftung-fensteröffnung-funktionslos>Sensor für Lüftung / Fensteröffnung: funktionslos!</h2><p>Ein geöffnetes Fenster wird auch <strong>nicht erkannt</strong>, obwohl dies via
+Zigbee2MQTT aktiviert wurde.</p><p>Warum kann man das überhaupt abschalten &mldr; wer&rsquo;s nicht braucht, würde
+den entsprechenden Sensor halt einfach nicht in eine Anzeige packen
+und nicht in eine Automatisierung packen!</p><p>Hier die Doku: draußen ist es gerade 4°C kalt. Und wenn ich auf allen
+Stockwerken die Fenster öffne, wird im Haus wg. Bernoulli-Effekt sehr
+schnell die Luft ausgetauscht. Die Temperatur ändert sich sehr
+schnell. Aber der Sensor dafür des BRT-100-TRV zeigt das nicht an:</p><figure><img src=../../ox-hugo/brt100trv-fenster.png></figure><h2 id=lautstärke-super>Lautstärke - super!</h2><p>Unhörbar!</p><h2 id=stellverhalten-nutzlos-wg-dot-daten>Stellverhalten - nutzlos wg. Daten!</h2><figure><img src=../../ox-hugo/brt100trv-stellverhalten.png></figure><p>Jeweils nach 5 Minuten scheint der Thermostat eine neue Entscheidung
+zu fällen.</p><p>Er stellt das Ventil jedoch <strong>nicht stetig</strong> ein, sondern hat einige
+wenige diskrete Stellungen für die Ventilöffnung.</p><p>Es ist aber vollkommen unklar, warum manchmal gestellt wird. Wie
+sollte sich um 3 Uhr nachts die Temperatur so stark ändern, das man
+nachregeln muss (da habe ich schon einige Stunden geschlafen &mldr;):</p><figure><img src=../../ox-hugo/brt100trv-3uhr-position.png></figure><p>Okay, der Temperatursensor hat gemeint, das sich die Temperatur
+schlagartig um 2 K abgesenkt hat:</p><figure><img src=../../ox-hugo/brt100trv-3uhr-temperatur.png></figure><p>Aber das entspricht nicht der Wahrheit. Andere Temperatursensoren
+zeigten nichts derartiges an.</p><h2 id=firmware-update>Firmware-Update</h2><p>Der Reiter &ldquo;OTA&rdquo; von Zigbee2MQTT bietet mir für dieses Gerät kein
+Firmware-Update an.</p><h2 id=kaufempfehlung>Kaufempfehlung?</h2><p>Ein kräftiges <strong>Nein</strong>, ich würde mir diese TRVs nicht nochmal kaufen
+und rate das auch keinem anderen.</p><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
+<time>2024-12-02</time></div><div><i class="fa fa-folder fa-fw"></i>
+<a class=post-taxonomy-topic href=../../categories/home-assistant>home-assistant</a>
+<a class=rss type=application/rss+xml href=../../categories/home-assistant/index.xml><span class="fa fa-rss">RSS</span></a></div><div><i class="fa fa-tags fa-fw"></i>
+<a class=post-taxonomy-tag href=../../tags/heizk%C3%B6rper>Heizkörper</a>
+<a class=rss type=application/rss+xml href=../../tags/heizk%C3%B6rper/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/trv>TRV</a>
+<a class=rss type=application/rss+xml href=../../tags/trv/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/zigbee>Zigbee</a>
+<a class=rss type=application/rss+xml href=../../tags/zigbee/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/moes>Moes</a>
+<a class=rss type=application/rss+xml href=../../tags/moes/index.xml><span class="fa fa-rss">RSS</span></a>
+&nbsp;/
+<a class=post-taxonomy-tag href=../../tags/brt-100-trv>BRT-100-TRV</a>
+<a class=rss type=application/rss+xml href=../../tags/brt-100-trv/index.xml><span class="fa fa-rss">RSS</span></a></div></div></div></div></div><script src=../../js/ui.js></script><script src=../../js/menus.js></script></body></html>
