@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.124.1"><title>Linux &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta name=generator content="Hugo 0.139.3"><title>Linux &#183; Holger Schurig's Computer Calisthenics & Orthodontia</title>
 <link rel=stylesheet href=../../css/pure-min.css><!--[if lte IE 8]><link rel=stylesheet href=../../css/grids-responsive-old-ie-min.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/grids-responsive-min.css><!--<![endif]--><!--[if lte IE 8]><link rel=stylesheet href=../../css/side-menu-old-ie.css><![endif]--><!--[if gt IE 8]><!--><link rel=stylesheet href=../../css/side-menu.css><!--<![endif]--><link rel=stylesheet href=../../css/blackburn.css><link rel=stylesheet href=../../css/all.min.css><link rel=alternate type=application/rss+xml title="Holger Schurig's Computer Calisthenics & Orthodontia" href=../../index.xml><link rel="shortcut icon" href=../../img/favicon.ico type=image/x-icon></head><body><div id=layout><a href=#menu id=menuLink class=menu-link><span></span></a><div id=menu><div class=pure-menu><ul class=pure-menu-list><li class=pure-menu-item><a class=pure-menu-link href=../../><i class='fa fa-home fa-fw'></i>Home</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../en/><i class='fa fa-list fa-fw'></i>Articles</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../de/><i class='fa fa-list fa-fw'></i>Beiträge</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../categories/><i class='fa fa-folder fa-fw'></i>Categories</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../tags/><i class='fa fa-tags fa-fw'></i>Tags</a></li><li class=pure-menu-item><a class=pure-menu-link href=../../impressum/><i class='fa fa-phone fa-fw'></i>Impressum</a></li></ul></div></div><div id=main><div class=header><h1>Linux</h1></div><div class=content><article><header><h2><a href=../../en/hugo-and-mastodon-comments/>Comment static hugo blog entry with Mastodon</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
 License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
 <time>2022-12-14</time></div><div><i class="fa fa-folder fa-fw"></i>
@@ -38,10 +38,12 @@ License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY
 <a class=rss type=application/rss+xml href=../../tags/wayland/index.xml><span class="fa fa-rss">RSS</span></a>
 &nbsp;/
 <a class=post-taxonomy-tag href=../../tags/dotfiles>dotfiles</a>
-<a class=rss type=application/rss+xml href=../../tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>In my Sway configuration I have two lines that start an application in a specific way:
-bindsym Mod4+e exec ~/.config/sway/run-or-raise Emacs emacs bindsym Mod4+w exec ~/.config/sway/run-or-raise Firefox firefox What does this do?
-First, the &ldquo;exec&rdquo; clause calls a python script, run-or-raise.
-This python scripts wants two arguments. The first one is a container name. It uses swaymsg -t get_tree to get all outputs, work spaces and containers. And then it looks for any container (that is: application, Wayland client) that matches the name.</p><footer><a href=../../en/sway-run-or-raise/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/sway-default-layout/>Sway: default initial layout</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+<a class=rss type=application/rss+xml href=../../tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>In my <a href=https://github.com/holgerschurig/dotfiles/blob/master/sway/.config/sway/config>Sway configuration</a> I have two lines that start an application in a specific way:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>bindsym Mod4+e exec ~/.config/sway/run-or-raise Emacs emacs
+</span></span><span style=display:flex><span>bindsym Mod4+w exec ~/.config/sway/run-or-raise Firefox firefox
+</span></span></code></pre></div><p>What does this do?</p><p>First, the &ldquo;exec&rdquo; clause calls a python script, <a href=https://github.com/holgerschurig/dotfiles/blob/master/sway/.config/sway/run-or-raise>run-or-raise</a>.</p><p>This python scripts wants two arguments. The first one is a container name. It
+uses <code>swaymsg -t get_tree</code> to get all outputs, work spaces and containers. And
+then it looks for any container (that is: application, Wayland client) that
+matches the name. This match is actually done case insensitive.</p></p><footer><a href=../../en/sway-run-or-raise/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/sway-default-layout/>Sway: default initial layout</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
 License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
 <time>2022-12-13</time></div><div><i class="fa fa-folder fa-fw"></i>
 <a class=post-taxonomy-topic href=../../categories/linux>Linux</a>
@@ -53,10 +55,17 @@ License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY
 <a class=rss type=application/rss+xml href=../../tags/wayland/index.xml><span class="fa fa-rss">RSS</span></a>
 &nbsp;/
 <a class=post-taxonomy-tag href=../../tags/dotfiles>dotfiles</a>
-<a class=rss type=application/rss+xml href=../../tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>When I start Sway, I&rsquo;d like to have Emacs on the left side of workspace 1, and a terminal (here Alacritty) on the right side, Unfortunately, this ~/.config/sway/config except won&rsquo;t work:
-exec emacs exac alacritty Because alacritty starts much faster than Emacs. So I&rsquo;d get the terminal on the right side of the screen. And Emacs on the left. Not good.
-Instead, I do this:
-exec emacs for_window [class="^Emacs$"] exec sh -c 'pgrep -x alacritty >/dev/null || alacritty' for_window [app_id="^emacs$"] exec sh -c 'pgrep -x alacritty >/dev/null || alacritty' That is, I start Emacs.</p><footer><a href=../../en/sway-default-layout/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/awesome-4.0-titlebars/>AwesomeWM: about title bars and toggling them</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+<a class=rss type=application/rss+xml href=../../tags/dotfiles/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>When I start Sway, I&rsquo;d like to have Emacs on the left side of workspace 1, and a terminal (here Alacritty)
+on the right side, Unfortunately, this <code>~/.config/sway/config</code> except won&rsquo;t work:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>exec emacs
+</span></span><span style=display:flex><span>exac alacritty
+</span></span></code></pre></div><p>Because alacritty starts much faster than Emacs. So I&rsquo;d get the terminal on the right side of the screen.
+And Emacs on the left. Not good.</p><p>Instead, I do this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>exec emacs
+</span></span><span style=display:flex><span>for_window [class=&#34;^Emacs$&#34;] exec sh -c &#39;pgrep -x alacritty &gt;/dev/null || alacritty&#39;
+</span></span><span style=display:flex><span>for_window [app_id=&#34;^emacs$&#34;] exec sh -c &#39;pgrep -x alacritty &gt;/dev/null || alacritty&#39;
+</span></span></code></pre></div><p>That is, I start Emacs. And I add two <code>for_window</code> rules that fire when an Sway
+container with the named criteria is created. The first line is for Emacs
+compiled for X11. And the second line would fire if your Emacs is compiled for
+PGTK, which you should only do when you run Emacs under Wayland.</p></p><footer><a href=../../en/sway-default-layout/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/awesome-4.0-titlebars/>AwesomeWM: about title bars and toggling them</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
 License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
 <time>2017-01-22</time></div><div><i class="fa fa-folder fa-fw"></i>
 <a class=post-taxonomy-topic href=../../categories/linux>Linux</a>
@@ -131,10 +140,10 @@ License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY
 <a class=rss type=application/rss+xml href=../../tags/hugo/index.xml><span class="fa fa-rss">RSS</span></a>
 &nbsp;/
 <a class=post-taxonomy-tag href=../../tags/blogging>Blogging</a>
-<a class=rss type=application/rss+xml href=../../tags/blogging/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p>I wrote my home page with various tools &mldr;
-Pure HTML At the beginning, I used HTML and .shtml include files
-Apache was told to process html include files, and I had the boilerplate and bottom in such files and included them from the per-page HTML files.
-Webber Later I switched to Webber. That was a python written open-source software that I published on gitorious.org. The original gitorious is now down, but you find the git tree still at https://gitorious.</p><footer><a href=../../en/blogging-with-hugo/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/serial-setup-with-ckermit/>Serial setup with C-Kermit</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
+<a class=rss type=application/rss+xml href=../../tags/blogging/index.xml><span class="fa fa-rss">RSS</span></a></div></div></header><p><p>I wrote my home page with various tools &mldr;</p><h2 id=pure-html>Pure HTML</h2><p>At the beginning, I used HTML and <code>.shtml</code> include files</p><p>Apache was told to process html include files, and I had the boilerplate and bottom in such
+files and included them from the per-page HTML files.</p><h2 id=webber>Webber</h2><p>Later I switched to Webber. That was a python written open-source software that I published
+on gitorious.org. The original gitorious is now down, but you find the git tree still at
+<a href=https://gitorious.org/webber/webber>https://gitorious.org/webber/webber</a>, where an archive team resurrected the public git trees.</p></p><footer><a href=../../en/blogging-with-hugo/>Read more<i class="fa fa-angle-double-right fa-fw"></i></a></footer></article><article><header><h2><a href=../../en/serial-setup-with-ckermit/>Serial setup with C-Kermit</a></h2><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
 License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
 <time>2016-04-01</time></div><div><i class="fa fa-folder fa-fw"></i>
 <a class=post-taxonomy-topic href=../../categories/linux>Linux</a>
