@@ -13,6 +13,9 @@ pygmentscodefences: true
 pygmentscodefencesguesssyntax: true
 canonifyurls: true
 
+ignoreFiles:
+- \.org$
+
 markup:
   goldmark:
     renderer:
