@@ -55,9 +55,12 @@ The full Makefile is accessible as <br/>
 
 ### Make sure you have all dependencies installed {#make-sure-you-have-all-dependencies-installed}
 
-Execution: either "`make init`" or, as a single step, "`make debs`". <br/>
+The project setup happens automatically as soon as you try to build for one of <br/>
+the support boards, e.g. with "`make nucleo`". <br/>
 
 How? <br/>
+
+Let's look at the first makefile part: <br/>
 
 ```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--1ebb54 }
 UID := $(shell id -u)
@@ -140,7 +143,7 @@ How? <br/>
 PWD := $(shell pwd)
 
 .PHONY:: venv
-init venv:: .west/stamp.debs
+venv:: .west/stamp.debs
 ifeq ("$(wildcard .venv/bin/activate)","")
 	python3 -m venv $(PWD)/.venv
 endif
@@ -194,7 +197,6 @@ How? <br/>
 
 ```text
 .PHONY:: west
-init:: .west/config
 west .west/config:
 	@type west >/dev/null || pip3 install west pyelftools
 	mkdir -p .west
@@ -203,9 +205,13 @@ west .west/config:
 
 Actually this does 3 steps: <br/>
 
--   install west <br/>
--   install pyelftools (needed on Debian Bookworm, as the distro provided ones are too old) <br/>
+-   install west if it isn't yet available <br/>
+-   install pyelftools (needed on Debian Bookworm, as the distro provided ones are <br/>
+    too old) <br/>
 -   configure Zephyr via "`.west/config`" <br/>
+
+Note that other parts of the Makefile can depend on west being installed by <br/>
+simply depending on this "`.west/config`" file. <br/>
 
 
 ### Install Zephyr {#install-zephyr}
@@ -220,11 +226,10 @@ Execution: either “make init” or, as a single step, “make zephyr”. <br/>
 
 How? <br/>
 
-```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--802ce8 }
+```text { linenos=true, anchorlinenos=true, lineanchors=org-coderef--abe3d6 }
 #ZEPHYR_VERSION=zephyr-v3.5.0-3531-g6564e8b756
 
 .PHONY:: zephyr
-init:: zephyr/.git/HEAD
 zephyr zephyr/.git/HEAD:
 	git clone https://github.com/zephyrproject-rtos/zephyr.git
 ifneq ("$(ZEPHYR_VERSION)", "")
@@ -236,16 +241,21 @@ ifneq ("$(wildcard patches-zepyhr/series)","")
 endif
 ```
 
+Again, other makefile parts can depend on Zepyhr being installed by simply <br/>
+depending on "`zephyr/.git/HEAD`". <br/>
+
 The first step is a typical "`git clone`". If you don't care about Zephyr's <br/>
 commit history (e.g., you don't want to run things like "`git log`" or "`git
 blame`"), you can also add "`--depth 1`". This reduces the size of the cloned <br/>
 "`zephyr/`" directory. <br/>
 
-**Specific version**: you can uncommend and modify ZEPHYR_VERSION in line [1](#org-coderef--802ce8-1) to your liking. <br/>
-This will pin Zephyr to the specified version. This is done by creating a branch "`my`" <br/>
-in line [7](#org-coderef--802ce8-7). <br/>
+**Specific version**: you can uncommend and modify ZEPHYR_VERSION in line <br/>
+[1](#org-coderef--abe3d6-1) to your liking. This will pin Zephyr to the specified version. This <br/>
+is done by creating a branch "`my`" in line [6](#org-coderef--abe3d6-6). <br/>
 
 BTW, the value of ZEPHYR_VERSION is the output of "`git describe --tags`". <br/>
+
+Try "v3.6.0" for example. <br/>
 
 Background: when should you start to lock Zephyr? This depends on your <br/>
 circumstances. When a project is still in EVT phase, I tend to follow Zephyr <br/>
@@ -258,8 +268,8 @@ be accepted by upstream Zephyr. I could put them directly into Zephyr, in my own
 branch ... but I prefer to have them in my own GIT project. So I use the <br/>
 "`quilt`" tool to manage a stack of patches. <br/>
 
-The existence of quilt patches is checked in line [10](#org-coderef--802ce8-10) and, if they <br/>
-exist, line [12](#org-coderef--802ce8-12) rolls them in. <br/>
+The existence of quilt patches is checked in line [9](#org-coderef--abe3d6-9) and, if they <br/>
+exist, line [11](#org-coderef--abe3d6-11) rolls them in. <br/>
 
 **Final note**: It's worth mentioning that due to version pinning and local <br/>
 patches, we intentionally don't use "`west init`" in this step. <br/>
@@ -277,32 +287,29 @@ How? <br/>
 
 ```text
 .PHONY:: modules
+help::
+	@echo "   modules            install Zeyphr modules (e.g. STM32 and ESP32 HAL, CMSIS ...)"
 
-init:: modules/hal/stm32/.git/HEAD
-.PHONY:: module_stm32
-update modules module_stm32 modules/hal/stm32/.git/HEAD:: .west/config
-	mkdir -p modules
-	west update hal_stm32
-	touch --no-create modules/hal/stm32/.git/HEAD
-
-init:: modules/hal/st/.git/HEAD
-.PHONY:: module_st
-update modules module_st modules/hal/st/.git/HEAD:: .west/config
-	mkdir -p modules
-	west update hal_st
-	touch --no-create modules/hal/st/.git/HEAD
-
-init:: modules/hal/cmsis/.git/HEAD
 .PHONY:: module_cmsis
-update modules module_cmsis modules/hal/cmsis/.git/HEAD:: .west/config
+modules module_cmsis modules/hal/cmsis/.git/HEAD:: .west/config
 	mkdir -p modules
 	west update cmsis
 	touch --no-create modules/hal/cmsis/.git/HEAD
+help::
+	@echo "     module_cmsis     update only CMSIS"
+ifneq ("$(wildcard modules/hal/cmsis/.git/HEAD)","")
+update::
+	west update cmsis
+endif
 ```
 
-As usual, I made the Makefile so that "`make init`" only pulls in the modules <br/>
-once. However "`make modules`" will always pull them in, should the vendor have <br/>
-changed them. <br/>
+The section with "cmsis" is copied again, but then with "hal_espressif", "hal_st" and "hal_stm32". <br/>
+
+And any board target should now simply depend on these modules it needs. For <br/>
+example, "native" (using Zephyr's native_sim) doesn't need anything. "nucleo" <br/>
+needs cmsis, hal_st and hal_stm32. And "esp32c3" needs only hal_espressif. So <br/>
+they should just declare the relevant "`.../.git/HEAD`" files as their <br/>
+dependency. <br/>
 
 Theoretically one could pin the modules also to specific version, like in the <br/>
 step above. I however noticed that they are quite stable and this was never <br/>
@@ -324,28 +331,32 @@ see all the common makefile targets meant for users. Like so: <br/>
 
 ```text
 (.venv) holger@holger:~/src/multi-board-zephyr$ make -f Makefile.zephyr_init help
-init                  do all of these steps:
-   debs               only install debian packages
-   venv               create and check Python3 virtual environment
-   west               install and configure the 'west' tool
-   zephyr             clone Zephyr
-   modules            install Zeyphr modules (e.g. ST and STM32 HAL, CMSIS ...)
-     module_stm32     update only STM32 HAL
-     module_st        update only ST HAL
-     module_cmsis     update only CMSIS
+debs                  only install debian packages
+venv                  create and check Python3 virtual environment
+west                  install and configure the 'west' tool
+update                update 'west' and downloaded modules
+zephyr                clone Zephyr
+modules               install Zeyphr modules (e.g. STM32 and ESP32 HAL, CMSIS ...)
+   module_cmsis       update only CMSIS
+   module_espressif   update only ESPRESSIF HAL (ESP-32)
+   module_st          update only ST HAL
+   module_stm32       update only STM32 HAL
 ```
 
 
 ## All of the above {#all-of-the-above}
 
-The individual targets like "`make venv`" or "`make debs`" are mostly only for <br/>
-debugging. Once you know they are working, simply run: "`make init`". <br/>
+All of the above targets from "`Makefile.zephyr_init`" are only there for <br/>
+debugging. So that you can execute each of them by itself. Normally you just ask <br/>
+the Makefile to compile for your selected boards after you cloned this <br/>
+repository. It will then download the needed things for this all by itself. <br/>
 
 
 ## Using this makefile in your project {#using-this-makefile-in-your-project}
 
-You can simply add your own clauses at the end of this Makefile ... your you can include it from <br/>
-a main Makefile. This is demonstrated in the Github project <https://github.com/holgerschurig/zephyr-multi-board/>: <br/>
+You can simply add your own clauses at the end of this Makefile ... your you can <br/>
+include it from a main Makefile. This is demonstrated in the Github project <br/>
+<https://github.com/holgerschurig/zephyr-multi-board/>: <br/>
 
 Main "`Makefile`" <br/>
 
@@ -383,15 +394,5 @@ helps it's dependency resolvement engine, and is good style. My makefile uses <b
 Finally, we use Make's "`include`" clause to include our boilerplate Makefile. <br/>
 
 You could also run the Boilerplate makefile itself, with "`make -f
-Makefile.zephyr_init`", e.g. for debugging purposes. But oh ... now PWD and UID <br/>
-aren't set. So at the top of this makefile I set these variables if they don't exist: <br/>
-
-```text
-ifeq ($(PWD),"")
-PWD := $(shell pwd)
-endif
-ifeq ($(UID),"")
-UID := $(shell id -u)
-endif
-```
+Makefile.zephyr_init`", e.g. for debugging purposes. <br/>
 
