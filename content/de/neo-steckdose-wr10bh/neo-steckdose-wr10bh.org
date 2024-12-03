@@ -1,0 +1,79 @@
+#+AUTHOR: Holger Schurig
+#+OPTIONS: ^:nil
+#+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
+
+# Copyright (c) 2024 Holger Schurig
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+* Home-Assistant: Neo Steckdose WR10B
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: de
+:EXPORT_FILE_NAME: de/neo-steckdose-wr10bh.md
+:EXPORT_DATE: 2024-12-03
+:EXPORT_HUGO_CATEGORIES: home-assistant
+:EXPORT_HUGO_TAGS: Steckdose Zigbee Nea WR10BH E1703
+:END:
+
+Hier geht es um den Steckdose von mediarath.de, genannt "Neo WR10BH".
+
+#+hugo: more
+#+toc: headlines 3
+
+** Abmessungen
+
+Der Durchmesser liegt bei knapp unter 5.9 cm. Der Teil, der aus der
+Steckdose guckt ist ca. 5 cm groß.
+
+[[./wr10bh.jpeg]]
+
+
+** Einkauf
+
+Ich habe die Steckdose bei mediarath.de gekauft, also normaler Kunde.
+Ich bekomme keine Prozente --- überhaupt sind alle meine Artikel
+selbstgekauft, nichts ist irgendwie gesponsort.
+
+Übrigens: alle Zigbee-Artikel bei mediarath.de sind ausnahmslos mit
+Home-Assistant getestet. U.u. flashen sie die Geräte um. Und teuer
+sind sie auch nicht. Letztens hat "smartzeug" auf Youtube etwas
+vorgestellt, Black-Friday-Aktion angeblich. Ein äquivalenter Artikel
+war dann bei mediarath.de günstiger :-)
+
+
+** Einbindung in Home-Assistant - problemlos!
+
+Das Gerät wird per Zigbee angebunden. Ich habe den Skyconnect Stick
+gekauft. Und am Anfang habe ich die Steckdosen --- problemlos! --- mit
+ZHA betrieben.
+
+Später bin ich dann auf Zigbee2MQTT umgestiegen und auch damit
+funktionieren sie. Sie meldet sich dort als "Tuya TS011F_plug_1", geht
+aber natürlich direkt. Man braucht keinerlei Tuya-App oder Tuya-Cloud.
+
+[[./wr10bh-zigbee2mqtt.png]]
+
+Siehe auch: https://www.zigbee2mqtt.io/devices/TS011F_plug_1.html
+
+
+** Verbrauchsmessung - gut!
+
+Sie ist zwar kleiner als die IKEA Tradfri E1603 ... aber kann dennoch mehr.
+
+U.a. Verbrauchsmessung:
+
+[[./wr10bh-leistung.png]]
+
+
+** Zigbee Mesh
+
+Sie funktioniert übrigens hervorragend, um das Zigbee-Mesh zu
+vergrößern.
+
+
+** Kaufempfehlung?
+
+Klares *Ja!* wenn man Leistungsmessung braucht.
+
+Will man nur schalten, ist womöglich die aktuelle IKEA Trefakt besser,
+weil günstiger.
+

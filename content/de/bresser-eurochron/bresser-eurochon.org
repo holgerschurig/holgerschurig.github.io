@@ -1,0 +1,178 @@
+#+AUTHOR: Holger Schurig
+#+OPTIONS: ^:nil
+#+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
+
+# Copyright (c) 2024 Holger Schurig
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+* Home-Assistant: Bresser Außensensor
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: de
+:EXPORT_FILE_NAME: de/bresser-eurochron.md
+:EXPORT_DATE: 2024-12-03
+:EXPORT_HUGO_CATEGORIES: home-assistant
+:EXPORT_HUGO_TAGS: Bresser Temperatur Luftfeuchte rtl_433 rtl-sdr Home-Assistant
+:END:
+
+Hier geht es um eine 433 MHz Sensor für Temperatur / Luftfeuchte
+"BRESSER 8-Kanal-Thermo-Hygro-Sensor"
+
+... und auch darum, wie man einen Außensensor durch einen
+Template-Sensor in Zusammenarbeit mit dem Home-Assistant "Weather
+Forecast" ersetzen kann :-)
+
+#+hugo: more
+#+toc: headlines 3
+
+
+** Einkauf
+
+Ich habe ihn auf deren Webseite gekauft, weil er dort als
+"Außensensor" beworben wurde. Der Preis war so um die 30€. Ich habe
+das selbst bezahlt. Auf dieser Webseite gibt es keine gesponserten
+Artikel.
+
+Das ist allerdings nicht billig ...verglichen mit Innensensoren. Da
+Bresser einen Sitz in Deutschland hat habe ich mir erhofft, keine
+"Chinaware" zu bekommen. Unten im Fazit steht, ob sich das erfüllt hat.
+
+[[./bresser-eurochon.jpeg]]
+
+(hier sieht man sie unter dem Dach des Gartenhäuschens aufgehängt)
+
+
+** Batterien
+
+Es werden 2 AAA Batterien gebraucht.
+
+Finde ich besser als Spezialbatterien. Oder LiIon-Akkus, solange die
+eine relativ hohe Brandgefahr haben.
+
+
+** Anbindung an Home-Assistant
+
+Man bindet diesen Sensor genauso ein wie den externen Sensor aus dem
+Artikel {{{relref(Home-Assistant: Aldi Wetterstation)}}}.
+
+Deswegen hier nur die YAML-Datei =packages/bresser-eurochron.yaml=:
+
+#+begin_example
+# https://www.home-assistant.io/integrations/sensor.mqtt/
+# https://www.home-assistant.io/integrations/binary_sensor.mqtt/
+# https://pictogrammers.com/library/mdi/
+mqtt:
+  - sensor:
+    - name: "Eurochron EFTH800 Temperatur"
+      state_topic: "rtl_433/9b13b3f4-rtl433/devices/Eurochron-EFTH800/1/1196/temperature_C"
+      unit_of_measurement: "°C"
+      payload_available: "online"
+      payload_not_available: "offline"
+    - name: "Eurochron EFTH800 Luftfeuchte"
+      state_topic: "rtl_433/9b13b3f4-rtl433/devices/Eurochron-EFTH800/1/1196/humidity"
+      unit_of_measurement: "%"
+      icon: "mdi:water-percent"
+    - name: "Eurochron EFTH800 Batterie:"
+      state_topic: "rtl_433/9b13b3f4-rtl433/devices/Eurochron-EFTH800/1/1196/battery_ok"
+      icon: "mdi:battery"
+#+end_example
+
+** Temperaturmesser
+
+[[./bresser-temperatur.png]]
+
+Das sieht gut aus. Nicht nur volle Grad, auch Zwischenwerte. Und die
+Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
+
+** Feuchtigkeitsmesser
+
+*** Eigentlich ...
+
+[[./bresser-luftfeuchte.png]]
+
+Das sieht doch gut aus ... nicht nur volle Grad, auch Zwischenwerte. Und die
+Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
+
+*** Jedoch!
+
+*Oder doch nicht??!?* Die Werte waren nämlich gut ... bis ein wir
+einen Sturm hatten und der Sturm den Außensensor vom Nagel geblasen
+hat. Bis ich es anhand der seltsamen Luftfeuchtigkeit merkte,
+vergingen zwei Tage.
+
+Soviel zum Thema "*Außen*sensor in deutscher Qualität". Meine
+Vermutung ist, das Bresser das einfach nur in China kauft und einen
+eigenen Aufdruck aufs Gehäuse anbringt. :-(
+
+*** Stattdessen
+
+Ich habe mir dann einen Template-Helper erzeugt, um die Luftfeuchte
+nicht mehr vom Sensor zu bekommen, sondern von der Integration
+"Meteorolisk institutt". Es gibt bei mir in der Gegend (in Bad
+Nauheim) auch eine Wetterstation, deren Daten ich einsehen kann. Und
+deren Werte stimmen grob mit dem überein, was "Meterorolisk institutt"
+liefert. Aber was der Bresser-Sensor jetzt liefert ... passt leider
+überhaupt nicht.
+
+So legt man diesen Helfer an:
+
+- Settings
+- Devices & Services
+- Helpers
+- Create helper
+- Template
+- Template a sensor
+- Name eintragen
+- "={{ state_attr('weather.forecast_home','humidity') }}=" als State template
+  template"
+- "%" als "Unit of Measurement"
+- "Humidity" könnte man als" Device class" eintragen, ich habe es allerdings leer
+- "Measurement" könnte man bei "State class" eintragen, ich habe es
+  allerdings leer
+- Device (to link to this entity) lässt man leer
+
+Das ganze sieht dann so aus:
+
+[[./bresser-luftfeuchte_template.png]]
+
+Der Wert 96% oben ist exakt der Wert, die "=weather.forecase_home=" anzeigt:
+
+[[./bresser-weather-forecast-home.png]]
+
+Übrigens könnte man für die Temperatur statt einem Außensensor die
+Werte von "=weather.forecast= abgreifen !
+
+
+** Batteriekapazitätsmesser - unbrauchbar!
+
+Diese ist *total unbrauchbar*. Sie kennt nur 100%.
+
+Auch mit ziemlich leeren Batterien aus der Grabbelkiste habe ich kein
+"battery_ok: 0" hinbekommen.
+
+[[./bresser-batterie.png]]
+
+Ich ziehe Angaben von 0 und 100% *mit Zwischenwerten* da deutlich vor.
+Sogar wenn die Prozentangabe bei NiMH-Akkus nicht stimmen sollte.
+
+
+** Nutzung
+
+Ich nutze
+
+- die Daten des externen Sensors wie in  {{{relref(Home-Assistant:
+  Aldi Wetterstation)}}} beschrieben
+- zusammen mit diesem Außensensor
+- und dem HACS-Plugin "Thermal Comfort"
+
+zur Entscheidung "Lüften oder nicht?". Das HACS-Plugin erlaubt es
+recht einfach, aus Temperatur + relativer Luftfeuchtigkeit die
+absolute Luftfeuchtigkeit bzw. den Taupunkt zu berechnen. Und wenn man
+diese beiden für innen und außen berechneten Werte vergleicht, kann
+man sehr gut feststellen, ob man sich mit Lüften Feuchtigkeit ins Haus
+holen würde.
+
+
+** Kaufempfehlung?
+
+Nö
+
