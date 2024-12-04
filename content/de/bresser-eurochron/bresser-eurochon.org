@@ -90,7 +90,7 @@ Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
 [[./bresser-luftfeuchte.png]]
 
 Das sieht doch gut aus ... nicht nur volle Grad, auch Zwischenwerte. Und die
-Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
+Werte werden zwar prompt, aber auch nicht allzu oft geschickt.
 
 *** Jedoch!
 
@@ -128,7 +128,7 @@ So legt man diesen Helfer an:
 - "Humidity" könnte man als" Device class" eintragen, ich habe es allerdings leer
 - "Measurement" könnte man bei "State class" eintragen, ich habe es
   allerdings leer
-- Device (to link to this entity) lässt man leer
+- "Device (to link to this entity)" lässt man leer
 
 Das ganze sieht dann so aus:
 
@@ -176,3 +176,11 @@ holen würde.
 
 Nö
 
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

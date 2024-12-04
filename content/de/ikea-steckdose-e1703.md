@@ -31,13 +31,13 @@ Hier geht es um den IKEA Steckdose "Tradfri" E1703.
 
 Die Steckdose ist ein Koloss:
 
-{{< figure src="/ox-hugo/e1703_unten.jpeg" >}}
+{{< figure src="./e1703_unten.jpeg" >}}
 
 Sie ist 5 x 10 cm (breit x lang). Wer sie in eine Mehrfachsteckdose
 reinsteckt hat --- der hat links und rechts von ihr ein Problem. Oder,
 je nach Lage der Steckdosenlöcher gleich mehrere Dosen abgedeckt.
 
-{{< figure src="/ox-hugo/e1703.jpeg" >}}
+{{< figure src="./e1703.jpeg" >}}
 
 Der Teil, der aus der Steckdose guckt, ist auch fast 3.5cm hoch.
 
@@ -59,7 +59,7 @@ ZHA betrieben.
 Später bin ich dann auf Zigbee2MQTT umgestiegen und auch damit
 funktionieren sie.
 
-{{< figure src="/ox-hugo/e1703-zigbee2mqtt.png" >}}
+{{< figure src="./e1703-zigbee2mqtt.png" >}}
 
 Siehe auch: <https://www.zigbee2mqtt.io/devices/E1603_E1702_E1708.html>
 
@@ -86,7 +86,7 @@ Nein, denkste, gibts nich!
 Sie funktioniert übrigens hervorragend, um das Zigbee-Mesh zu
 vergrößern.
 
-{{< figure src="/ox-hugo/e1703-mesh.png" >}}
+{{< figure src="./e1703-mesh.png" >}}
 
 
 ## Kaufempfehlung? {#kaufempfehlung}

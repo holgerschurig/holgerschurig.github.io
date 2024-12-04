@@ -30,7 +30,7 @@ Ich habe die Sensoren bei eBay (ich boykottiere Amazon!) gekauft. 2
 Stück von diesen Sensoren für 23.99 EUR.
 
 Der Verkäufer ist shady, nennt sich "vgaydagyg". Wahrscheinlich macht
-er jedesmal einen neuen Buchstabensalat-Account, wenn es schlechte
+er jedes mal einen neuen Buchstabensalat-Account, wenn es schlechte
 Bewertungen gibt. Ich musste den Artikel oder den Verkäufer jedoch
 nicht schlecht bewerten.
 
@@ -74,7 +74,7 @@ so schön auf eine Seite).
 
 Es werden 2 Batterien vom Typ "AAA" benötigt.
 
-Ich habe aber ein NiMH Akkus eingelegt. Diese haben eine niederigere
+Ich habe aber ein NiMH Akkus eingelegt. Diese haben eine niedrigere
 Zellenspannung als Alkaline-Wegwerf-Batterien. Der Sensor funktioniert
 damit einwandfrei. Allerdings startete die Batterie-Kapazitätsanzeige
 bei 87% statt 100%. Aber damit kann ich leben.
@@ -133,3 +133,12 @@ Werte erscheinen mir alle plausibel.
 ** Kaufempfehlung?
 
 Ein kräftiges *Ja*. Bisher die besten Sensoren für den Innenraum.
+
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

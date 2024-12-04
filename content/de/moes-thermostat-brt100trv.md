@@ -68,7 +68,7 @@ Siehe auch: <https://www.zigbee2mqtt.io/devices/BRT-100-TRV.html>
 
 ## Anzeige {#anzeige}
 
-{{< figure src="/ox-hugo/brt100trv-montiert.jpeg" >}}
+{{< figure src="./brt100trv-montiert.jpeg" >}}
 
 Man sieht, das die **Anzeige an der Stirnseite** ist. Das wäre für die
 meisten Haushalte wohl eher schlecht. Da wäre eine um 180° drehbare
@@ -89,7 +89,7 @@ Gerät denn richtig messen würde, siehe unten ...).
 
 Auszug aus Zigbee2MQTT:
 
-{{< figure src="/ox-hugo/brt100trv-zigbee2mqtt.png" >}}
+{{< figure src="./brt100trv-zigbee2mqtt.png" >}}
 
 Es kommt noch etwa eine halbe Bildschirmseite weiterer
 Einstellmöglichkeiten, also das Gerät exportiert wirklich recht
@@ -127,17 +127,17 @@ Schrittweite von einem halben Prozent, was ich **positiv** sehe:
 Ich habe von meinem alten Heizkörper den Thermostat abgeschraubt und
 mir das Ventil angeschaut.
 
-{{< figure src="/ox-hugo/brt100trv-ventil.jpeg" >}}
+{{< figure src="./brt100trv-ventil.jpeg" >}}
 
 Und im Handbuch vom BRT-100-TRV sind auch einige Ventile abgebildet.
 Jedoch ... sie sehen nicht so aus, wie mein Ventil:
 
-{{< figure src="/ox-hugo/brt100trv-ventile.jpeg" >}}
+{{< figure src="./brt100trv-ventile.jpeg" >}}
 
-Für diese 6 Typen gibt es auch Plastikadapter. Ich ich habe total
-geschwommen, was denn nun der richtige wäre.
+Für diese 6 Typen gibt es auch Plastikadapter. Ich habe "total
+geschwommen", was denn nun der richtige wäre.
 
-{{< figure src="/ox-hugo/brt100trv-ventile2.jpeg" >}}
+{{< figure src="./brt100trv-ventile2.jpeg" >}}
 
 Am ehesten passte dann die "Herz" - Variante ... aber welche der
 beiden unterschiedlich langen Plastiknippel? Dieser Teil im Handbuch
@@ -151,7 +151,7 @@ einstellen. Aber wie? Justiert sich der Thermostat von selbst ein? Wie
 startet man diese Justage?  Wie überprüft man sie?  Beim Einschalten
 redet das Handbuch von "F1" auf dem Display, und dann "F2" ebendort.
 
-Ist der "F1"-Modus dies der Justage-Modes? Oder "F2"-Modus?
+Ist der "F1"-Modus der Justage-Modes? Oder "F2"-Modus?
 
 Das Englisch der Anleitung ganz okay (also kein Chenglisch) ... aber
 **solche Details werden nicht erklärt**.
@@ -164,7 +164,7 @@ Zehntelgrad. Das finde ich schonmal **schlecht**.
 
 Aber, schlimmer noch: vermutlich wird die Temperatur **falsch** gemessen:
 
-{{< figure src="/ox-hugo/brt100trv-temperatur.png" >}}
+{{< figure src="./brt100trv-temperatur.png" >}}
 
 -   der Messwort soll angeblich 19°C sein. Das zeigt keines meiner
     anderen Thermometer im Esszimmer oder Wohnzimmer (derselbe Raum).
@@ -200,7 +200,7 @@ Stockwerken die Fenster öffne, wird im Haus wg. Bernoulli-Effekt sehr
 schnell die Luft ausgetauscht. Die Temperatur ändert sich sehr
 schnell. Aber der Sensor dafür des BRT-100-TRV zeigt das nicht an:
 
-{{< figure src="/ox-hugo/brt100trv-fenster.png" >}}
+{{< figure src="./brt100trv-fenster.png" >}}
 
 
 ## Lautstärke - super! {#lautstärke-super}
@@ -210,7 +210,7 @@ Unhörbar!
 
 ## Stellverhalten - nutzlos wg. Daten! {#stellverhalten-nutzlos-wg-dot-daten}
 
-{{< figure src="/ox-hugo/brt100trv-stellverhalten.png" >}}
+{{< figure src="./brt100trv-stellverhalten.png" >}}
 
 Jeweils nach 5 Minuten scheint der Thermostat eine neue Entscheidung
 zu fällen.
@@ -219,15 +219,15 @@ Er stellt das Ventil jedoch **nicht stetig** ein, sondern hat einige
 wenige diskrete Stellungen für die Ventilöffnung.
 
 Es ist aber vollkommen unklar, warum manchmal gestellt wird. Wie
-sollte sich um 3 Uhr nachts die Temperatur so stark ändern, das man
+sollte sich um 4 Uhr nachts die Temperatur so stark ändern, das man
 nachregeln muss (da habe ich schon einige Stunden geschlafen ...):
 
-{{< figure src="/ox-hugo/brt100trv-3uhr-position.png" >}}
+{{< figure src="./brt100trv-3uhr-position.png" >}}
 
 Okay, der Temperatursensor hat gemeint, das sich die Temperatur
 schlagartig um 2 K abgesenkt hat:
 
-{{< figure src="/ox-hugo/brt100trv-3uhr-temperatur.png" >}}
+{{< figure src="./brt100trv-3uhr-temperatur.png" >}}
 
 Aber das entspricht nicht der Wahrheit. Andere Temperatursensoren
 zeigten nichts derartiges an.

@@ -119,8 +119,8 @@ Jedoch ... sie sehen nicht so aus, wie mein Ventil:
 
 [[./brt100trv-ventile.jpeg]]
 
-Für diese 6 Typen gibt es auch Plastikadapter. Ich ich habe total
-geschwommen, was denn nun der richtige wäre.
+Für diese 6 Typen gibt es auch Plastikadapter. Ich habe "total
+geschwommen", was denn nun der richtige wäre.
 
 [[./brt100trv-ventile2.jpeg]]
 
@@ -136,7 +136,7 @@ einstellen. Aber wie? Justiert sich der Thermostat von selbst ein? Wie
 startet man diese Justage?  Wie überprüft man sie?  Beim Einschalten
 redet das Handbuch von "F1" auf dem Display, und dann "F2" ebendort.
 
-Ist der "F1"-Modus dies der Justage-Modes? Oder "F2"-Modus?
+Ist der "F1"-Modus der Justage-Modes? Oder "F2"-Modus?
 
 Das Englisch der Anleitung ganz okay (also kein Chenglisch) ... aber
 *solche Details werden nicht erklärt*.
@@ -204,7 +204,7 @@ Er stellt das Ventil jedoch *nicht stetig* ein, sondern hat einige
 wenige diskrete Stellungen für die Ventilöffnung.
 
 Es ist aber vollkommen unklar, warum manchmal gestellt wird. Wie
-sollte sich um 3 Uhr nachts die Temperatur so stark ändern, das man
+sollte sich um 4 Uhr nachts die Temperatur so stark ändern, das man
 nachregeln muss (da habe ich schon einige Stunden geschlafen ...):
 
 [[./brt100trv-3uhr-position.png]]
@@ -229,3 +229,12 @@ Firmware-Update an.
 
 Ein kräftiges *Nein*, ich würde mir diese TRVs nicht nochmal kaufen
 und rate das auch keinem anderen.
+
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

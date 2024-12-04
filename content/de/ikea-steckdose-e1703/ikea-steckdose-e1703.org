@@ -33,6 +33,7 @@ je nach Lage der Steckdosenlöcher gleich mehrere Dosen abgedeckt.
 
 Der Teil, der aus der Steckdose guckt, ist auch fast 3.5cm hoch.
 
+
 ** Einkauf
 
 Ich habe drei dieser Zigbee-Steckdosen bei IKEA in Frankfurt selbst
@@ -92,3 +93,11 @@ Wäre diese E1603 noch kaufbar, würde ich klar *Nein!* sagen.
 {{{relref(Home-Assistant: Neo Steckdose WR10B)}}} beschriebene
 Steckdose ins Auge fassen.
 
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

@@ -24,7 +24,7 @@ Der Aufkleber von Aldi nennt sie auch "WS 0306-W". und wie man sie
 ** Einkauf
 
 Ich habe die unten abgebildete Wetterstation selbst bei Aldi gekauft
-(kein Artikel bei mir ist irgendwie gesponsort).
+(kein Artikel bei mir ist irgendwie gesponsert).
 
 Das war im Frühjahr, wenn ich mich recht erinnere. Leider erinnere ich
 mich auch nicht an den Preis, aber teuer war es nicht. Eine ähnliche
@@ -81,7 +81,7 @@ angezeigten Dingen zu orientieren. Im Gegenuhrzeigersinn:
 ** Uhrzeit
 
 In beiden Fotos ist Datum und Uhrzeit noch falsch. Für die Fotos habe
-ich erst zwei nagelneue Batterien eingestzt (um gescheiten Kontrast
+ich erst zwei nagelneue Batterien eingesetzt (um gescheiten Kontrast
 hinzukriegen) und dann wieder die vorherigen (um den "Normalzustand"
 zu dokumentieren).
 
@@ -182,7 +182,7 @@ Mosquitto.
 
 *** Entities in Home-Assistant erzeugen
 
-Aber wie gelangt dann das "richige" Topic nach Home-Assistant?  Mit
+Aber wie gelangt dann das "richtige" Topic nach Home-Assistant?  Mit
 diesem Eintrag in =configuration.yaml=:
 
 #+begin_example
@@ -217,7 +217,7 @@ beim Batteriewechsel des externen Sensors ändert sich dessen Adresse.
 Es wird dann nicht mehr "9b13b3f4-rtl433" veröffentlicht, sondern mit
 einem anderen Hexwert.
 
-Dadürch würde bei einer Auto-Erkennung die Entität in Home-Assistant
+Dadurch würde bei einer Auto-Erkennung die Entität in Home-Assistant
 sich ändern.
 
 History-Daten und Automationen wären kaputt.
@@ -293,3 +293,12 @@ schlechtem Display leben kann: ja
 Wenn man noch keinen RTL-SDR Stick hat: nein
 
 Stattdessen besser den Zigbee {{{relref(Tuya Temperature Humidity Sensor)}}} nutzen.
+
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

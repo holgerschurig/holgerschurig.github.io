@@ -25,7 +25,7 @@ Hier geht es um den "Tuya Temperature Humidity Sensor"
 </div>
 <!--endtoc-->
 
-{{< figure src="/ox-hugo/tuya-wsd500a.jpeg" >}}
+{{< figure src="./tuya-wsd500a.jpeg" >}}
 
 Die Verpackung ist etwa 3.7 x 7.5 cm groß. Und der Sensor 2.5 x 7 cm.
 
@@ -36,7 +36,7 @@ Ich habe die Sensoren bei eBay (ich boykottiere Amazon!) gekauft. 2
 Stück von diesen Sensoren für 23.99 EUR.
 
 Der Verkäufer ist shady, nennt sich "vgaydagyg". Wahrscheinlich macht
-er jedesmal einen neuen Buchstabensalat-Account, wenn es schlechte
+er jedes mal einen neuen Buchstabensalat-Account, wenn es schlechte
 Bewertungen gibt. Ich musste den Artikel oder den Verkäufer jedoch
 nicht schlecht bewerten.
 
@@ -70,7 +70,7 @@ Siehe auch: <https://www.zigbee2mqtt.io/devices/WSD500A.html>
 
 In Zigbee2MQTT selbst gibt es keine Einstellungen, nur die Werte.
 
-{{< figure src="/ox-hugo/wsd500a-zigbee2mqtt.png" >}}
+{{< figure src="./wsd500a-zigbee2mqtt.png" >}}
 
 ... aber die sind **gut**!!!   Und die Entitäten, die dann automatisch
 in Home-Assistant angelegt werden sind identisch (nur passen sie nicht
@@ -81,7 +81,7 @@ so schön auf eine Seite).
 
 Es werden 2 Batterien vom Typ "AAA" benötigt.
 
-Ich habe aber ein NiMH Akkus eingelegt. Diese haben eine niederigere
+Ich habe aber ein NiMH Akkus eingelegt. Diese haben eine niedrigere
 Zellenspannung als Alkaline-Wegwerf-Batterien. Der Sensor funktioniert
 damit einwandfrei. Allerdings startete die Batterie-Kapazitätsanzeige
 bei 87% statt 100%. Aber damit kann ich leben.
@@ -91,7 +91,7 @@ Schrittweite von ... keine Ahnung. Habe die Teile seit einem Monat und
 sie zeigen konstant 87% an. Vielleicht sind die 1100 mAh des Akku
 Overkill.
 
-{{< figure src="/ox-hugo/wsd500a-batterie.png" >}}
+{{< figure src="./wsd500a-batterie.png" >}}
 
 
 ## Temperaturmesser --- gut! {#temperaturmesser-gut}
@@ -101,7 +101,7 @@ Die Temperatur wird nur in Zehntel-Graden gemessen und prompt
 
 Auf dem Bild sieht das recht wild aus ...
 
-{{< figure src="/ox-hugo/wsd500a-temperatur.png" >}}
+{{< figure src="./wsd500a-temperatur.png" >}}
 
 ... aber in Wirklichkeit ist das gut. Ich nutze den Hobby-Raum gerade
 nicht. Es gibt also keine Einflüsse durch mich. Im Prinzip sieht man
@@ -117,7 +117,7 @@ einer Temperaturdifferenz von lediglich 0.5 Kelvin.
 Auch dies sieht gut aus. Die Luftfeuchte wird nicht nur in vollen
 Werten übertragen, sondern abgestufter:
 
-{{< figure src="/ox-hugo/wsd500a-luftfeuchte.png" >}}
+{{< figure src="./wsd500a-luftfeuchte.png" >}}
 
 Und da die relative Luftfeuchte direkt mit der Temperatur
 zusammenhängt machen die Abstufungen auch Sinn.

@@ -47,7 +47,7 @@ Das ist allerdings nicht billig ...verglichen mit Innensensoren. Da
 Bresser einen Sitz in Deutschland hat habe ich mir erhofft, keine
 "Chinaware" zu bekommen. Unten im Fazit steht, ob sich das erfüllt hat.
 
-{{< figure src="/ox-hugo/bresser-eurochon.jpeg" >}}
+{{< figure src="./bresser-eurochon.jpeg" >}}
 
 (hier sieht man sie unter dem Dach des Gartenhäuschens aufgehängt)
 
@@ -90,7 +90,7 @@ mqtt:
 
 ## Temperaturmesser {#temperaturmesser}
 
-{{< figure src="/ox-hugo/bresser-temperatur.png" >}}
+{{< figure src="./bresser-temperatur.png" >}}
 
 Das sieht gut aus. Nicht nur volle Grad, auch Zwischenwerte. Und die
 Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
@@ -101,10 +101,10 @@ Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
 
 ### Eigentlich ... {#eigentlich-dot-dot-dot}
 
-{{< figure src="/ox-hugo/bresser-luftfeuchte.png" >}}
+{{< figure src="./bresser-luftfeuchte.png" >}}
 
 Das sieht doch gut aus ... nicht nur volle Grad, auch Zwischenwerte. Und die
-Werte werden zwar prompt, aber auch nicht allzuoft geschickt.
+Werte werden zwar prompt, aber auch nicht allzu oft geschickt.
 
 
 ### Jedoch! {#jedoch}
@@ -144,15 +144,15 @@ So legt man diesen Helfer an:
 -   "Humidity" könnte man als" Device class" eintragen, ich habe es allerdings leer
 -   "Measurement" könnte man bei "State class" eintragen, ich habe es
     allerdings leer
--   Device (to link to this entity) lässt man leer
+-   "Device (to link to this entity)" lässt man leer
 
 Das ganze sieht dann so aus:
 
-{{< figure src="/ox-hugo/bresser-luftfeuchte_template.png" >}}
+{{< figure src="./bresser-luftfeuchte_template.png" >}}
 
 Der Wert 96% oben ist exakt der Wert, die "`weather.forecase_home`" anzeigt:
 
-{{< figure src="/ox-hugo/bresser-weather-forecast-home.png" >}}
+{{< figure src="./bresser-weather-forecast-home.png" >}}
 
 Übrigens könnte man für die Temperatur statt einem Außensensor die
 Werte von "`weather.forecast` abgreifen !
@@ -165,7 +165,7 @@ Diese ist **total unbrauchbar**. Sie kennt nur 100%.
 Auch mit ziemlich leeren Batterien aus der Grabbelkiste habe ich kein
 "battery_ok: 0" hinbekommen.
 
-{{< figure src="/ox-hugo/bresser-batterie.png" >}}
+{{< figure src="./bresser-batterie.png" >}}
 
 Ich ziehe Angaben von 0 und 100% **mit Zwischenwerten** da deutlich vor.
 Sogar wenn die Prozentangabe bei NiMH-Akkus nicht stimmen sollte.

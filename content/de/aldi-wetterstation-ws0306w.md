@@ -41,7 +41,7 @@ Der Aufkleber von Aldi nennt sie auch "WS 0306-W". und wie man sie
 ## Einkauf {#einkauf}
 
 Ich habe die unten abgebildete Wetterstation selbst bei Aldi gekauft
-(kein Artikel bei mir ist irgendwie gesponsort).
+(kein Artikel bei mir ist irgendwie gesponsert).
 
 Das war im Frühjahr, wenn ich mich recht erinnere. Leider erinnere ich
 mich auch nicht an den Preis, aber teuer war es nicht. Eine ähnliche
@@ -50,7 +50,7 @@ Wetterstation findet man aktuell für 13 EUR im Online-Shop von Aldi.
 Hier sieht man die Basisstation und den zweiten, externen Sensor. Und
 dieser machte das Gerät für Home-Assistant interessant!
 
-{{< figure src="/ox-hugo/ws0306w.jpeg" >}}
+{{< figure src="./ws0306w.jpeg" >}}
 
 
 ## Anzeige - schlecht! {#anzeige-schlecht}
@@ -70,7 +70,7 @@ fehlt hier leider.
 Mit einer nagelneuen Batterie ist die Anzeige besser --- aber nur für
 3 Woche. Danach ist die Anzeige Monatelang mau:
 
-{{< figure src="/ox-hugo/ws0306w-mau.jpeg" >}}
+{{< figure src="./ws0306w-mau.jpeg" >}}
 
 Die Batterien innen sind übrigens gleich frisch wie die im
 Batterietester steckende.
@@ -99,7 +99,7 @@ angezeigten Dingen zu orientieren. Im Gegenuhrzeigersinn:
 ## Uhrzeit {#uhrzeit}
 
 In beiden Fotos ist Datum und Uhrzeit noch falsch. Für die Fotos habe
-ich erst zwei nagelneue Batterien eingestzt (um gescheiten Kontrast
+ich erst zwei nagelneue Batterien eingesetzt (um gescheiten Kontrast
 hinzukriegen) und dann wieder die vorherigen (um den "Normalzustand"
 zu dokumentieren).
 
@@ -169,7 +169,7 @@ Konfigurationsdatei angelegt und dementsprechend auch keine
 Konfigurationsdatei im Konfigurations-Screen vom rtl_433 Addon
 eingegeben:
 
-{{< figure src="/ox-hugo/ws0306w-rtl-sdr-addon.png" >}}
+{{< figure src="./ws0306w-rtl-sdr-addon.png" >}}
 
 Damit werden schon Daten das externen Senders empfangen. Man braucht
 dann aber noch den ...
@@ -192,7 +192,7 @@ Home-Assistant haben möchte.
 Wenn ich beispielsweise mit dem [MQTT Explorer](https://mqtt-explorer.com/) installiere, dann sehe
 kann ich in Home-Assistant in allen veröffentlichten Topics browsen:
 
-{{< figure src="/ox-hugo/ws0306w-mqtt-explorer.png" >}}
+{{< figure src="./ws0306w-mqtt-explorer.png" >}}
 
 Man sieht dort jede Menge von Geräten. Nun könnte ich zwar rtl_433 via
 Konfigurationsdatei beibringen, nur bestimmte Protokolle zu machen.
@@ -202,7 +202,7 @@ Mosquitto.
 
 ### Entities in Home-Assistant erzeugen {#entities-in-home-assistant-erzeugen}
 
-Aber wie gelangt dann das "richige" Topic nach Home-Assistant?  Mit
+Aber wie gelangt dann das "richtige" Topic nach Home-Assistant?  Mit
 diesem Eintrag in `configuration.yaml`:
 
 ```text
@@ -237,7 +237,7 @@ beim Batteriewechsel des externen Sensors ändert sich dessen Adresse.
 Es wird dann nicht mehr "9b13b3f4-rtl433" veröffentlicht, sondern mit
 einem anderen Hexwert.
 
-Dadürch würde bei einer Auto-Erkennung die Entität in Home-Assistant
+Dadurch würde bei einer Auto-Erkennung die Entität in Home-Assistant
 sich ändern.
 
 History-Daten und Automationen wären kaputt.
@@ -251,7 +251,7 @@ YAML-Datei an und lade diese dann neu.
 Ich beurteile hier mal nur die Temperaturanzeige des externen Sensors.
 Die Wetterstation selbst sendet ja nicht!
 
-{{< figure src="/ox-hugo/ws0306w-temperatur.png" >}}
+{{< figure src="./ws0306w-temperatur.png" >}}
 
 Der externe Sensor sendet als nicht nur volle Wärmegrade, sondern
 abgestuft auf 0.1 °C. Allerdings hat er wenig (oder keine?) Hysterese
@@ -264,7 +264,7 @@ Im Vergleich mit anderen Thermometern erscheinen die Werte genau.
 
 ## Feuchtigkeitsmesser - zu oft! {#feuchtigkeitsmesser-zu-oft}
 
-{{< figure src="/ox-hugo/ws0306w-luftfeuchte.png" >}}
+{{< figure src="./ws0306w-luftfeuchte.png" >}}
 
 Hier wird in vollen Schritten übertragen, was vollkommen in Ordnung
 ist.
@@ -281,7 +281,7 @@ Diese ist **total unbrauchbar**. Sie kennt nur "battery_ok: 1". Also
 Auch mit ziemlich leeren Batterien aus der Grabbelkiste habe ich kein
 "battery_ok: 0" hinbekommen.
 
-{{< figure src="/ox-hugo/ws0306w-batterie.png" >}}
+{{< figure src="./ws0306w-batterie.png" >}}
 
 Ich ziehe Angaben zwischen 0 und 100% da deutlich vor. Sogar wenn die
 Prozentangabe bei NiMH-Akkus nicht stimmen sollte.
