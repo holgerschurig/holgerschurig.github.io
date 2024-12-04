@@ -196,9 +196,9 @@ Speicher zugegriffen werden kann. Ein Linux-Userspace-Programm kann das zwar
 auch, müsste aber als "root" laufen.
 
 ```text
-  // Mem start, length,  Wildcard + len, Device,  Human text
-  { 0x000f0000, 0xffffe, "G6I??C??",  8, IS_DEVA, "Device A" },
-  { 0xfff40000, 0x80000, "G6A??C??",  8, IS_DEVB, "Device A mit AMD" },
+// Mem sta
+{ 0x000f0000, 0xffffe, "G6I??C??",  8, IS_DEVA, "Device A" },
+{ 0xfff40000, 0x80000, "G6A??C??",  8, IS_DEVB, "Device A mit AMD" },
 ```
 
 Das Kernelmodul wird automatisch geladen und stellt sein Ergebnis via
@@ -218,8 +218,8 @@ Aber in einigen Fällen sind die Informationen des [DMI](https://de.wikipedia.or
 man da recht einfach dran:
 
 ```c
-  vendor  = dmi_get_system_info(DMI_SYS_VENDOR);
-  product = dmi_get_system_info(DMI_PRODUCT_NAME);
+vendor  = dmi_get_system_info(DMI_SYS_VENDOR);
+product = dmi_get_system_info(DMI_PRODUCT_NAME);
 ```
 
 Das Ergebnis kann man gegen Soll-Werte vergleichen und weiß dann, auf welcher Hardware
@@ -240,19 +240,19 @@ Man braucht als leider eine Rückfalloption. Dazu dienten PCI-IDs. Im Linux-User
 kann man diese mit "`lspci -nn`" sehen --- und selbstverständlich kommt ein
 
 ```text
-  // Host bridge
-  { 0x8086, 0x0a04, IS_DEVA | IS_DEVB },           // Intel Corporation Haswell-ULT DRAM Controller
-  { 0x8086, 0x0bf1, IS_DEVC },                     // Intel Corporation Atom Processor D2xxx DRAM Controller
-  { 0x8086, 0x0f00, IS_DEVD | IS_DEVE | IS_DEVF},  // Intel Corporation Atom Processor Z36xxx/Z37xxx Series SoC
+// Host bridge
+{ 0x8086, 0x0a04, IS_DEVA | IS_DEVB },           // Intel Corporation Haswell-ULT DRAM Controller
+{ 0x8086, 0x0bf1, IS_DEVC },                     // Intel Corporation Atom Processor D2xxx DRAM Controller
+{ 0x8086, 0x0f00, IS_DEVD | IS_DEVE | IS_DEVF},  // Intel Corporation Atom Processor Z36xxx/Z37xxx Series SoC
 
-  // PCI Bridge
-  ...
+// PCI Bridge
+...
 
-  // SATA
-  ...
+// SATA
+...
 
-  // USB-Controller
-  ...
+// USB-Controller
+...
 ```
 
 Wie man gut sieht, reicht die Host-Bridge 8086:0a04 nicht aus, um ein Gerät
@@ -282,8 +282,8 @@ auf eine Funktion (hat Bluetooth, hat Backlight, hat USB-Gerät XXXX:YYYY).
 Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach:
 
 ```text
-    if (isDevA() || isDevE() || isDemo())
-        addIcon(tr("Backlight"), ":/images/backlight.svg", SLOT(clickedBacklight()) );
+if (isDevA() || isDevE() || isDemo())
+    addIcon(tr("Backlight"), ":/images/backlight.svg", SLOT(clickedBacklight()) );
 ```
 
 
@@ -293,16 +293,16 @@ Auch Daemons müssen sich an die sehr unterschiedlicher Hardware anpassen. Dort
 geht dies genauso einfach, hier am Beispiel des "`scannerd`":
 
 ```text
-    if (isDevA()) {
-        port = "/dev/ttyS1";
-        serialReader = new ReadIntermec(port, 19200, this);
-        serialReconnect = true;
-    } else
-    if (isDevE()) {
-        port = "/dev/ttyS1";
-        serialReader = new ReadHoneywell(port, 115200, this);
-        serialReconnect = true;
-    } else
+if (isDevA()) {
+    port = "/dev/ttyS1";
+    serialReader = new ReadIntermec(port, 19200, this);
+    serialReconnect = true;
+} else
+if (isDevE()) {
+    port = "/dev/ttyS1";
+    serialReader = new ReadHoneywell(port, 115200, this);
+    serialReconnect = true;
+} else
 ```
 
 

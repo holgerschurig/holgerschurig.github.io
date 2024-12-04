@@ -104,7 +104,7 @@ eatmydata -- debootstrap \
     --cache-dir=downloads/apt.bookworm.amd64 \
     --exclude [weggelassen]... \
     --include apt-utils,procps,xz-utils \
-	bookworm image.debootstrap.bookworm.amd64 https://deb.debian.org/debian/
+    bookworm image.debootstrap.bookworm.amd64 https://deb.debian.org/debian/
 ...
 touch --no-create image.debootstrap.bookworm.amd64/etc/debian_version
 
