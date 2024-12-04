@@ -8,7 +8,7 @@
 * Home-Assistant: IKEA Steckdose Tradfri E1703
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: de
-:EXPORT_FILE_NAME: de/ikea-steckdose-e1703.d
+:EXPORT_FILE_NAME: de/ikea-steckdose-e1703.md
 :EXPORT_DATE: 2024-12-03
 :EXPORT_HUGO_CATEGORIES: home-assistant
 :EXPORT_HUGO_TAGS: Steckdose Zigbee Ikea Tradfri E1703
