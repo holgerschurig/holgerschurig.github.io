@@ -98,5 +98,5 @@ EUR. Aber die kenne ich nicht.
 Wäre diese E1603 noch kaufbar, würde ich klar **Nein!** sagen.
 
 Übrigens ... wer Leistungsmessung braucht, sollte die im Artikel
-[ Home-Assistant: Neo Steckdose WR10B ]({{< relref "" >}}) beschriebene
+[ Home-Assistant: Neo Steckdose WR10B ]({{< relref "neo-steckdose-wr10bh" >}}) beschriebene
 Steckdose ins Auge fassen.

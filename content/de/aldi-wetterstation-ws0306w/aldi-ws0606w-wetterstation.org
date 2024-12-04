@@ -292,7 +292,8 @@ schlechtem Display leben kann: ja
 
 Wenn man noch keinen RTL-SDR Stick hat: nein
 
-Stattdessen besser den Zigbee {{{relref(Tuya Temperature Humidity Sensor)}}} nutzen.
+Stattdessen besser den Zigbee {{{relref(Tuya Temperature Humidity Sensor,tuya-wsd500a)}}}
+nutzen.
 
 
 ** File locals                                                     :noexport:

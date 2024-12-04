@@ -309,7 +309,7 @@ Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image:
 ** Alle Projekte :noexport:
 
 - {{{relref(OpenEmbedded,openembedded)}}}
-- {{{relref(MNCI: Handterminal mit ARM (Intel PXA320),mnci)}}}
+- {{{relref(MNCI: Handterminal mit ARM / PXA320,mnci)}}}
 - {{{relref(Combined-Linux: ein Image für viele Geräte,combined-linux)}}}
 - TODO(Artikel schreiben) Anbindung an Microcontroller
 - {{{relref(Automatische Image-Erstellung,mkimage)}}}

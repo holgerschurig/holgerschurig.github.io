@@ -89,7 +89,7 @@ keine Installations-CD, sondern lediglich Zugriff auf die Debian-Repositories.
 
 So ein Basissystem ist selbst nicht bootbar --- man kann es aber schon z.B. in
 Docker nutzen. Ich nutze es, um aus diesem minimalen Basis-System dann das
-[ Combined-Linux ]({{< relref "" >}}) zu erstellen.
+[ Combined-Linux ]({{< relref "combined-linux" >}}) zu erstellen.
 
 ```text
 ~/d/mkimage$ time make debootstrap
@@ -127,7 +127,7 @@ sys     0m0.036s
 
 Anschließend hat man eine minimales Debian in einem Directory, welches man für
 
--   [ Combined-Linux ]({{< relref "" >}})
+-   [ Combined-Linux ]({{< relref "combined-linux" >}})
 -   TODO(Artikel schreiben) Linux Restore Stick
 -   [ Teststick ]({{< relref "hwtester" >}})
 -   TODO(Artikel schreiben) Teststick UEFI

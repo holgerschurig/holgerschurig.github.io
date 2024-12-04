@@ -52,7 +52,7 @@ eine relativ hohe Brandgefahr haben.
 ** Anbindung an Home-Assistant
 
 Man bindet diesen Sensor genauso ein wie den externen Sensor aus dem
-Artikel {{{relref(Home-Assistant: Aldi Wetterstation)}}}.
+Artikel {{{relref(Aldi Wetterstation,aldi-wetterstation-ws0306w)}}}.
 
 Deswegen hier nur die YAML-Datei =packages/bresser-eurochron.yaml=:
 
@@ -159,8 +159,9 @@ Sogar wenn die Prozentangabe bei NiMH-Akkus nicht stimmen sollte.
 
 Ich nutze
 
-- die Daten des externen Sensors wie in  {{{relref(Home-Assistant:
-  Aldi Wetterstation)}}} beschrieben
+- die Daten des externen Sensors wie in
+  {{{relref(Home-Assistant: Aldi Wetterstation,aldi-wetterstation-ws0306w)}}}
+  beschrieben
 - zusammen mit diesem Außensensor
 - und dem HACS-Plugin "Thermal Comfort"
 
