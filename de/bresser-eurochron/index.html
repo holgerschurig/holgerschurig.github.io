@@ -7,9 +7,9 @@ Forecast&rdquo; ersetzen kann :-)</p><div class="ox-hugo-toc toc"><div class=hea
 das selbst bezahlt. Auf dieser Webseite gibt es keine gesponserten
 Artikel.</p><p>Das ist allerdings nicht billig &mldr;verglichen mit Innensensoren. Da
 Bresser einen Sitz in Deutschland hat habe ich mir erhofft, keine
-&ldquo;Chinaware&rdquo; zu bekommen. Unten im Fazit steht, ob sich das erfüllt hat.</p><figure><img src=../../ox-hugo/bresser-eurochon.jpeg></figure><p>(hier sieht man sie unter dem Dach des Gartenhäuschens aufgehängt)</p><h2 id=batterien>Batterien</h2><p>Es werden 2 AAA Batterien gebraucht.</p><p>Finde ich besser als Spezialbatterien. Oder LiIon-Akkus, solange die
+&ldquo;Chinaware&rdquo; zu bekommen. Unten im Fazit steht, ob sich das erfüllt hat.</p><figure><img src=./bresser-eurochon.jpeg></figure><p>(hier sieht man sie unter dem Dach des Gartenhäuschens aufgehängt)</p><h2 id=batterien>Batterien</h2><p>Es werden 2 AAA Batterien gebraucht.</p><p>Finde ich besser als Spezialbatterien. Oder LiIon-Akkus, solange die
 eine relativ hohe Brandgefahr haben.</p><h2 id=anbindung-an-home-assistant>Anbindung an Home-Assistant</h2><p>Man bindet diesen Sensor genauso ein wie den externen Sensor aus dem
-Artikel <a href>Home-Assistant: Aldi Wetterstation </a>.</p><p>Deswegen hier nur die YAML-Datei <code>packages/bresser-eurochron.yaml</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span># https://www.home-assistant.io/integrations/sensor.mqtt/
+Artikel <a href=../../de/aldi-wetterstation-ws0306w/>Aldi Wetterstation </a>.</p><p>Deswegen hier nur die YAML-Datei <code>packages/bresser-eurochron.yaml</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span># https://www.home-assistant.io/integrations/sensor.mqtt/
 </span></span><span style=display:flex><span># https://www.home-assistant.io/integrations/binary_sensor.mqtt/
 </span></span><span style=display:flex><span># https://pictogrammers.com/library/mdi/
 </span></span><span style=display:flex><span>mqtt:
@@ -26,9 +26,9 @@ Artikel <a href>Home-Assistant: Aldi Wetterstation </a>.</p><p>Deswegen hier nur
 </span></span><span style=display:flex><span>    - name: &#34;Eurochron EFTH800 Batterie:&#34;
 </span></span><span style=display:flex><span>      state_topic: &#34;rtl_433/9b13b3f4-rtl433/devices/Eurochron-EFTH800/1/1196/battery_ok&#34;
 </span></span><span style=display:flex><span>      icon: &#34;mdi:battery&#34;
-</span></span></code></pre></div><h2 id=temperaturmesser>Temperaturmesser</h2><figure><img src=../../ox-hugo/bresser-temperatur.png></figure><p>Das sieht gut aus. Nicht nur volle Grad, auch Zwischenwerte. Und die
-Werte werden zwar prompt, aber auch nicht allzuoft geschickt.</p><h2 id=feuchtigkeitsmesser>Feuchtigkeitsmesser</h2><h3 id=eigentlich-dot-dot-dot>Eigentlich &mldr;</h3><figure><img src=../../ox-hugo/bresser-luftfeuchte.png></figure><p>Das sieht doch gut aus &mldr; nicht nur volle Grad, auch Zwischenwerte. Und die
-Werte werden zwar prompt, aber auch nicht allzuoft geschickt.</p><h3 id=jedoch>Jedoch!</h3><p><strong>Oder doch nicht??!?</strong> Die Werte waren nämlich gut &mldr; bis ein wir
+</span></span></code></pre></div><h2 id=temperaturmesser>Temperaturmesser</h2><figure><img src=./bresser-temperatur.png></figure><p>Das sieht gut aus. Nicht nur volle Grad, auch Zwischenwerte. Und die
+Werte werden zwar prompt, aber auch nicht allzuoft geschickt.</p><h2 id=feuchtigkeitsmesser>Feuchtigkeitsmesser</h2><h3 id=eigentlich-dot-dot-dot>Eigentlich &mldr;</h3><figure><img src=./bresser-luftfeuchte.png></figure><p>Das sieht doch gut aus &mldr; nicht nur volle Grad, auch Zwischenwerte. Und die
+Werte werden zwar prompt, aber auch nicht allzu oft geschickt.</p><h3 id=jedoch>Jedoch!</h3><p><strong>Oder doch nicht??!?</strong> Die Werte waren nämlich gut &mldr; bis ein wir
 einen Sturm hatten und der Sturm den Außensensor vom Nagel geblasen
 hat. Bis ich es anhand der seltsamen Luftfeuchtigkeit merkte,
 vergingen zwei Tage.</p><p>Soviel zum Thema &ldquo;*Außen*sensor in deutscher Qualität&rdquo;. Meine
@@ -41,10 +41,11 @@ deren Werte stimmen grob mit dem überein, was &ldquo;Meterorolisk institutt&rdq
 liefert. Aber was der Bresser-Sensor jetzt liefert &mldr; passt leider
 überhaupt nicht.</p><p>So legt man diesen Helfer an:</p><ul><li>Settings</li><li>Devices & Services</li><li>Helpers</li><li>Create helper</li><li>Template</li><li>Template a sensor</li><li>Name eintragen</li><li>&ldquo;<code>{{ state_attr('weather.forecast_home','humidity') }}</code>&rdquo; als State template
 template"</li><li>&ldquo;%&rdquo; als &ldquo;Unit of Measurement&rdquo;</li><li>&ldquo;Humidity&rdquo; könnte man als" Device class" eintragen, ich habe es allerdings leer</li><li>&ldquo;Measurement&rdquo; könnte man bei &ldquo;State class&rdquo; eintragen, ich habe es
-allerdings leer</li><li>Device (to link to this entity) lässt man leer</li></ul><p>Das ganze sieht dann so aus:</p><figure><img src=../../ox-hugo/bresser-luftfeuchte_template.png></figure><p>Der Wert 96% oben ist exakt der Wert, die &ldquo;<code>weather.forecase_home</code>&rdquo; anzeigt:</p><figure><img src=../../ox-hugo/bresser-weather-forecast-home.png></figure><p>Übrigens könnte man für die Temperatur statt einem Außensensor die
+allerdings leer</li><li>&ldquo;Device (to link to this entity)&rdquo; lässt man leer</li></ul><p>Das ganze sieht dann so aus:</p><figure><img src=./bresser-luftfeuchte_template.png></figure><p>Der Wert 96% oben ist exakt der Wert, die &ldquo;<code>weather.forecase_home</code>&rdquo; anzeigt:</p><figure><img src=./bresser-weather-forecast-home.png></figure><p>Übrigens könnte man für die Temperatur statt einem Außensensor die
 Werte von &ldquo;<code>weather.forecast</code> abgreifen !</p><h2 id=batteriekapazitätsmesser-unbrauchbar>Batteriekapazitätsmesser - unbrauchbar!</h2><p>Diese ist <strong>total unbrauchbar</strong>. Sie kennt nur 100%.</p><p>Auch mit ziemlich leeren Batterien aus der Grabbelkiste habe ich kein
-&ldquo;battery_ok: 0&rdquo; hinbekommen.</p><figure><img src=../../ox-hugo/bresser-batterie.png></figure><p>Ich ziehe Angaben von 0 und 100% <strong>mit Zwischenwerten</strong> da deutlich vor.
-Sogar wenn die Prozentangabe bei NiMH-Akkus nicht stimmen sollte.</p><h2 id=nutzung>Nutzung</h2><p>Ich nutze</p><ul><li>die Daten des externen Sensors wie in <a href>Home-Assistant: Aldi Wetterstation </a>beschrieben</li><li>zusammen mit diesem Außensensor</li><li>und dem HACS-Plugin &ldquo;Thermal Comfort&rdquo;</li></ul><p>zur Entscheidung &ldquo;Lüften oder nicht?&rdquo;. Das HACS-Plugin erlaubt es
+&ldquo;battery_ok: 0&rdquo; hinbekommen.</p><figure><img src=./bresser-batterie.png></figure><p>Ich ziehe Angaben von 0 und 100% <strong>mit Zwischenwerten</strong> da deutlich vor.
+Sogar wenn die Prozentangabe bei NiMH-Akkus nicht stimmen sollte.</p><h2 id=nutzung>Nutzung</h2><p>Ich nutze</p><ul><li>die Daten des externen Sensors wie in
+<a href=../../de/aldi-wetterstation-ws0306w/>Home-Assistant: Aldi Wetterstation </a>beschrieben</li><li>zusammen mit diesem Außensensor</li><li>und dem HACS-Plugin &ldquo;Thermal Comfort&rdquo;</li></ul><p>zur Entscheidung &ldquo;Lüften oder nicht?&rdquo;. Das HACS-Plugin erlaubt es
 recht einfach, aus Temperatur + relativer Luftfeuchtigkeit die
 absolute Luftfeuchtigkeit bzw. den Taupunkt zu berechnen. Und wenn man
 diese beiden für innen und außen berechneten Werte vergleicht, kann

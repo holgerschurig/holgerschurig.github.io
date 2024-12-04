@@ -11,7 +11,7 @@ TODO(Artikel schreiben) &ldquo;OpenEmbedded&rdquo;</li><li><strong>keine Client/
 mögen es nicht, wenn irgendwelche Daemons offene Ports haben (außer vielleicht SSH).</li></ul><h2 id=vorgehensweise>Vorgehensweise</h2><figure><img src=../../de/mkimage/mkimage.png></figure><h3 id=debootstrap>debootstrap<span class=org-target id=org-target--debootstrap></span></h3><p><a href=https://wiki.debian.org/de/Debootstrap>Debootstrap</a> erzeugt ein Debian-Basissystem in einem Unterverzeichnis. Es braucht
 keine Installations-CD, sondern lediglich Zugriff auf die Debian-Repositories.</p><p>So ein Basissystem ist selbst nicht bootbar &mdash; man kann es aber schon z.B. in
 Docker nutzen. Ich nutze es, um aus diesem minimalen Basis-System dann das
-<a href>Combined-Linux </a>zu erstellen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>~/d/mkimage$ time make debootstrap
+<a href=../../de/combined-linux/>Combined-Linux </a>zu erstellen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>~/d/mkimage$ time make debootstrap
 </span></span><span style=display:flex><span>sudo make debootstrap
 </span></span><span style=display:flex><span>rm -rf image.debootstrap.bookworm.amd64
 </span></span><span style=display:flex><span>mkdir -p downloads/debootstrap.bookworm.amd64
@@ -23,7 +23,7 @@ Docker nutzen. Ich nutze es, um aus diesem minimalen Basis-System dann das
 </span></span><span style=display:flex><span>    --cache-dir=downloads/apt.bookworm.amd64 \
 </span></span><span style=display:flex><span>    --exclude [weggelassen]... \
 </span></span><span style=display:flex><span>    --include apt-utils,procps,xz-utils \
-</span></span><span style=display:flex><span>	bookworm image.debootstrap.bookworm.amd64 https://deb.debian.org/debian/
+</span></span><span style=display:flex><span>    bookworm image.debootstrap.bookworm.amd64 https://deb.debian.org/debian/
 </span></span><span style=display:flex><span>...
 </span></span><span style=display:flex><span>touch --no-create image.debootstrap.bookworm.amd64/etc/debian_version
 </span></span><span style=display:flex><span>
@@ -32,7 +32,7 @@ Docker nutzen. Ich nutze es, um aus diesem minimalen Basis-System dann das
 </span></span><span style=display:flex><span>sys     0m0.036s
 </span></span></code></pre></div><h4 id=erwähnenswert>Erwähnenswert</h4><ul><li><a href=https://www.flamingspork.com/projects/libeatmydata/>eatmydata</a> reduziert das exzessive &ldquo;<code>fsync()</code>&rdquo; von &ldquo;<code>dpkg</code>&rdquo;. Das Filesystem
 syncen ist gänzlich unnötig, wenn man sich das</li><li>ein Cache-Directory &ldquo;<code>downloads/apt.bookworm.amd64</code>&rdquo; schont die Debian-Server und erhöht die
-Geschwindigkeit &mdash; dies ist einer der Bereich, die Docker bis heute nicht gut gelöst hat.</li><li>28 Sekunden ist ein durchaus netter Wert</li></ul><h4 id=ergebnis>Ergebnis</h4><p>Anschließend hat man eine minimales Debian in einem Directory, welches man für</p><ul><li><a href>Combined-Linux</a></li><li>TODO(Artikel schreiben) Linux Restore Stick</li><li><a href=../../de/hwtester/>Teststick</a></li><li>TODO(Artikel schreiben) Teststick UEFI</li></ul><p>einsetzen kann.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>~/d/mkimage$ ls image.debootstrap.bookworm.amd64/
+Geschwindigkeit &mdash; dies ist einer der Bereich, die Docker bis heute nicht gut gelöst hat.</li><li>28 Sekunden ist ein durchaus netter Wert</li></ul><h4 id=ergebnis>Ergebnis</h4><p>Anschließend hat man eine minimales Debian in einem Directory, welches man für</p><ul><li><a href=../../de/combined-linux/>Combined-Linux</a></li><li>TODO(Artikel schreiben) Linux Restore Stick</li><li><a href=../../de/hwtester/>Teststick</a></li><li>TODO(Artikel schreiben) Teststick UEFI</li></ul><p>einsetzen kann.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>~/d/mkimage$ ls image.debootstrap.bookworm.amd64/
 </span></span><span style=display:flex><span>bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 </span></span><span style=display:flex><span>~/d/mkimage$ sudo du -hs image.debootstrap.bookworm.amd64/
 </span></span><span style=display:flex><span>182M	image.debootstrap.bookworm.amd64/

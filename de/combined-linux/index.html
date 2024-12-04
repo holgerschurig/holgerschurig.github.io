@@ -32,54 +32,54 @@ hatten im BIOS einen speziell formatieren String hinterlegt. Der hat das Gerät,
 aber auch die Version des BIOS kodiert.</p><p>Eine Wildcard-Suche prüfte dann in einem definierten physikalischen Speicherbereich, ob
 es einen String wie z.B. &ldquo;M6I??C??&rdquo; gibt.</p><p>Das hat ein Linux-Kernel-Modul gemacht, da hierbei einfach auf physikalischen
 Speicher zugegriffen werden kann. Ein Linux-Userspace-Programm kann das zwar
-auch, müsste aber als &ldquo;root&rdquo; laufen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>  // Mem start, length,  Wildcard + len, Device,  Human text
-</span></span><span style=display:flex><span>  { 0x000f0000, 0xffffe, &#34;G6I??C??&#34;,  8, IS_DEVA, &#34;Device A&#34; },
-</span></span><span style=display:flex><span>  { 0xfff40000, 0x80000, &#34;G6A??C??&#34;,  8, IS_DEVB, &#34;Device A mit AMD&#34; },
+auch, müsste aber als &ldquo;root&rdquo; laufen.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>// Mem sta
+</span></span><span style=display:flex><span>{ 0x000f0000, 0xffffe, &#34;G6I??C??&#34;,  8, IS_DEVA, &#34;Device A&#34; },
+</span></span><span style=display:flex><span>{ 0xfff40000, 0x80000, &#34;G6A??C??&#34;,  8, IS_DEVB, &#34;Device A mit AMD&#34; },
 </span></span></code></pre></div><p>Das Kernelmodul wird automatisch geladen und stellt sein Ergebnis via
 &ldquo;<code>/proc/...</code>&rdquo; Pseudo-Datei zur Verfügung. Darauf können alle Programme
 zugreifen, &ldquo;root&rdquo; oder nicht.</p><p>Bei den Geräten, die einen BIOS-String haben, kamen wir auf 100% Erkennungsrate
 und 0% Fehlerrate.</p><h3 id=dmi>DMI</h3><p>Leider gab es Hardware, bei der das nicht funktionierte: Geräte die nicht unter den
 Einfluss von DLoG designed wurden (beispielsweise die Treks, die UTCs, die PWS).</p><p>Aber in einigen Fällen sind die Informationen des <a href=https://de.wikipedia.org/wiki/Desktop_Management_Interface>DMI</a> brauchbar. Als Kernel-Modul kommt
-man da recht einfach dran:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>  vendor  <span style=color:#f92672>=</span> <span style=color:#a6e22e>dmi_get_system_info</span>(DMI_SYS_VENDOR);
-</span></span><span style=display:flex><span>  product <span style=color:#f92672>=</span> <span style=color:#a6e22e>dmi_get_system_info</span>(DMI_PRODUCT_NAME);
+man da recht einfach dran:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>vendor  <span style=color:#f92672>=</span> <span style=color:#a6e22e>dmi_get_system_info</span>(DMI_SYS_VENDOR);
+</span></span><span style=display:flex><span>product <span style=color:#f92672>=</span> <span style=color:#a6e22e>dmi_get_system_info</span>(DMI_PRODUCT_NAME);
 </span></span></code></pre></div><p>Das Ergebnis kann man gegen Soll-Werte vergleichen und weiß dann, auf welcher Hardware
 man ist.</p><p>Bei den Geräten, die einen DMI-String haben, kamen wir auf 100% Erkennungsrate
 und 0% Fehlerrate.</p><h3 id=pci-ids-testen>PCI-IDs testen</h3><p>Erstaunlicherweise gibt es viel DMIs, die schlecht gepflegt sind. Da steht dann
 z.B. &ldquo;to be filled by O.E.M.&rdquo;, womit man nichts anfangen kann. Außer vielleicht
 darauf schließen, das der Hersteller keine Liebe zum Detail hat und
 unvollständige Arbeit abliefert.</p><p>Man braucht als leider eine Rückfalloption. Dazu dienten PCI-IDs. Im Linux-Userspace
-kann man diese mit &ldquo;<code>lspci -nn</code>&rdquo; sehen &mdash; und selbstverständlich kommt ein</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>  // Host bridge
-</span></span><span style=display:flex><span>  { 0x8086, 0x0a04, IS_DEVA | IS_DEVB },           // Intel Corporation Haswell-ULT DRAM Controller
-</span></span><span style=display:flex><span>  { 0x8086, 0x0bf1, IS_DEVC },                     // Intel Corporation Atom Processor D2xxx DRAM Controller
-</span></span><span style=display:flex><span>  { 0x8086, 0x0f00, IS_DEVD | IS_DEVE | IS_DEVF},  // Intel Corporation Atom Processor Z36xxx/Z37xxx Series SoC
+kann man diese mit &ldquo;<code>lspci -nn</code>&rdquo; sehen &mdash; und selbstverständlich kommt ein</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>// Host bridge
+</span></span><span style=display:flex><span>{ 0x8086, 0x0a04, IS_DEVA | IS_DEVB },           // Intel Corporation Haswell-ULT DRAM Controller
+</span></span><span style=display:flex><span>{ 0x8086, 0x0bf1, IS_DEVC },                     // Intel Corporation Atom Processor D2xxx DRAM Controller
+</span></span><span style=display:flex><span>{ 0x8086, 0x0f00, IS_DEVD | IS_DEVE | IS_DEVF},  // Intel Corporation Atom Processor Z36xxx/Z37xxx Series SoC
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  // PCI Bridge
-</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>// PCI Bridge
+</span></span><span style=display:flex><span>...
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  // SATA
-</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>// SATA
+</span></span><span style=display:flex><span>...
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  // USB-Controller
-</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>// USB-Controller
+</span></span><span style=display:flex><span>...
 </span></span></code></pre></div><p>Wie man gut sieht, reicht die Host-Bridge 8086:0a04 nicht aus, um ein Gerät
 eindeutig zu indentifizieren. Denn sie kommt auf mehreren Geräten vor.</p><p>Wenn man jedoch die Informationen der anderen PCI-IDs hinzufügt (mit &ldquo;&mldr;&rdquo;
 angedeutet), klappt es evtl doch.</p><p>Damit konnte ich dann die Hardware-Erkennung für all die Geräte &ldquo;erschlagen&rdquo;,
 die weder BIOS-Strings noch DMI-Strings hatten. Jedoch &mldr; wird das Image auf
 einem unbekanntem Gerät ausgeführt, kann es Fehlerkennungen geben.</p><h2 id=userspace>Userspace</h2><h3 id=gui-anpassen>GUI anpassen</h3><p>Nachdem die Hardware einmal erkannt ist, ist es leicht, darauf zu reagieren.</p><p>Das &ldquo;<code>config</code>&rdquo; GUI ist in C++/Qt geschrieben.</p><p>Darauf aufsetzend wurden Funktionen definiert die mit &ldquo;<code>isXXX()</code>&rdquo; bzw &ldquo;<code>hasXXXX()</code>&rdquo;
 anfangen. Die is-Funktionen prüfen auf eine Gerät, die has-Funktionen prüfen
-auf eine Funktion (hat Bluetooth, hat Backlight, hat USB-Gerät XXXX:YYYY).</p><p>Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>    if (isDevA() || isDevE() || isDemo())
-</span></span><span style=display:flex><span>        addIcon(tr(&#34;Backlight&#34;), &#34;:/images/backlight.svg&#34;, SLOT(clickedBacklight()) );
+auf eine Funktion (hat Bluetooth, hat Backlight, hat USB-Gerät XXXX:YYYY).</p><p>Dadurch ist das Anpassen, hier z.B. des grafischen Menüs, ziemlich einfach:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>if (isDevA() || isDevE() || isDemo())
+</span></span><span style=display:flex><span>    addIcon(tr(&#34;Backlight&#34;), &#34;:/images/backlight.svg&#34;, SLOT(clickedBacklight()) );
 </span></span></code></pre></div><h3 id=daemons-anpassen>Daemons anpassen</h3><p>Auch Daemons müssen sich an die sehr unterschiedlicher Hardware anpassen. Dort
-geht dies genauso einfach, hier am Beispiel des &ldquo;<code>scannerd</code>&rdquo;:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>    if (isDevA()) {
-</span></span><span style=display:flex><span>        port = &#34;/dev/ttyS1&#34;;
-</span></span><span style=display:flex><span>        serialReader = new ReadIntermec(port, 19200, this);
-</span></span><span style=display:flex><span>        serialReconnect = true;
-</span></span><span style=display:flex><span>    } else
-</span></span><span style=display:flex><span>    if (isDevE()) {
-</span></span><span style=display:flex><span>        port = &#34;/dev/ttyS1&#34;;
-</span></span><span style=display:flex><span>        serialReader = new ReadHoneywell(port, 115200, this);
-</span></span><span style=display:flex><span>        serialReconnect = true;
-</span></span><span style=display:flex><span>    } else
+geht dies genauso einfach, hier am Beispiel des &ldquo;<code>scannerd</code>&rdquo;:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>if (isDevA()) {
+</span></span><span style=display:flex><span>    port = &#34;/dev/ttyS1&#34;;
+</span></span><span style=display:flex><span>    serialReader = new ReadIntermec(port, 19200, this);
+</span></span><span style=display:flex><span>    serialReconnect = true;
+</span></span><span style=display:flex><span>} else
+</span></span><span style=display:flex><span>if (isDevE()) {
+</span></span><span style=display:flex><span>    port = &#34;/dev/ttyS1&#34;;
+</span></span><span style=display:flex><span>    serialReader = new ReadHoneywell(port, 115200, this);
+</span></span><span style=display:flex><span>    serialReconnect = true;
+</span></span><span style=display:flex><span>} else
 </span></span></code></pre></div><h2 id=verwandte-projekte>Verwandte Projekte</h2><p>Die folgenden Projekte verwenden (teils abgewandelt) das Combined Image:</p><ul><li><a href=../../de/mkimage/>Automatische Image-Erstellung</a></li><li><a href=../../de/dynamischer-flashschutz/>Dynamischer Flash-Schutz</a></li><li><a href=../../de/mkarm/>Linux-Image auf Basis von i.MX6 RISC Prozessor für den Tagebau</a></li><li>TODO(Artikel schreiben) Linux Restore Stick</li><li><a href=../../de/hwtester/>Hardware-Teststick für DLT-V83/DLT-V72</a></li><li>TODO(Artikel schreiben) Hardware-Teststick für DLT-V73</li><li>TODO(Artikel schreiben) Aufräumen in Fukushima</li></ul><div class=post-meta><div><i class="fa fa-copyright fa-fw"></i>
 License: <a href=https://spdx.org/licenses/CC-BY-SA-4.0.html target=_blank>CC-BY-SA 4.0</a></div><div><i class="fa fa-calendar fa-fw"></i>
 <time>2024-01-16</time></div><div><i class="fa fa-folder fa-fw"></i>
