@@ -114,10 +114,10 @@ LiIon-Akkus, über USB wären vielleicht auch ganz gut ... ich will von
 denen aber nicht zuviele im Haus haben, weil diese ja ein gewissen
 Brandrisiko in sich bergen.
 
-Die Batteriekapazität wird in Protent übertragen, mit einer
+Die Batteriekapazität wird in Prozent übertragen, mit einer
 Schrittweite von einem halben Prozent, was ich **positiv** sehe:
 
-{{< figure src="./batterie.png" >}}
+{{< figure src="./brt100trv-batterie.png" >}}
 
 (andere Geräte etwa wechseln zwischen 0% und 100% in einem Schritt)
 
