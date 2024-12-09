@@ -1,0 +1,490 @@
+#+AUTHOR: Holger Schurig
+#+OPTIONS: ^:nil
+#+MACRO: relref @@hugo:[@@ $1 @@hugo:]({{< relref "$2" >}})@@
+
+# Copyright (c) 2024 Holger Schurig
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+* Home-Assistant: (fast) werbefreies Internetradio
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: de
+:EXPORT_FILE_NAME: de/werbefreies-internetradio.md
+:EXPORT_DATE: 2024-12-09
+:EXPORT_HUGO_CATEGORIES: home-assistant
+:EXPORT_HUGO_TAGS: Styrbar E2001
+:END:
+
+Wir erstellen uns ein Internet-Radio mit einer Pausen-Funktion zu
+festen Uhrzeiten. Damit können wir bei einigen Sendern die nervige
+Werbung ausblenden.
+
+Außerdem: warum der Home-Assistant-Radio-Browser nichts taugt.
+
+#+hugo: more
+#+toc: headlines 3
+
+** Grund
+
+Wer mag ihn nicht, den nervigen Herrn Seitenbacher der uns seit Jahren
+mit unendlichen Wiederholungen traktiert?
+
+Oder die unvorteilhaften Stimmen von LILD und Kaufland, deren einzige
+Qualifikation wahrscheinlich die Aussprache ist ... und das sie
+maximal nervend sind, um Aufmerksamkeitsheischend zu unseren
+Gehirnzellen vorzudringen?
+
+Wer mag sie nicht .... *ICH* !!!
+
+** Was man braucht
+
+Man muss ein Sound-Device haben, welches als
+"=media_player.irgendwas=" erreichbar ist.
+
+Zwei Beispiele von vielen:
+
+*Symfonisk- oder Sonos-Lautsprecher*
+
+Diese werden beide durch die [[https://www.home-assistant.io/integrations/sonos][Sonos-Integration]] unterstützt.
+
+
+*USB-Lautsprecher*
+
+Ich hatte aber noch eine "Creative Stage V2 Soundbar". Diese hat u.A.
+USB. Und ich habe sie darüber an meinen Intel NUC angeschlossen, auf
+dem Home-Assistant innerhalb von Proxmox läuft. Das ganze sieht grob
+so aus:
+
+#+begin_src dot :file werbefreies-internetradio.png
+digraph G {
+  Soundbar -> USB
+  USB -> IntelNUC
+  IntelNUC -> Proxmox
+  Proxmox -> "Home-Assistant VM"
+  "Home-Assistant VM" -> "Home-Assistant OS (HAOS)"
+  "Home-Assistant OS (HAOS)" -> "VLC Mediaplayer Add-On"
+}
+#+end_src
+
+#+RESULTS:
+[[file:werbefreies-internetradio.png]]
+
+Was auch immer man macht, man braucht für alles folgende ein
+funktionierendes "=media_player.*=" Device!
+
+*** Radio Browser - lieblos!
+
+Es gibt den integrierten
+[[https://www.home-assistant.io/integrations/radio_browser/][Radio Browser]] nutzen. Aber dessen Datenbasis ist... unterirdisch. Wenn
+man links auf "Media" und dann auf "Radio Browser" klickt, sieht man
+die Landesflaggen.
+
+Also runter zu "Germany". Huch, da gibt's ja zwei?  Ich dachte, das
+wäre Geschichte. Aber wo sind bei der zweiten Flagge dann Hammer und Sichel?
+
+[[./werbefreies-internetradio-radiobrowser.png]]
+
+Klickt man auf eine, dann auf den Zurückbutton des Radio-Browser
+(nicht von Firefox/Chromium etc ...) dann landet man ... wieder an
+Anfang der Länderliste. *Die Position wird sich nicht gemerkt*, ich
+muss wieder runterscrollen.
+
+Wenn ich dann auf eine der deutschen Flagge klicke ... welche ist egal
+.. dann kommen Radiosender. Doch sie erscheinen irgendwie unsortiert.
+
+Bis man merkt, das auch da Aufmerksamkeitsheischende Leutchen
+*getrickst* haben. Ein "  90s" (zwei Leerzeichen) wird halt, wenn man stur nach
+ASCII-Alphabet sortiert, vor "HR3" angezeigt. Wäre ich der
+Plugin-Autor, würde ich diese Tricks-Namen einfach herausfiltern.
+
+Apropos "HR3"... man suche nun mal diesen Sender. Fast unmöglich, weil
+es *keine Suchfunktion* gibt. Also ist Suchen per Scrollen und Lesen angesagt.
+
+Page-Up und Page-Down *gehen natürlich auch nicht*.
+
+Nehmen wir mal an, wir sind glücklich bei HR3 gelandet. Klickt man nun
+auf den Zurück-Button des Radio-Browsers, sucht erneut die deutsche
+Flagge, und klickt dann wieder darauf ... ist man *wieder am Anfang*.
+Und darf wieder suchen.
+
+Und wenn ich nun einen Sender per Automation hören will ... hier
+findet man keine Information, wie das denn gehen könnte. Wie ich also
+z.B. den HR3-Button automatisiert drücken könnte.
+
+Am besten vergessen wir den eingebauten "Radio Browser" ganz schnell.
+Das ist insgesamt ein grausames UI.
+
+*** Radio-Browser, diesmal per Web
+
+Aber woher holt sich Home-Assistant überhaupt die Sender? Von
+https://www.radio-browser.info/ --- man findet da zwar auch die
+getricksten Sendernamen. Aber wenigstens gibt es eine Suchfunktion.
+
+Also oben rechts "hr3" eingeben und schon hat man die Streams:
+
+[[./werbefreies-internetradio-radiobrowserinfo.png]]
+
+Wenn man nun auf einen der Einträge klickt, sieht in der Adresszeile
+von Firefox/Chromium URLs dieser Art:
+
+https://www.radio-browser.info/history/c9f56165-ab64-4af8-ba90-dfb0aa735218
+
+Und dieses "*c9f56165-ab64-4af8-ba90-dfb0aa735218*" (eine sog. UUID)
+ist nun das, was wir gleich in Home-Assistant brauchen werden.
+
+Wir nutzen also https://www.radio-browser.info, um die UUIDs der Sender zu erfahren.
+
+** Internetradio
+*** Service-Aufruf
+
+Was macht man nun mit der UUID?  Zunächst einen Test! In den
+Developer-Tools gibt man das ein:
+
+[[./werbefreies-internetradio-developertools.png]]
+
+bzw. dieses YAML:
+
+#+begin_example
+action: media_player.play_media
+target:
+  entity_id: media_player.soundbar_wz
+data:
+  media_content_id: media-source://radio_browser/c9f56165-ab64-4af8-ba90-dfb0aa735218
+  media_content_type: music
+#+end_example
+
+Wir sehen hier "=media-source://radio_browser/=" gefolgt von unser
+eben herausgefunden UUID.
+
+Wenn wir das nun als Script (statt in den Developer Tools) anlegen,
+können wir es in Automationen, GUI-Elementen nutzen.
+
+[[./werbefreies-internetradio-buttons.png]]
+
+... oder mit {{{relref(Hardware-Schaltern,ikea-schalter-e2001)}}}
+steuern.
+
+*** Helferlein
+
+Wir erstellen uns zwei String-Helfer. Das geht so:
+
+- Settings
+- Devices & services
+- Helpers
+- Create helper
+- Text
+- Name: "Radio Sender"
+- Icon: nach belieben
+
+Und dann noch einen Helfer dieser Art für "Radio UUID":
+
+[[./werbefreies-internetradio-helfer.png]]
+
+*** Script: nächster Sender
+
+Diese Helfer werden in den folgenden Skripten genutzt. Beispielsweise
+wie hier für eine Funktion, um zum nächsten Sender zu springen:
+
+#+begin_example
+script:
+  radio_next:
+    alias: "Radio Next"
+    sequence:
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == '' }}"
+            sequence:
+              - action: script.radio_hr1
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == 'HR1' }}"
+            sequence:
+              - action: script.radio_hr3
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == 'HR3' }}"
+            sequence:
+              - action: script.radio_hrinfo
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == 'hr INFO' }}"
+            sequence:
+              - action: script.radio_dlf
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == 'DLF' }}"
+            sequence:
+              - action: script.radio_dlfnova
+          - conditions:
+              - condition: template
+                value_template: "{{ states('input_text.radio_sender') == 'DLF Nova' }}"
+            sequence:
+              - action: script.radio_hr1
+#+end_example
+
+(Das YAML startet mit "=script:=" weil ich Home-Assistant's [[https://www.home-assistant.io/docs/configuration/packages/][Packages]]
+verwende. Ich habe alle Media-Script in =/config/packages/media.yaml=
+gesammelt. Wer das YAML direkt in den Editor reinhaut, muss es
+entsprechend anpassen.)
+
+Im Prinzip ist das, analog zu C, ein switch/case Statement. Und die
+Bedingungen wird über ein Template festgelegt.
+
+
+*** Script: vorheriger Sender
+
+Das Script für "vorheriger Sender" ist analog wie "nächster Sender" aufgebaut.
+
+
+*** Scripte: Sender starten
+
+Dieses Script setzt die beiden Helfer auf Text und UUID. Es ruft nicht
+direkt media_player.play_media auf. Denn ich brauche die UUID für eine
+Pause/Continue-Funktion. Und wenn ich sowieso eine Continue-Funktion
+erstellen werden, kann ich die auch gleich hier aufrufen:
+
+#+begin_example
+script:
+  radio_hr1:
+    alias: "Radio HR1"
+    sequence:
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.radio_sender
+        data:
+          value: "HR1"
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.radio_uuid
+        data:
+          value: "600c73d1-2ea5-45ee-b3c1-c108674343e6"
+      - action: script.radio_continue
+#+end_example
+
+Dieses Script erstelle ich dann abgewandelt für alle Sender die ich
+per Button starten will: HR1, HR3, hr-info, DLF, DLF Nova.
+
+
+*** Script: Weitermachen
+
+Hier ist das "=script.radio_continue=", das oben aufgerufe wurde:
+
+#+begin_example
+script:
+  radio_continue:
+    alias: "Radio Continue"
+    sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.soundbar_wz
+        data:
+          media_content_type: music
+          media_content_id: "media-source://radio_browser/{{ states('input_text.radio_uuid') }}"
+#+end_example
+
+
+*** Script: Radio Pausieren
+
+Und da "=script.radio_continue=" ja mit einer Pause-Funktion
+zusammenspielen soll, brauchen wir die auch noch:
+
+#+begin_example
+  radio_pause:
+    alias: "Radio Pause"
+    sequence:
+      - action: media_player.media_stop
+        target:
+          entity_id: media_player.soundbar_wz
+#+end_example
+
+
+*** Script: Radio aus
+
+Wenn wir hingegen richtig asusschalten wollen, dann Stoppen wir den
+Media-Player und setzen auch die Helfer zurück.
+
+Andere Script können dann am leeren UUID-Feld erkennen, das das Radio
+in wirklich aus ist (es soll also z.B. zur vollen Stunde wieder
+angemacht werden, etwa nach einer Werbepause).
+
+#+begin_example
+script:
+  radio_off:
+    alias: "Radio Off"
+    sequence:
+      - action: media_player.media_stop
+        target:
+          entity_id: media_player.soundbar_wz
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.radio_sender
+        data:
+          value: ""
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.radio_uuid
+        data:
+          value: ""
+#+end_example
+
+
+*** Script: Radio Start/Stop
+
+Dieses Script habe ich auf eine Hardware-Taste (IKEA Styrbar) gelegt:
+
+#+begin_example
+script:
+  radio_startstop:
+    alias: "Radio Start/Stop"
+    sequence:
+      - if:
+          - condition: state
+            entity_id: input_text.radio_sender
+            state: ""
+        then:
+          - action: script.radio_hr1
+        else:
+          - if:
+              - condition: state
+                entity_id: media_player.soundbar_wz
+                state: "playing"
+            then:
+              - action: script.radio_pause
+            else:
+              - if:
+                  - condition: state
+                    entity_id: media_player.soundbar_wz
+                    state: "idle"
+                then:
+                  - action: script.radio_continue
+#+end_example
+
+- läuft kein Sender: wird HR1 gestartet
+- läuft ein Sender: dann rufe ich das Pausen-Script auf
+- ansonsten wird "Radio Continue" aufgerufen
+
+
+** Bedienung
+
+*** GUI
+
+Ich habe mir ein Dashboard angelegt, das mir einfachen Zugriff auf die
+Sender ermöglicht:
+
+[[./werbefreies-internetradio-webgui.png]]
+
+*** Taster
+
+Aber meistens nehme ich den {{{relref(IKEA
+Styrbar,ikea-schalter-e2001)}}}, den ich mit 
+[[https://github.com/Sian-Lee-SA/Home-Assistant-Switch-Manager][Switch Manager]] so beschaltet habe:
+
+[[./werbefreies-internetradio-schalter.png]]
+
+- Oben: Licht
+- Links: vorheriger Sender
+- Rechts: nächster Sender
+- Unten: Pause bzw. Weiter, bei langen Drücken: Stop
+
+Dieser Schalter wandert von meinem PC-Schreibtisch zum
+Wohnzimmer-Couchtisch zum Home-Office, wo er gerade gebraucht wird.
+
+** Werbepause
+
+Bisher haben wir nur ein Internet-Radio. Aber wie machen wir das nun
+mit der Werbung?  Im Prinzip nutzen wir aus, das Werbung in vielen
+Sendern zur festen Uhrzeit kommt. Wir schalten dann einfach das Radio
+auf "Pause":
+
+#+begin_example
+automation:
+  - alias: "Radio wg. Werbung aus (HR1)"
+    triggers:
+      - trigger: time_pattern
+        minutes: "27"
+      - trigger: time_pattern
+        minutes: "57"
+    conditions:
+      # - condition: state
+      #   entity_id: binary_sensor.feiertag
+      #   state: "off"
+      - condition: time
+        after: "6:00:00"
+        before: "20:00:00"
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+          - sat
+      - condition: state
+        entity_id: input_text.radio_sender
+        state: "HR1"
+    actions:
+      - action: script.radio_pause
+    mode: restart
+#+end_example
+
+(Auch hier steht wieder ein "=automation:=" davor, weil dieses YAML
+gemeinsam mit den Scripten von oben in einer
+Home-Assistant-[[https://www.home-assistant.io/docs/configuration/packages/][Packages]]-Datei steht. Wer das in sein GUI rainhauen
+will, passt es entsprechend an.)
+
+Wir pausieren also zwischen 6 und 20 Uhr das Radio jeweils 3 Minuten
+vor der vollen Stunde und halben Stunde.
+
+Noch auskommentiert sieht man, wie man diesen "Werbeblocker" auch an
+Feiertagen festmachen könnte.
+
+Wenn wir pausieren, dann wollen wir aber auch irgendwann wieder
+fortfahren:
+
+#+begin_example
+automation:
+  - alias: "Radio nach Werbung an (HR1)"
+    triggers:
+      - trigger: time_pattern
+        minutes: "0"
+      - trigger: time_pattern
+        minutes: "32"
+    conditions:
+      # - condition: state
+      #   entity_id: binary_sensor.feiertag
+      #   state: "off"
+      - condition: state
+        entity_id: input_text.radio_sender
+        state: "HR1"
+    actions:
+        action: script.radio_continue
+    mode: restart
+#+end_example
+
+Für HR3 ist das ähnlich, nur senden sie die Werbung zur viertel- und
+dreiviertel Stunde.
+
+hr-info sendet so wenig Werbung, das ich da nichts implementiert habe.
+DLF und DLF Nova sind sowieso vollkommen Werbefrei.
+
+
+** Verbesserungspotential
+
+Besser wäre es vermutlich, wenn man die Jingles vor der Werbung
+erkennt. Da wir potentielle viele Strings erkennen sollten, wäre
+vielleicht eine [[https://de.wikipedia.org/wiki/Rabin-Karp-Algorithmus][Robin-Karp-Suche]] praktisch. Zu jedem Suchmuster könnte
+man eine Pausen-Zeit eintragen.
+
+Dieser Suche nach Werbung oder Werbe-Jingles könnte Rundfunk über
+Stream empfangen (wie oben). Oder man könnte sie in einen
+Software-DAB+-Empfänger mit Hilfe eine günstigen [[https://www.rtl-sdr.com/][RTL-SDR]]-Stick
+einbauen. Ein Beispiele wäre [[https://github.com/Opendigitalradio/dablin][DABlin]] oder [[https://www.welle.io/][Welle.io]].
+
+
+** File locals                                                    :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:
