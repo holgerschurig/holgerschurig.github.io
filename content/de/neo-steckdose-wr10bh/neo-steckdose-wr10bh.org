@@ -77,3 +77,11 @@ Klares *Ja!* wenn man Leistungsmessung braucht.
 Will man nur schalten, ist womöglich die aktuelle IKEA Trefakt besser,
 weil günstiger.
 
+
+** File locals                                                     :noexport:
+
+# Local Variables:
+# mode: org
+# org-hugo-external-file-extensions-allowed-for-copying: nil
+# jinx-languages: "de_DE"
+# End:

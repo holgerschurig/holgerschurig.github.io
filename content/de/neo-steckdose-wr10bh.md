@@ -31,7 +31,7 @@ Hier geht es um den Steckdose von mediarath.de, genannt "Neo WR10BH".
 Der Durchmesser liegt bei knapp unter 5.9 cm. Der Teil, der aus der
 Steckdose guckt ist ca. 5 cm groß.
 
-{{< figure src="/ox-hugo/wr10bh.jpeg" >}}
+{{< figure src="./wr10bh.jpeg" >}}
 
 
 ## Einkauf {#einkauf}
@@ -57,7 +57,7 @@ Später bin ich dann auf Zigbee2MQTT umgestiegen und auch damit
 funktionieren sie. Sie meldet sich dort als "Tuya TS011F_plug_1", geht
 aber natürlich direkt. Man braucht keinerlei Tuya-App oder Tuya-Cloud.
 
-{{< figure src="/ox-hugo/wr10bh-zigbee2mqtt.png" >}}
+{{< figure src="./wr10bh-zigbee2mqtt.png" >}}
 
 Siehe auch: <https://www.zigbee2mqtt.io/devices/TS011F_plug_1.html>
 
@@ -68,7 +68,7 @@ Sie ist zwar kleiner als die IKEA Tradfri E1603 ... aber kann dennoch mehr.
 
 U.a. Verbrauchsmessung:
 
-{{< figure src="/ox-hugo/wr10bh-leistung.png" >}}
+{{< figure src="./wr10bh-leistung.png" >}}
 
 
 ## Zigbee Mesh {#zigbee-mesh}
