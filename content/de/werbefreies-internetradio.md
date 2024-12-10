@@ -11,7 +11,8 @@ Wir erstellen uns ein Internet-Radio mit einer Pausen-Funktion zu
 festen Uhrzeiten. Damit können wir bei einigen Sendern die nervige
 Werbung ausblenden.
 
-Außerdem: warum der Home-Assistant-Radio-Browser nichts taugt.
+Außerdem: warum der Home-Assistant-Radio-Browser nichts taugt. Und
+eine USB-Soundbar besser ist als ein Sonos- oder Symfonisk-Lautsprecher.
 
 <!--more-->
 
@@ -65,7 +66,17 @@ Zwei Beispiele von vielen:
 
 **Symfonisk- oder Sonos-Lautsprecher**
 
-Diese werden beide durch die [Sonos-Integration](https://www.home-assistant.io/integrations/sonos) unterstützt.
+Diese werden beide durch die [Sonos-Integration](https://www.home-assistant.io/integrations/sonos) unterstützt. Allerdings
+kann man diese nicht empfehlen:
+
+-   die Sonos-App für Android funktioniert seit Monaten nicht und hat
+    deshalb unterirdische Bewertungen
+-   der Symfonisk/Sonos-Lautsprecher reagiert sehr langsam auf
+    Abspielkommandos. Stoppen geht hingegen recht schnell.
+-   aber er spielt auch langsam ab. Zwischen der USB/VLC basierter
+    Soundbar und dem Symfonisk-Lautsprecher gibt es eine **mächtige**
+    Verzögerung. Über USB kommt der Sound fast eine Sekunde schneller
+    als via Symfonisk/Sonos.
 
 **USB-Lautsprecher**
 
@@ -392,8 +403,8 @@ Sender ermöglicht:
 
 ### Taster {#taster}
 
-Aber meistens nehme ich den [ IKEA Styrbar ]({{< relref "ikea-schalter-e2001" >}}), den ich mit
-[Switch Manager](https://github.com/Sian-Lee-SA/Home-Assistant-Switch-Manager) so beschaltet habe:
+Aber meistens nehme ich den [ IKEA Styrbar ]({{< relref "ikea-schalter-e2001" >}}) --- mit
+[Switch Manager](https://github.com/Sian-Lee-SA/Home-Assistant-Switch-Manager) folgermaßen beschaltet:
 
 {{< figure src="./werbefreies-internetradio-schalter.png" >}}
 
